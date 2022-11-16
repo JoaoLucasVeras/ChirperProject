@@ -1,19 +1,19 @@
 ## <remove all of the example text and notes in < > such as this one>
 ## Functional Requirements
-1. requirement
-2. requirement
-3. requirement
-4. requirement
-5. requirement
-6. requirement
-7. requirement
-8. requirement
-9. requirement
-10. requirement
-11. requirement
-12. requirement
+1. Login
+2. Logout
+3. Create New Account
+4. Delete Account
+5. User Home Page
+6. Send Messages to Followers
+7. Follow Users
+8. Search Users
+9. Post Images with Message
+10. Connect with External API
+11. Users Profile
+12. Authentication (verified)
 ## Non-functional Requirements
-1. non-functional
+1. UI Interactive Interface / Using elements from Bootstrap
 2. non-functional
 3. non-functional
 4. non-functional
