@@ -21,14 +21,14 @@
 1. Edit user profile 
 - **Pre-condition:** 
   - Searching user has a registered account.
-  - The user has login in.  
+  - User has logged in  
 - **Trigger:**
   - The user clicks on profile icon on home page 
 - **Primary Sequence:**
   1. System directs the user to the profile page
   2. The user selects "Edit" option 
   3. The system prompts a form for updating information
-  4. The use makes some changes
+  4. The user makes some changes
   5. The user selects "Update" button
 - **Primary Postconditions:**
   - The user successfully update the new information 
@@ -38,99 +38,80 @@
   - The user goes to a different page without clicking on "Update"
   - The system discards all the unsaved changes
 
-2. Use Case Name (Should match functional requirement name)
-- **Pre-condition:** <can be a list or short description> Lorem ipsum dolor sit 
-amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore 
-magna aliqua.
-- **Trigger:** <can be a list or short description> Ut enim ad minim veniam, quis 
-nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea 
-commodi consequatur. 
+2. Send Messages to Followers(Direct Message)
+- **Pre-condition:** 
+  - User has logged in
+- **Trigger:**
+  - User clicks "Message" button from drop-down menu
 - **Primary Sequence:**
-  
-  1. Ut enim ad minim veniam, quis nostrum e
-  2. Et sequi incidunt 
-  3. Quis aute iure reprehenderit
-  4. ... 
-  5. ...
-  6. ...
-  7. ...
-  8. ...
-  9. ...
-  10. <Try to stick to a max of 10 steps>
-- **Primary Postconditions:** <can be a list or short description> 
-- **Alternate Sequence:** <you can have more than one alternate sequence to 
-describe multiple issues that may arise>
-  
-  1. Ut enim ad minim veniam, quis nostrum e
-  2. Ut enim ad minim veniam, quis nostrum e
-  3. ...
-- **Alternate Sequence <optional>:** <you can have more than one alternate sequence
-to describe multiple issues that may arise>
-  1. Ut enim ad minim veniam, quis nostrum e
-  2. Ut enim ad minim veniam, quis nostrum e
-  3. ...
+  1. User searches by username
+  2. User select one or multiple users 
+  3. User starts typing the message
+  4. User clicks "Send" button
+- **Primary Postconditions:**
+  - System shows "Delivered"
+- **Alternate Sequence:** 
+  - User deletes the message
 
-  3. Use Case Name (Should match functional requirement name)
-- **Pre-condition:** <can be a list or short description> Lorem ipsum dolor sit 
-amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore 
-magna aliqua.
-- **Trigger:** <can be a list or short description> Ut enim ad minim veniam, quis 
-nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea 
-commodi consequatur. 
-- **Primary Sequence:**
-  
-  1. Ut enim ad minim veniam, quis nostrum e
-  2. Et sequi incidunt 
-  3. Quis aute iure reprehenderit
-  4. ... 
-  5. ...
-  6. ...
-  7. ...
-  8. ...
-  9. ...
-  10. <Try to stick to a max of 10 steps>
-- **Primary Postconditions:** <can be a list or short description> 
-- **Alternate Sequence:** <you can have more than one alternate sequence to 
-describe multiple issues that may arise>
-  
-  1. Ut enim ad minim veniam, quis nostrum e
-  2. Ut enim ad minim veniam, quis nostrum e
-  3. ...
-- **Alternate Sequence <optional>:** <you can have more than one alternate sequence
-to describe multiple issues that may arise>
-  1. Ut enim ad minim veniam, quis nostrum e
-  2. Ut enim ad minim veniam, quis nostrum e
-  3. ...
+3. Follow Users  
+- **Pre-condition:**  
+  -  User has logged in 
+- **Trigger:**
+  - User clicks “Follow” button
+- **Primary Sequence:** 
+  1. User search by the username
+  2. User clicks on the other user's profile
+  3. User clicks the "follow" button
+- **Primary Postconditions:**
+  - Button will change to “Following”
+  - User can see what they post on their home page
+- **Alternate Sequence:** 
+  - User clicks “Follow” button twice or user wants to unfollow
+  - “Following” button change to “Follow”
+  - System will ask “Unfollow @username?” 
+  - Choose “Unfollow” or “Cancel”
 
-4. Use Case Name (Should match functional requirement name)
-- **Pre-condition:** <can be a list or short description> Lorem ipsum dolor sit 
-amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore 
-magna aliqua.
-- **Trigger:** <can be a list or short description> Ut enim ad minim veniam, quis 
-nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea 
-commodi consequatur. 
+4. Search Users  
+- **Pre-condition:**  
+  - User has logged in 
+- **Trigger:**
+  - User clicks “search” button from drop-down menu
 - **Primary Sequence:**
-  
-  1. Ut enim ad minim veniam, quis nostrum e
-  2. Et sequi incidunt 
-  3. Quis aute iure reprehenderit
-  4. ... 
-  5. ...
-  6. ...
-  7. ...
-  8. ...
-  9. ...
-  10. <Try to stick to a max of 10 steps>
-- **Primary Postconditions:** <can be a list or short description> 
-- **Alternate Sequence:** <you can have more than one alternate sequence to 
-describe multiple issues that may arise>
-  
-  1. Ut enim ad minim veniam, quis nostrum e
-  2. Ut enim ad minim veniam, quis nostrum e
-  3. ...
-- **Alternate Sequence <optional>:** <you can have more than one alternate sequence
-to describe multiple issues that may arise>
-  1. Ut enim ad minim veniam, quis nostrum e
-  2. Ut enim ad minim veniam, quis nostrum e
-  3. ...
+  1. Search bar will appear 
+  2. User type inside the search bar
+  3. Display all users with similar name(optional)
+  4. User click on the profile
+- **Primary Postconditions:**
+  - Re-route to profile that user wants to look for 
+- **Alternate Sequence:** 
+  - If no username exits, display error message
+
+5. Post Images with Message  
+- **Pre-condition:**  
+  - User has logged in 
+  - User needs to be in home page
+- **Trigger:**
+ -  User goes to “what’s happening?” bar
+- **Primary Sequence:**
+  1. User types message inside the bar
+  2. User clicks “image” button
+  3. User selects up to 4 images
+  4. User clicks “Chirp”
+- **Primary Postconditions:** 
+  - User’s chirp will appear on the homepage
+- **Alternate Sequence:** 
+  - User doen’t want to include the image and cross out the image before chirping
+
+6. User Home Page 
+- **Pre-condition:**  
+  - User has logged in 
+- **Trigger:**
+  - After user clicks the “Sign In” button or “Home” button
+- **Primary Sequence:**
+  1. User can see follower’s chirp
+  2. User can access to drop-down menu
+- **Primary Postconditions:**
+  - Re-route to other pages that user selects
+- **Alternate Sequence:** 
+  - User log out and re-route to Sign In page
 
