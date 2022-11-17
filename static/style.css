@@ -1,0 +1,32 @@
+
+.login_icon {
+    width: 100%;
+    height: 100px;
+    padding: 4rem auto;
+
+}
+
+.form {
+    max-width: 666px;
+    width: 100%;
+    margin: 4rem auto;
+    padding: 7rem;
+    background-color: aquamarine;
+}
+
+
+
+.login-btn {
+    padding-left: 10rem;
+    padding-top: 1rem
+}
+
+.remember {
+    padding-top: 1em;
+    padding-left: 1em;
+}
+
+.sign-up-link {
+    padding-left: 6em;
+    padding-top: 2em;
+}
