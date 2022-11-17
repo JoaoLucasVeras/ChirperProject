@@ -4,7 +4,7 @@ import os
 load_dotenv()
 
 class Config(object):
-    SQLALCHEMY_DATABASE_URI = 'mysql:///'+os.environ.get("DB_CONNECTION")
+    SQLALCHEMY_DATABASE_URI = 'mysql://'+os.environ.get("DB_CONNECTION")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     # DB_CONNECTION = os.environ.get("DB_CONNECTION")
     # DB_USER = os.environ.get("DB_USER")

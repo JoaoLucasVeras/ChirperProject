@@ -14,6 +14,6 @@ class SignUp_Form(FlaskForm):
     username = StringField('username')
     email = StringField('email')
     password = PasswordField('password')
-    cofirm_password = PasswordField('Confirm Password')
+    confirm_password = PasswordField('Confirm Password')
 
     submit = SubmitField('sign up')
