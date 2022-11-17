@@ -1,5 +1,5 @@
 # Project Name: Chirper
 - Joao Lucas veras (@JoaoLucasVeras)
-- Name (@username)
+- Choyee Chan Myae (@ChoyeeMyae)
 - Name (@username)
 - Name (@username)
