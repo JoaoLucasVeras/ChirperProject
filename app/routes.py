@@ -7,13 +7,13 @@ from flask_login import current_user
 from flask_login import login_required
 from flask_login import login_user
 from flask_login import logout_user
+from app import db
 
 #plan out routes we are going to need
 @myapp_obj.route("/login", methods=['POST', 'GET'])
 def login():
     form = LogIn_Form()
     if form.validate_on_submit():
-        print('valid')
         user = User.query.filter_by(username=form.username.data).first()
     
         if not user or not user.check_password(form.password.data):
@@ -29,4 +29,11 @@ def login():
 @myapp_obj.route('/sign-up', methods=['POST', 'GET'])
 def sign_up():
     form = SignUp_Form()
-    return render_template('sign_up.html', form=form) 
+    if form.validate_on_submit():
+        hashedPassword = generate_password_hash(form.password.data)
+        user = User(username=form.username.data, email=form.email.data, password=hashedPassword)
+        db.session.add(user)
+        db.session.commit()
+        return redirect('/')
+    
+    return render_template('sign_up.html', form=form)
