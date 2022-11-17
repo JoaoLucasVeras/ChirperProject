@@ -14,7 +14,6 @@ from app import db
 def login():
     form = LogIn_Form()
     if form.validate_on_submit():
-        print('valid')
         user = User.query.filter_by(username=form.username.data).first()
     
         if not user or not user.check_password(form.password.data):
@@ -31,13 +30,10 @@ def login():
 def sign_up():
     form = SignUp_Form()
     if form.validate_on_submit():
-        print("no?")
         hashedPassword = generate_password_hash(form.password.data)
         user = User(username=form.username.data, email=form.email.data, password=hashedPassword)
         db.session.add(user)
         db.session.commit()
-        flash("Register Successfully")
-        print("SUCCESS!!")
         return redirect('/')
     
     return render_template('sign_up.html', form=form)
