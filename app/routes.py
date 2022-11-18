@@ -36,12 +36,15 @@ def login():
 def sign_up():
     form = SignUp_Form()
     if form.validate_on_submit():
-    
         hashedPassword = generate_password_hash(form.password.data)
         user = User(username=form.username.data, email=form.email.data, password=hashedPassword)
         db.session.add(user)
         db.session.commit()
         return redirect('/login')
-
-            
     return render_template('sign_up.html', form=form)
+
+
+@myapp_obj.route('/user-profile', methods = ['POST', 'GET'])
+def user_profile():
+    return render_template('user_profile.html')
+
