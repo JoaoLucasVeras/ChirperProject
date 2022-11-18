@@ -7,7 +7,7 @@
 }
 
 .form {
-    max-width: 666px;
+    max-width: 500px;
     width: 100%;
     margin: 4rem auto;
     padding: 7rem;
@@ -38,4 +38,8 @@
 
 .navbar-nav {
     padding-right: 7rem;
+}
+
+.error_message {
+    color: red;
 }
