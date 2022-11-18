@@ -2,7 +2,7 @@
 - Joao Lucas veras (@JoaoLucasVeras)
 - Choyee Chan Myae (@ChoyeeMyae)
 - Romuz Abdulhamidov (@Rha02)
-- Name (@username)
+- Tan Dao (@TanDao01262000)
 
 ## Installing Project
 - Must have 64-bit python 3 installed
