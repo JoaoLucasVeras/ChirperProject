@@ -27,6 +27,5 @@ class SignUp_Form(FlaskForm):
     
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
-        print(user)
         if user:
             raise ValidationError('This email is taken. Please try a new one!!!')

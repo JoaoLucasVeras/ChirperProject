@@ -36,16 +36,12 @@ def login():
 def sign_up():
     form = SignUp_Form()
     if form.validate_on_submit():
-        test_user = User.query.filter_by(username=form.username.data)
-        if not test_user:
-            hashedPassword = generate_password_hash(form.password.data)
-            user = User(username=form.username.data, email=form.email.data, password=hashedPassword)
-            db.session.add(user)
-            db.session.commit()
-            return redirect('url_for("login")')
-        else:
-            flash('Login Successfully')
-            
-            
     
+        hashedPassword = generate_password_hash(form.password.data)
+        user = User(username=form.username.data, email=form.email.data, password=hashedPassword)
+        db.session.add(user)
+        db.session.commit()
+        return redirect('/login')
+
+            
     return render_template('sign_up.html', form=form)
