@@ -22,13 +22,16 @@
     </svg>
 
     <div class="container d-flex justify-content-center">
-        <div class="card w-50 shadow-sm rounded py-2">
+        <div class="card w-50 shadow-sm rounded py-2 signup-container">
             
-                <form action="/sign-up" method="POST" class="card-body w-75 mx-auto">
+                <form action="/sign-up" method="POST" class="card-body w-75 mx-auto  ">
                     {{ form.csrf_token }}
                     <div class="">
                         <label class="form-label">Username:</label>
                         {{form.username(class="form-control bg-light", placeholder="Enter username")}}
+                        {% for error in form.username.errors %}
+                            <span class="error_message">{{ error }}</span>
+                        {% endfor %}
                         <div class="form-text">Username must be at least 3 characters long</div>
                     </div>
         
@@ -36,14 +39,21 @@
                     <div class="">
                         <label class="form-label">Email:</label>
                         {{form.email(class="form-control bg-light", placeholder="Enter email")}}
+                        {% for error in form.email.errors %}
+                            <span class="error_message">{{ error }}</span>
+                        {% endfor %}
                     </div>
                     <br />
         
                     <div class="">
                         <label class="form-label">Password:</label>
-                        {{form.password(class="form-control bg-light", placeholder="Enter password")}}
+                        {{ form.password(class="form-control bg-light", placeholder="Enter password") }}
+                        {% for error in form.password.errors %}
+                            <span class="error_message">{{ error }}</span>
+                        {% endfor %}
+                        
                         <div class="form-text">Password must be at least 8 characters long</div>
-                    </div>
+                    </div>  
         
                     <br />
         
@@ -67,3 +77,9 @@
     crossorigin="anonymous"></script>
 
 </html>
+
+
+
+
+
+

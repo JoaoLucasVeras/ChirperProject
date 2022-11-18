@@ -7,7 +7,7 @@
 }
 
 .form {
-    max-width: 666px;
+    max-width: 500px;
     width: 100%;
     margin: 4rem auto;
     padding: 7rem;
@@ -31,27 +31,27 @@
     padding-top: 2em;
 }
 
-.container1{
-    height: 1000px;
-    position: fixed;
-    border: 3px solid green;
+
+.signup-container {
+    background-color: aquamarine;
 }
-.test{
-    background-color: #4CAF50;
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
+
+
+.navbar-nav {
+    padding-right: 7rem;
 }
-.vertical-center{
-    margin: 0;
-    position: absolute;
-    top: 50%;
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
+
+.error_message {
+    color: red;
 }
+
+.gradient-custom-2 {
+    /* fallback for old browsers */
+    background: #fbc2eb;
+    
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right, rgba(251, 194, 235, 1), rgba(166, 193, 238, 1));
+    
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right, rgba(251, 194, 235, 1), rgba(166, 193, 238, 1))
+    }
