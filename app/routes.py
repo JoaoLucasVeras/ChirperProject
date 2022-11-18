@@ -10,6 +10,12 @@ from flask_login import logout_user
 from app import db
 
 #plan out routes we are going to need
+
+@myapp_obj.route('/home')
+def home():
+    return render_template("home.html")
+
+
 @myapp_obj.route("/login", methods=['POST', 'GET'])
 def login():
     form = LogIn_Form()
