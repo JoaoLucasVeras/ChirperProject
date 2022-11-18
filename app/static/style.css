@@ -11,7 +11,7 @@
     width: 100%;
     margin: 4rem auto;
     padding: 7rem;
-    background-color: aquamarine;
+
 }
 
 
@@ -31,9 +31,6 @@
     padding-top: 2em;
 }
 
-.signup-container {
-    background-color: aquamarine;
-}
 
 
 .navbar-nav {
