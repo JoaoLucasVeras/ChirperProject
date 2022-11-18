@@ -49,3 +49,7 @@ def sign_up():
             
     
     return render_template('sign_up.html', form=form)
+
+@myapp_obj.route('/user-profile', methods = ['POST', 'GET'])
+def user_profile():
+    return render_template('user_profile.html')
