@@ -15,6 +15,12 @@
 </head>
 
 <body class="bg-light">
+
+    {% for mes in get_flashed_messages() %}
+        <div class="alert alert-danger text-center" role="alert">
+            <span>{{ mes }}</span>
+        </div>    
+    {% endfor %}
     <svg class="login_icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
         class="bi bi-twitter" viewBox="0 0 16 16">
         <path
@@ -24,11 +30,12 @@
     <div class="container d-flex justify-content-center">
         <div class="card w-50 shadow-sm rounded py-2 signup-container">
             
-                <form action="/sign-up" method="POST" class="card-body w-75 mx-auto  ">
+                <form action="#" method="POST" class="card-body w-75 mx-auto  ">
                     {{ form.csrf_token }}
                     <div class="">
                         <label class="form-label">Username:</label>
                         {{form.username(class="form-control bg-light", placeholder="Enter username")}}
+                        
                        
                     </div>
         
