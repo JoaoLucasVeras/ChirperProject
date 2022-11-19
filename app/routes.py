@@ -1,5 +1,5 @@
 from app import myapp_obj
-from flask import render_template, redirect, flash
+from flask import render_template, redirect, flash, url_for
 from app.forms import LogIn_Form, SignUp_Form
 from app.models import User
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -20,15 +20,15 @@ def home():
 def login():
     form = LogIn_Form()
     if form.validate_on_submit():
+        
         user = User.query.filter_by(username=form.username.data).first()
     
         if not user or not user.check_password(form.password.data):
-            flash('Incorrect Username or Password!')
+            flash('Username or password is not correct!')
             return redirect('/login')
-
         login_user(user, remember=form.remember_me.data)
-        flash('Login Successfully')
-        return redirect('/')
+
+        return redirect('/home')
     return render_template('login.html', form=form)
 
 
@@ -43,6 +43,11 @@ def sign_up():
         return redirect('/login')
     return render_template('sign_up.html', form=form)
 
+
+@myapp_obj.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
 
 @myapp_obj.route('/user-profile', methods = ['POST', 'GET'])
 def user_profile():
