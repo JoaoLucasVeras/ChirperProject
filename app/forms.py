@@ -29,3 +29,7 @@ class SignUp_Form(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user:
             raise ValidationError('This email is taken. Please try a new one!!!')
+
+# Form for create account and edit info
+class Update_Profile(FlaskForm):
+    pass
