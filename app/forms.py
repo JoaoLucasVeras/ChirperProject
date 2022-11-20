@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, ValidationError
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, ValidationError, TextAreaField
 from wtforms.validators import DataRequired, Email, Length, EqualTo
 from .models import User
 
@@ -31,5 +31,8 @@ class SignUp_Form(FlaskForm):
             raise ValidationError('This email is taken. Please try a new one!!!')
 
 # Form for create account and edit info
-class Update_Profile(FlaskForm):
-    pass
+class EditProfile_Form(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    bio = TextAreaField('Bio', validators=[DataRequired()])
+    cancel = SubmitField('Cancel')
+    submit = SubmitField('Save Profile')
