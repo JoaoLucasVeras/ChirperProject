@@ -29,14 +29,14 @@
   2. The user selects "Edit" option 
   3. The system prompts a form for updating information
   4. The user makes some changes
-  5. The user selects "Submit" button
+  5. The user selects "Save Profile" button
 - **Primary Postconditions:**
   - The user successfully update the new information 
   OR
   - The user fails to update because of invalid changes
 - **Alternate Sequence:** 
   - The user goes to a different page without clicking on "Update"
-  - The system discards all the unsaved changes
+  - The system discards all the unsaved changes by clicking "Cancel" button
 
 2. Send Messages to Followers(Direct Message)
 - **Pre-condition:** 
