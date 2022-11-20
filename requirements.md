@@ -29,7 +29,7 @@
   2. The user selects "Edit" option 
   3. The system prompts a form for updating information
   4. The user makes some changes
-  5. The user selects "Update" button
+  5. The user selects "Submit" button
 - **Primary Postconditions:**
   - The user successfully update the new information 
   OR
