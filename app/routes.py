@@ -1,6 +1,6 @@
 from app import myapp_obj
 from flask import render_template, redirect, flash, url_for
-from app.forms import LogIn_Form, SignUp_Form
+from app.forms import LogIn_Form, SignUp_Form, EditProfile_Form
 from app.models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import current_user, login_required, login_user, logout_user
@@ -54,6 +54,16 @@ def logout():
 @myapp_obj.route('/user-profile', methods = ['POST', 'GET'])
 def user_profile():
     return render_template('user_profile.html')
+
+@myapp_obj.route('/edit-profile', methods = ['POST', 'GET'])
+def edit_profile():
+    form = EditProfile_Form()
+    if form.cancel.data:
+        return redirect('/home')
+    if form.validate_on_submit():
+        # TODO update user profile in database
+        return redirect('/home')
+    return render_template('edit_profile.html', form=form)
 
 @myapp_obj.route('/create-account')
 @login_required

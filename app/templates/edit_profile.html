@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %} Edit Profile {% endblock %} {% block
+content %}
+<section class="h-100 gradient-custom-2">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col col-lg-9 col-xl-7">
+        <div class="card">
+          <div class="rounded-top text-white d-flex flex-row" style="background-color: grey; height: 200px">
+            <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px">
+              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
+                style="width: 150px; z-index: 1; border-radius: 20px" />
+            </div>
+            <div class="ms-3" style="margin-top: 130px">
+              <h5>Nickname</h5>
+              <p>@username</p>
+            </div>
+          </div>
+          <div class="p-4 text-black" style="background-color: #f8f9fa">
+            <div class="d-flex justify-content-end text-center py-1">
+              <div>
+                <p class="mb-1 h5">0</p>
+                <p class="small text-muted mb-0">Posts</p>
+              </div>
+              <div class="px-3">
+                <p class="mb-1 h5">0</p>
+                <p class="small text-muted mb-0">Followers</p>
+              </div>
+              <div>
+                <p class="mb-1 h5">0</p>
+                <p class="small text-muted mb-0">Following</p>
+              </div>
+            </div>
+          </div>
+          <div class="card-body p-4 text-black">
+            <div class="mb-5">
+              <div class="container text-center">
+                <div class="row">
+                  <div class="col border border-light mb-3" style="font-weight: bold; font-size: larger">
+                    About
+                  </div>
+                  <div class="w-100"></div>
+
+                  <div class="col border border-light" style="
+                      background-color: lightgray;
+                      border-radius: 10px;
+                      padding: 100px 0;
+                    ">
+                    <form action="#" method="POST" class="card-body w-75 mx-auto  ">
+                      {{ form.csrf_token }}
+                      <div class="">
+                        <label class="form-label">Name:</label>
+                        {{form.name(class="form-control bg-light", placeholder="Enter name")}}
+                      </div>
+                      <br />
+                      <div class="">
+                        <label class="form-label">Bio:</label>
+                        {{ form.bio(class="form-control bg-light", placeholder="Enter bio") }}
+                      </div>
+                      <br />
+                      <div class="text-center">
+                        {{form.cancel(class=" btn btn btn-primary", value="Cancel", formnovalidate=True)}}
+                        {{form.submit(class=" btn btn btn-primary", value="Save Profile")}}
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
