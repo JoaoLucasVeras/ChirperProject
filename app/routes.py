@@ -1,5 +1,5 @@
 from app import myapp_obj
-from flask import render_template, redirect, flash, url_for
+from flask import render_template, redirect, flash, url_for, request
 from app.forms import LogIn_Form, SignUp_Form, EditProfile_Form
 from app.models import User
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -51,32 +51,44 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
-@myapp_obj.route('/user-profile', methods = ['POST', 'GET'])
-def user_profile():
-    return render_template('user_profile.html')
+@myapp_obj.route('/user/<username>', methods = ['GET', 'PUT', 'DELETE'])
+def user_profile(username):
+    user = User.query.filter_by(username=username).first()
 
-@myapp_obj.route('/edit-profile', methods = ['POST', 'GET'])
-def edit_profile():
+    if not user:
+        flash('This user does not exist')
+        return redirect('/')
+    
+    if request.method == 'DELETE':
+        user = User.query.filter_by(id=current_user.id).first()
+        db.session.delete(user)
+        db.session.commit()
+        return redirect(url_for('login'))
+    
+    if request.method == 'GET':
+        return render_template('user_profile.html', user=user)
+
+    # Handle PUT request
     form = EditProfile_Form()
     if form.cancel.data:
-        return redirect('/user-profile')
+        return render_template('user_profile.html', user=user)
+
     if form.validate_on_submit():
         # TODO update user profile in database
-        return redirect('/user-profile')
-    return render_template('edit_profile.html', form=form)
+        return render_template('user_profile.html', user=user)
 
-@myapp_obj.route('/create-account')
-@login_required
-def create_account():
-    pass
+    return render_template('edit_profile.html', form=form, user=user)
 
-@myapp_obj.route('/delete-account')
-@login_required
-def delete_account():
-    ''' Need to have delete all post and info according to the current_user.id '''
-    user = User.query.filter_by(id=current_user.id).first()
-    db.session.delete(user)
-    db.session.commit()
-    return redirect(url_for('login'))
+@myapp_obj.route('/user/<username>/edit', methods = ['GET'])
+def edit_profile(username):
+    form = EditProfile_Form()
+    
+    user = User.query.filter_by(username=username).first()
+
+    if not user:
+        flash('This user does not exist')
+        return redirect('/')
+
+    return render_template('edit_profile.html', form=form, user=user)
 
 

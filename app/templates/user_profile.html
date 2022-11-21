@@ -25,14 +25,14 @@ content %}
               >
                 <a
                   style="text-decoration: none"
-                  href="{{url_for('edit_profile')}}"
+                  href="#"
                   >Edit Profile</a
                 >
               </button>
             </div>
             <div class="ms-3" style="margin-top: 130px">
               <h5>Nickname</h5>
-              <p>@username</p>
+              <p>{{ user.username }}</p>
             </div>
           </div>
           <div class="p-4 text-black" style="background-color: #f8f9fa">
@@ -106,7 +106,7 @@ content %}
                   class="img-fluid img-thumbnail mt-0 mb-0"
                   style="width: 50px; z-index: 1; border-radius: 20px"
                 />
-                @username
+                {{ user.username }}
               </strong>
               <p class="card-text mb-auto">
                 this can be used as the post template :)
