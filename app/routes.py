@@ -59,10 +59,10 @@ def user_profile():
 def edit_profile():
     form = EditProfile_Form()
     if form.cancel.data:
-        return redirect('/home')
+        return redirect('/user-profile')
     if form.validate_on_submit():
         # TODO update user profile in database
-        return redirect('/home')
+        return redirect('/user-profile')
     return render_template('edit_profile.html', form=form)
 
 @myapp_obj.route('/create-account')
