@@ -12,10 +12,10 @@
 11. Users Profile
 12. Authentication (verified)
 ## Non-functional Requirements
-1. UI Interactive Interface / Using elements from Bootstrap
-2. non-functional
-3. non-functional
-4. non-functional
+1. Using elements from Bootstrap
+2. Database Security
+3. Dark Mode
+4. Compatible with PC and mobile
 
 ## Use Cases
 1. Edit user profile 
