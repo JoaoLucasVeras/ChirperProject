@@ -13,8 +13,8 @@ content %}
                 style="width: 150px; z-index: 1; border-radius: 20px" />
             </div>
             <div class="ms-3" style="margin-top: 130px">
-              <h5>Nickname</h5>
-              <p>@username</p>
+              <h5>{{ user.nickname if user.nickname else user.username }}</h5>
+              <p>{{ user.username }}</p>
             </div>
           </div>
           <div class="p-4 text-black" style="background-color: #f8f9fa">
@@ -47,11 +47,12 @@ content %}
                       border-radius: 10px;
                       padding: 100px 0;
                     ">
-                    <form action="#" method="POST" class="card-body w-75 mx-auto  ">
+                    <form id="edit-form" action="/user/{{ user.username }}" method="POST" class="card-body w-75 mx-auto">
                       {{ form.csrf_token }}
+                      <input type="hidden" name="_method" value="PUT">
                       <div class="">
                         <label class="form-label">Name:</label>
-                        {{form.name(class="form-control bg-light", placeholder="Enter name")}}
+                        {{form.nickname(class="form-control bg-light", placeholder="Enter name")}}
                       </div>
                       <br />
                       <div class="">
@@ -60,8 +61,8 @@ content %}
                       </div>
                       <br />
                       <div class="text-center">
-                        {{form.cancel(class=" btn btn btn-primary", value="Cancel", formnovalidate=True)}}
-                        {{form.submit(class=" btn btn btn-primary", value="Save Profile")}}
+                        {{form.cancel(class="btn btn btn-secondary", value="Cancel", formnovalidate=True)}}
+                        {{form.submit(class="btn btn btn-primary", value="Update")}}
                       </div>
                     </form>
                   </div>
