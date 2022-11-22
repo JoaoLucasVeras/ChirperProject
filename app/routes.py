@@ -2,7 +2,7 @@ from app import myapp_obj
 from flask import render_template, redirect, flash, url_for, request
 from app.forms import LogIn_Form, SignUp_Form, EditProfile_Form
 from app.models import User
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash
 from flask_login import current_user, login_required, login_user, logout_user
 
 from app import db
@@ -54,7 +54,6 @@ def logout():
 @myapp_obj.route('/user/<username>', methods = ['GET', 'POST'])
 def user_profile(username):
     user = User.query.filter_by(username=username).first()
-    print(request.method)
     if not user:
         flash('This user does not exist')
         return redirect('/')
@@ -62,7 +61,10 @@ def user_profile(username):
     if request.method == 'GET':
         return render_template('user_profile.html', user=user)
     
-    # Handle DELETE and PUT requests
+    if current_user != user:
+        flash("You don't have permission to this resource")
+        return render_template('user_profile.html', user=user)
+    
 
     form = EditProfile_Form()
     if form.cancel.data:
@@ -74,7 +76,6 @@ def user_profile(username):
         return redirect(url_for('login'))
 
     if request.form.get("_method") == "PUT" and form.validate_on_submit():
-        print("Editing")
         user.bio = form.bio.data
         user.nickname = form.nickname.data
         db.session.commit()
@@ -87,10 +88,11 @@ def edit_profile(username):
     form = EditProfile_Form()
     
     user = User.query.filter_by(username=username).first()
-
-    if not user:
-        flash('This user does not exist')
-        return redirect('/')
+    
+    # Check if authenticated user is the same as the user whose profile is being viewed
+    if current_user != user:
+        flash('You are unauthorized to access this resource')
+        return redirect(f'/user/{username}')
 
     return render_template('edit_profile.html', form=form, user=user)
 
