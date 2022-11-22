@@ -51,30 +51,33 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
-@myapp_obj.route('/user/<username>', methods = ['GET', 'PUT', 'DELETE'])
+@myapp_obj.route('/user/<username>', methods = ['GET', 'POST'])
 def user_profile(username):
     user = User.query.filter_by(username=username).first()
-
+    print(request.method)
     if not user:
         flash('This user does not exist')
         return redirect('/')
     
-    if request.method == 'DELETE':
-        user = User.query.filter_by(id=current_user.id).first()
-        db.session.delete(user)
-        db.session.commit()
-        return redirect(url_for('login'))
-    
     if request.method == 'GET':
         return render_template('user_profile.html', user=user)
+    
+    # Handle DELETE and PUT requests
 
-    # Handle PUT request
     form = EditProfile_Form()
     if form.cancel.data:
         return render_template('user_profile.html', user=user)
+    
+    if request.form.get("_method") == "DELETE":
+        db.session.delete(user)
+        db.session.commit()
+        return redirect(url_for('login'))
 
-    if form.validate_on_submit():
-        # TODO update user profile in database
+    if request.form.get("_method") == "PUT" and form.validate_on_submit():
+        print("Editing")
+        user.bio = form.bio.data
+        user.nickname = form.nickname.data
+        db.session.commit()
         return render_template('user_profile.html', user=user)
 
     return render_template('edit_profile.html', form=form, user=user)

@@ -4,10 +4,13 @@ from flask_login import UserMixin
 from app import db
 
 class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key = True)
+    id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, unique=True)
-    password = db.Column(db.String(200))
-    email = db.Column(db.String(32), unique=True)
+    password = db.Column(db.String(102))
+    email = db.Column(db.String(45), unique=True)
+    bio = db.Column(db.String(2000))
+    nickname = db.Column(db.String(45))
+
 
     def set_password(self, password):
         self.password = generate_password_hash(password)

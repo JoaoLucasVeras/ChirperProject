@@ -13,8 +13,9 @@ class LogIn_Form(FlaskForm):
 class SignUp_Form(FlaskForm):
     username = StringField('username', validators=[DataRequired(), Length(min=3, max=30)])
     email = StringField('email', validators=[DataRequired(), Email()])
-    password = PasswordField('password', validators=[DataRequired(), Length(min=8, max=50),
-                                                         EqualTo('confirm_password', message='Should match to the password')])
+    password = PasswordField('password', validators=[
+        DataRequired(), Length(min=8, max=50),
+        EqualTo('confirm_password', message='Should match to the password')])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired()])
 
     submit = SubmitField('sign up')
@@ -30,9 +31,9 @@ class SignUp_Form(FlaskForm):
         if user:
             raise ValidationError('This email is taken. Please try a new one!!!')
 
-# Form for create account and edit info
+# Form for editing user profile info
 class EditProfile_Form(FlaskForm):
-    name = StringField('Name', validators=[DataRequired()])
+    nickname = StringField('Nickname', validators=[DataRequired()])
     bio = TextAreaField('Bio', validators=[DataRequired()])
     cancel = SubmitField('Cancel')
     submit = SubmitField('Save Profile')
