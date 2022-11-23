@@ -15,7 +15,7 @@
 1. Using elements from Bootstrap
 2. Date format shall be month-date-year
 3. Dark Mode
-4. Compatible with PC and mobile
+4. Responsive UI
 
 ## Use Cases
 1. Edit user profile 
