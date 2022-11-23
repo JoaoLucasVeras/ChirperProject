@@ -13,7 +13,7 @@
 12. Authentication (verified)
 ## Non-functional Requirements
 1. Using elements from Bootstrap
-2. Date format shall be month-day-year
+2. Date format shall be month-date-year
 3. Dark Mode
 4. Compatible with PC and mobile
 
