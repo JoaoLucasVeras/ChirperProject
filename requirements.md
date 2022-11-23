@@ -1,16 +1,16 @@
 ## Functional Requirements
-1. Login
-2. Logout
-3. Create New Account
-4. Delete Account
-5. User Home Page
-6. Send Messages to Followers
-7. Follow Users
-8. Search Users
-9. Post Images with Message
-10. Connect with External API
-11. Users Profile
-12. Authentication (verified)
+1. Login (Joao)
+2. Logout (Romuz)
+3. Create New Account (Tan)
+4. Delete Account (Choyee)
+5. User Home Page (Joao)
+6. Send Messages to Followers (Romuz)
+7. Follow Users (Tan)
+8. Search Users (Choyee)
+9. Post Images with Message (Joao)
+10. Connect with External API (Romuz)
+11. Users Profile (Tan)
+12. Authentication (verified) (Choyee)
 ## Non-functional Requirements
 1. Using elements from Bootstrap
 2. Date format shall follow month-day-year
