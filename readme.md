@@ -1,5 +1,5 @@
 # Project Name: Chirper
-- Joao Lucas veras (@JoaoLucasVeras)
+- Joao Lucas veras (@JoaoLucasVeras) - Team Lead
 - Choyee Chan Myae (@ChoyeeMyae)
 - Romuz Abdulhamidov (@Rha02)
 - Tan Dao (@TanDao01262000)
