@@ -83,16 +83,20 @@ def user_profile(username):
 
     return render_template('edit_profile.html', form=form, user=user)
 
-@myapp_obj.route('/user/<username>/edit', methods = ['GET'])
+@myapp_obj.route('/user/<username>/edit', methods = ['GET', 'POST'])
 def edit_profile(username):
+
     form = EditProfile_Form()
-    
     user = User.query.filter_by(username=username).first()
     
     # Check if authenticated user is the same as the user whose profile is being viewed
     if current_user != user:
         flash('You are unauthorized to access this resource')
         return redirect(f'/user/{username}')
+    
+    if request.method == "GET":
+        form.bio.data = user.bio
+        form.nickname.data = user.nickname
 
     return render_template('edit_profile.html', form=form, user=user)
 
