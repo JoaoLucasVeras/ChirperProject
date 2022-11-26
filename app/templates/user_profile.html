@@ -18,18 +18,17 @@ content %}
                 style="width: 150px; z-index: 1; border-radius: 20px"
               />
               <!---->
-              <button
-                type="button"
-                class="btn btn-outline-dark"
-                data-mdb-ripple-color="dark"
-                style="z-index: 1"
-              >
-                <a
-                  style="text-decoration: none"
-                  href="./{{ user.username }}/edit"
-                  >Edit Profile</a
-                >
-              </button>
+                {% if not current_user.is_authenticated %}
+                  <p class="text-center" style="z-index: 1; color: black;">Sign in to follow users.</p>
+                {% elif current_user != user %}
+                <button type="button" class="btn btn-primary" data-mdb-ripple-color="dark" style="z-index: 1">
+                  <a style="text-decoration: none; color: white;" href="#">Follow</a>
+                </button>
+                {% else %}
+                <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark" style="z-index: 1">
+                  <a style="text-decoration: none" href="./{{ user.username }}/edit">Edit Profile</a>
+                </button>
+                {% endif %}
             </div>
             <div class="ms-3" style="margin-top: 130px">
               <h5>{{ name }}</h5>
