@@ -21,11 +21,9 @@
             <script>
               jQuery("h1").fitText(0.38);
             </script>
-            <h1
-              class="ms-3"
+            <h5
+              class="ms-3 text-center"
               style="
-              
-                overflow: hidden;
                 text-overflow: ellipsis;
                 word-wrap: break-word;
                 display: block;
@@ -69,12 +67,8 @@
 
                     </div>
                   </div>
-          
         </div>
-        
       </div>
-
-
 
 
       <div class="col col-lg-9 col-xl-5">
@@ -100,7 +94,7 @@
                   class="img-fluid img-thumbnail mt-0 mb-0"
                   style="width: 50px; z-index: 1; border-radius: 20px"
                 />
-                @username
+                {{ current_user.nickname }}
               </strong>
               <p class="card-text mb-auto">
                 this can be used as the post template :)
