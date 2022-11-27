@@ -4,8 +4,8 @@ from app.forms import LogIn_Form, SignUp_Form, EditProfile_Form
 from app.models import User
 from werkzeug.security import generate_password_hash
 from flask_login import current_user, login_required, login_user, logout_user
+from .functions import get_weather
 from sqlalchemy import exc
-
 from app import db
 
 #plan out routes we are going to need
@@ -14,8 +14,9 @@ from app import db
 @myapp_obj.route('/')
 def home():
     if current_user.is_authenticated:
-        return render_template('home.html')
-
+        weather = get_weather()
+        return render_template('home.html', weather=weather)
+    
     return redirect(url_for('login'))
 
 
@@ -118,5 +119,3 @@ def edit_profile(username):
         db.session.rollback()
         print(err)
         return "Unexpected error encountered"
-
-
