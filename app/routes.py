@@ -4,7 +4,7 @@ from app.forms import LogIn_Form, SignUp_Form, EditProfile_Form
 from app.models import User
 from werkzeug.security import generate_password_hash
 from flask_login import current_user, login_required, login_user, logout_user
-
+from .functions import get_weather
 from app import db
 
 #plan out routes we are going to need
@@ -13,8 +13,9 @@ from app import db
 @myapp_obj.route('/')
 def home():
     if current_user.is_authenticated:
-        return render_template('home.html')
-
+        weather = get_weather()
+        return render_template('home.html', weather=weather)
+    
     return redirect(url_for('login'))
 
 
@@ -92,7 +93,8 @@ def edit_profile(username):
     # Check if authenticated user is the same as the user whose profile is being viewed
     if current_user != user:
         flash('You are unauthorized to access this resource')
-        return redirect(f'/user/{username}')
+        # return redirect(f'/user/{username}')
+        return redirect(url_for('user_profile', username=current_user.username))
     
     if request.method == "GET":
         form.bio.data = user.bio
