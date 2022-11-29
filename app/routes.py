@@ -1,6 +1,6 @@
 from app import myapp_obj
 from flask import render_template, redirect, flash, url_for, request
-from app.forms import LogIn_Form, SignUp_Form, EditProfile_Form
+from app.forms import LogIn_Form, SignUp_Form, EditProfile_Form, Delete_Form
 from app.models import User
 from werkzeug.security import generate_password_hash
 from flask_login import current_user, login_required, login_user, logout_user
@@ -16,7 +16,7 @@ def home():
     if current_user.is_authenticated:
         weather = get_weather()
         return render_template('home.html', weather=weather)
-    
+
     return redirect(url_for('login'))
 
 
@@ -69,19 +69,19 @@ def user_profile(username):
         if not user:
             flash('This user does not exist')
             return redirect('/')
-        
+
         if request.method == 'GET':
             return render_template('user_profile.html', user=user)
-        
+
         if current_user != user:
             flash("You don't have permission to this resource")
             return render_template('user_profile.html', user=user)
-        
+
 
         form = EditProfile_Form()
         if form.cancel.data:
             return render_template('user_profile.html', user=user)
-        
+
         if request.form.get("_method") == "DELETE":
             db.session.delete(user)
             db.session.commit()
@@ -104,12 +104,12 @@ def edit_profile(username):
     try:
         form = EditProfile_Form()
         user = User.query.filter_by(username=username).first()
-        
+
         # Check if authenticated user is the same as the user whose profile is being viewed
         if current_user != user:
             flash('You are unauthorized to access this resource')
             return redirect(f'/user/{username}')
-        
+
         if request.method == "GET":
             form.bio.data = user.bio
             form.nickname.data = user.nickname
@@ -119,3 +119,31 @@ def edit_profile(username):
         db.session.rollback()
         print(err)
         return "Unexpected error encountered"
+
+@myapp_obj.route('/delete/<username>', methods = ['POST', 'GET'])
+@login_required
+def delete(username):
+    if current_user.username != username:
+            print(username)
+            print(current_user)
+            flash("You don't have permission to this resource")
+            return render_template('home.html', user=username)
+    else:
+        print('got here')
+        user = User.query.filter_by(username=username).first()
+        name = None
+        form = Delete_Form()
+
+        try:
+            print('got try here')
+            db.session.delete(user)
+            db.session.commit()
+            flash("Account deleted")
+           
+            return redirect(url_for('login'))
+
+        except Exception as e:
+            print('got except here: ' + e)
+            flash("Cannot delete account")
+            return redirect(url_for('login'))
+        

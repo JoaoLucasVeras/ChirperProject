@@ -36,3 +36,8 @@ class EditProfile_Form(FlaskForm):
     bio = TextAreaField('Bio', validators=[DataRequired()])
     cancel = SubmitField('Cancel')
     submit = SubmitField('Save Profile')
+
+class Delete_Form(FlaskForm):
+    delete = SubmitField('Delete')
+
+
