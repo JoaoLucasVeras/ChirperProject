@@ -41,7 +41,8 @@
                         </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li> <a class="dropdown-item" href="{{ url_for('user_profile', username=current_user.username ) }}">Profile</a></li>
-                                <li> <a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a></li>    
+                                <li> <a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a></li> 
+                                <li> <a class="dropdown-item" href="{{ url_for('delete', username=current_user.username) }}">Delete Account</a></li>   
                             </ul>
                             
                     </li>
