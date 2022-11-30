@@ -1,7 +1,7 @@
 from app import myapp_obj
 from flask import render_template, redirect, flash, url_for, request
 from app.forms import LogIn_Form, SignUp_Form, EditProfile_Form
-from app.models import User, Follower
+from app.models import User, Following
 from werkzeug.security import generate_password_hash
 from flask_login import current_user, login_required, login_user, logout_user
 from .functions import get_weather
@@ -120,67 +120,71 @@ def edit_profile(username):
         return "Unexpected error encountered"
 
 
-@myapp_obj.route('/follow/<username>')
+@myapp_obj.route('/follow/<id>')
 @login_required
-def follow(username):
+def follow(id):
     try:
-        if username != current_user.username:
-            if not User.is_following(current_user.username, username):
-                followee = User.query.filter_by(username=username).one()
-                if followee:
-                    new = Follower(current_user.username, username)
-                    db.session.add(new)
-                    db.session.commit()
-                    flash(f"You have successfully followed {username}")   
-                    return redirect(url_for('user_profile', username=username))
+        if id != current_user.id:
+            if not current_user.is_following(id):
+                try:
+                    followee = User.query.filter_by(id=id).one()
+                    if followee:
+                        new = Following(current_user.id, id)
+                        db.session.add(new)
+                        db.session.commit()
+                        flash(f"You have successfully followed #{id}")   
+                        return redirect(url_for('user_profile', username=followee.username))
+                except Exception as e:
+                    return redirect(url_for('home'))
 
                 else:
                     flash("This user does not exist!!")   
-                    print("This user does not exist!!")
                     return redirect(url_for('home'))
-                       
+                        
             else:
                 flash('You already followed this user')
-                print('You already followed this user')
                 return redirect(url_for('home'))
         else:
             flash('Cannot follow yourself!!!')
-            print('Cannot follow yourself!!!')
             return redirect(url_for('home'))
 
     except exc.SQLAlchemyError as err:
         db.session.rollback()
         print(err)
-        return "Unexpected error encountered"
+        return err
 
 
-
-@myapp_obj.route('/unfollow/<username>')
+@myapp_obj.route('/unfollow/<id>')
 @login_required
-def unfollow(username):
-    
-        if username != current_user.username:
-            if User.is_following(current_user.username, username):
-                followee = User.query.filter_by(username=username).one()
-                if followee:
-                    old = Follower.query.filter_by(followee=username).one()
-                    db.session.delete(old)
-                    db.session.commit()
-                    flash(f"You have successfully unfollowed {username}")   
-                    return redirect(url_for('user_profile', username=username))
+def unfollow(id):
+    try:
+        if id != current_user.id:
+            if not current_user.is_following(id):
+                try:
+                    followee = User.query.filter_by(id=id).one()
+                    if followee:
+                        old = Following.query.filter_by(followee_id=id).one()
+                        db.session.delete(old)
+                        db.session.commit()
+                        flash(f"You have successfully unfollowed #{id}")   
+                        return redirect(url_for('user_profile', username=followee.username))
 
-                else:
-                    flash("This user does not exist!!")   
-                    print("This user does not exist!!")
-                    return redirect(url_for('home'))
-                       
+                    else:
+                        flash("This user does not exist!!")   
+                        return redirect(url_for('home'))
+                except:
+                    return redirect(url_for('home'))        
             else:
-                flash('You have not follow this user')
-                print('You have not follow this user')
+                flash('You have never followed this user before')
                 return redirect(url_for('home'))
         else:
             flash('Cannot unfollow yourself!!!')
-            print('Cannot unfollow yourself!!!')
-            return redirect(url_for('home'))
+            return redirect(url_for('user_profile', username=current_user.username))
+
+    except exc.SQLAlchemyError as err:
+        db.session.rollback()
+        print(err)
+        return err
+
 
  

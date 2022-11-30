@@ -21,14 +21,14 @@ content %}
                 {% if not current_user.is_authenticated %}
                   <p class="text-center" style="z-index: 1; color: black;">Sign in to follow users.</p>
                 {% elif current_user != user %}
-                  {% if user.is_following(current_user.username, user.username) %}
+                  {% if current_user.is_following(user.id) %}
 
                     <button type="button" class="btn btn-primary" data-mdb-ripple-color="dark" style="z-index: 1">
-                      <a style="text-decoration: none; color: white;" href="/unfollow/{{ user.username }}">Unfollow</a>
+                      <a style="text-decoration: none; color: white;" href="/unfollow/{{ user.id }}">Unfollow</a>
                     </button>
                   {% else %}
                     <button type="button" class="btn btn-primary" data-mdb-ripple-color="dark" style="z-index: 1">
-                      <a style="text-decoration: none; color: white;" href="/follow/{{ user.username }}">Follow</a>
+                      <a style="text-decoration: none; color: white;" href="/follow/{{ user.id }}">Follow</a>
                     </button>
                   {% endif %}
             

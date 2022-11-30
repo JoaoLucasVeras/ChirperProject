@@ -18,42 +18,50 @@ class User(db.Model, UserMixin):
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
-        
+
+
+    def get_followees(self):
+        all = db.session.query(Following.followee_id).filter_by(follower_id=self.id).all()
+        lst = [i[0] for i in all]
+        return lst
+    
+    def get_followers(self):
+        all = db.session.query(Following.follower_id).filter_by(followee_id=self.id).all()
+        lst = [i[0] for i in all]
+        return lst
+
     def __repr__(self):
         return f'<User: {self.username}>'
 
-    ''' This function belongs to the class, not to any instance 
-        Making it to be a class function so we can access it in the front end,
-        without passing it multiple times in the user_profile routes 
-    '''
-    @classmethod
-    def is_following(cls, cur, another):
-        followees = db.session.query(Follower.followee).filter_by(follower=cur).all()
-        lst = [i[0] for i in followees]
+    def is_following(self, another):
+        lst = self.get_followees()
         if another in lst:
             return True
         return False
+    
+    
 
 @login.user_loader
 def load_user(username):
     return User.query.get(str(username))
 
 
-class Follower(db.Model):
-    __tablename__ = 'follower'
+class Following(db.Model):
+    __tablename__ = 'following'
     __table_args__ = (
-        db.PrimaryKeyConstraint('follower', 'followee'),
+        db.PrimaryKeyConstraint('follower_id', 'followee_id'),
     )
 
-    follower = db.Column(db.String(45))
-    followee = db.Column(db.String(45))
+    follower_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    followee_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    
     
 
-    def __init__(self, follower, followee):
-        self.follower = follower
-        self.followee = followee
+    def __init__(self, follower_id, followee_id):
+        self.follower_id = follower_id
+        self.followee_id = followee_id
         
     def __repr__(self):
-        return f'<User {self.follower} is following {self.followee}>'
+        return f'<User #{self.follower_id} is following #{self.followee_id}>'
 
 
