@@ -120,71 +120,42 @@ def edit_profile(username):
         return "Unexpected error encountered"
 
 
-@myapp_obj.route('/follow/<id>')
+@myapp_obj.route('/follow/<int:id>')
 @login_required
 def follow(id):
     try:
-        if id != current_user.id:
-            if not current_user.is_following(id):
-                try:
-                    followee = User.query.filter_by(id=id).one()
-                    if followee:
-                        new = Following(current_user.id, id)
-                        db.session.add(new)
-                        db.session.commit()
-                        flash(f"You have successfully followed #{id}")   
-                        return redirect(url_for('user_profile', username=followee.username))
-                except Exception as e:
-                    return redirect(url_for('home'))
-
-                else:
-                    flash("This user does not exist!!")   
-                    return redirect(url_for('home'))
-                        
-            else:
-                flash('You already followed this user')
-                return redirect(url_for('home'))
+        if id != current_user.id:  # check it not the user itself
+            followee = User.query.filter_by(id=id).one()   
+            if not current_user.is_following(id):   # check already followed or not
+                new = Following(current_user.id, id)
+                db.session.add(new)
+                db.session.commit()  # successfully followed  
+            return redirect(url_for('user_profile', username=followee.username))
         else:
-            flash('Cannot follow yourself!!!')
-            return redirect(url_for('home'))
-
-    except exc.SQLAlchemyError as err:
+            return redirect(url_for('user_profile', username=current_user.username))
+    except exc.SQLAlchemyError as e:
         db.session.rollback()
-        print(err)
-        return err
+        print(e)
+        return redirect(url_for('home'))
 
 
-@myapp_obj.route('/unfollow/<id>')
+@myapp_obj.route('/unfollow/<int:id>')
 @login_required
 def unfollow(id):
     try:
-        if id != current_user.id:
-            if not current_user.is_following(id):
-                try:
-                    followee = User.query.filter_by(id=id).one()
-                    if followee:
-                        old = Following.query.filter_by(followee_id=id).one()
-                        db.session.delete(old)
-                        db.session.commit()
-                        flash(f"You have successfully unfollowed #{id}")   
-                        return redirect(url_for('user_profile', username=followee.username))
-
-                    else:
-                        flash("This user does not exist!!")   
-                        return redirect(url_for('home'))
-                except:
-                    return redirect(url_for('home'))        
-            else:
-                flash('You have never followed this user before')
-                return redirect(url_for('home'))
+        if id != current_user.id:  # check it not the user itself
+            followee = User.query.filter_by(id=id).one()   
+            if current_user.is_following(id):   # if the user did follow this person
+                old = Following.query.filter_by(followee_id=id).one()
+                db.session.delete(old)
+                db.session.commit()  # successfully unfollowed  
+            return redirect(url_for('user_profile', username=followee.username))
         else:
-            flash('Cannot unfollow yourself!!!')
             return redirect(url_for('user_profile', username=current_user.username))
-
-    except exc.SQLAlchemyError as err:
+    except exc.SQLAlchemyError as e:
         db.session.rollback()
-        print(err)
-        return err
+        print(e)
+        return redirect(url_for('home'))
 
 
  
