@@ -28,6 +28,8 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            {% if current_user.is_authenticated %}
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item mx-4">
                         <a class="nav-link active"  href="{{url_for('home')}}">Home</a>
@@ -42,10 +44,21 @@
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li> <a class="dropdown-item" href="{{ url_for('user_profile', username=current_user.username ) }}">Profile</a></li>
                                 <li> <a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a></li>    
-                            </ul>
-                            
+                            </ul> 
                     </li>
                 </ul>
+            {% else %}
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item dropdown mx-4">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aira-expanded="false">
+                            Menu
+                        </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li> <a class="dropdown-item" href="{{ url_for('login') }}">Login</a></li>    
+                            </ul>
+                    </li>
+                </ul>
+            {% endif %}
             </div>
         </div>
     </nav>
