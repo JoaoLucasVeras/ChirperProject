@@ -43,3 +43,6 @@ class Delete_Form(FlaskForm):
     submit = SubmitField('Confirm')
 
 
+class Search_Form(FlaskForm):
+    input = StringField('Searched', validators=[DataRequired()])
+    search = SubmitField('Search')

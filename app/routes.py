@@ -1,6 +1,6 @@
 from app import myapp_obj
 from flask import render_template, redirect, flash, url_for, request
-from app.forms import LogIn_Form, SignUp_Form, EditProfile_Form, Delete_Form
+from app.forms import LogIn_Form, SignUp_Form, EditProfile_Form, Delete_Form, Search_Form
 from app.models import User
 from werkzeug.security import generate_password_hash
 from flask_login import current_user, login_required, login_user, logout_user
@@ -12,8 +12,11 @@ from app import db
 
 
 @myapp_obj.route('/home')
-@myapp_obj.route('/')
+@myapp_obj.route('/', methods = ['POST', 'GET'])
 def home():
+    form = Search_Form()
+    return render_template("base.html", form=form)
+
     if current_user.is_authenticated:
         weather = get_weather()
         return render_template('home.html', weather=weather)
@@ -149,3 +152,10 @@ def delete(username):
         return redirect('/login')
 
     return redirect(url_for('home'))
+
+# pass stuff to navbar
+@myapp_obj.context_processor
+def base():
+    form = Search_Form()
+    return dict(form=form)
+    
