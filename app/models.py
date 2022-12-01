@@ -3,6 +3,7 @@ from app import login
 from flask_login import UserMixin
 from app import db
 
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, unique=True)
@@ -18,10 +19,49 @@ class User(db.Model, UserMixin):
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
+
+    def get_followees(self):
+        all = db.session.query(Following.followee_id).filter_by(follower_id=self.id).all()
+        lst = [i[0] for i in all]
+        return lst
+    
+    def get_followers(self):
+        all = db.session.query(Following.follower_id).filter_by(followee_id=self.id).all()
+        lst = [i[0] for i in all]
+        return lst
+
     def __repr__(self):
-        return f'<User {self.username}>'
+        return f'<User: {self.username}>'
+
+    def is_following(self, another):
+        lst = self.get_followees()
+        if another in lst:
+            return True
+        return False
+    
+    
 
 @login.user_loader
-def load_user(id):
-    return User.query.get(int(id))
+def load_user(username):
+    return User.query.get(str(username))
+
+
+class Following(db.Model):
+    __tablename__ = 'following'
+    __table_args__ = (
+        db.PrimaryKeyConstraint('follower_id', 'followee_id'),
+    )
+
+    follower_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    followee_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    
+    
+
+    def __init__(self, follower_id, followee_id):
+        self.follower_id = follower_id
+        self.followee_id = followee_id
+        
+    def __repr__(self):
+        return f'<User #{self.follower_id} is following #{self.followee_id}>'
+
 

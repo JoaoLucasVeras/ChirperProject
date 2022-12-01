@@ -1,7 +1,7 @@
 from app import myapp_obj
 from flask import render_template, redirect, flash, url_for, request
-from app.forms import LogIn_Form, SignUp_Form, EditProfile_Form, Delete_Form, Search_Form
-from app.models import User
+from app.forms import LogIn_Form, SignUp_Form, EditProfile_Form, Delete_Form, Search_Form 
+from app.models import User, Following
 from werkzeug.security import generate_password_hash
 from flask_login import current_user, login_required, login_user, logout_user
 from .functions import get_weather
@@ -105,7 +105,6 @@ def user_profile(username):
         print(err)
         return "Unexpected error encountered"
 
-
 @myapp_obj.route('/user/<username>/edit', methods=['GET', 'POST'])
 def edit_profile(username):
     try:
@@ -126,6 +125,47 @@ def edit_profile(username):
         db.session.rollback()
         print(err)
         return "Unexpected error encountered"
+
+
+@myapp_obj.route('/follow/<int:id>')
+@login_required
+def follow(id):
+    try:
+        if id != current_user.id:  # check it not the user itself
+            followee = User.query.filter_by(id=id).one()   
+            if not current_user.is_following(id):   # check already followed or not
+                new = Following(current_user.id, id)
+                db.session.add(new)
+                db.session.commit()  # successfully followed  
+            return redirect(url_for('user_profile', username=followee.username))
+        else:
+            return redirect(url_for('user_profile', username=current_user.username))
+    except exc.SQLAlchemyError as e:
+        db.session.rollback()
+        print(e)
+        return redirect(url_for('home'))
+
+
+@myapp_obj.route('/unfollow/<int:id>')
+@login_required
+def unfollow(id):
+    try:
+        if id != current_user.id:  # check it not the user itself
+            followee = User.query.filter_by(id=id).one()   
+            if current_user.is_following(id):   # if the user did follow this person
+                old = Following.query.filter_by(followee_id=id).one()
+                db.session.delete(old)
+                db.session.commit()  # successfully unfollowed  
+            return redirect(url_for('user_profile', username=followee.username))
+        else:
+            return redirect(url_for('user_profile', username=current_user.username))
+    except exc.SQLAlchemyError as e:
+        db.session.rollback()
+        print(e)
+        return redirect(url_for('home'))
+
+
+ 
 
 
 @myapp_obj.route('/user/<username>/delete', methods=['GET', 'POST'])
