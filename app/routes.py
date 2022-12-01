@@ -8,7 +8,8 @@ from .functions import get_weather
 from sqlalchemy import exc
 from app import db
 
-#plan out routes we are going to need
+# plan out routes we are going to need
+
 
 @myapp_obj.route('/home')
 @myapp_obj.route('/')
@@ -25,9 +26,9 @@ def login():
     try:
         form = LogIn_Form()
         if form.validate_on_submit():
-            
+
             user = User.query.filter_by(username=form.username.data).first()
-        
+
             if not user or not user.check_password(form.password.data):
                 flash('Username or password is not correct!')
                 return redirect('/login')
@@ -40,13 +41,15 @@ def login():
         print(err)
         return "Unexpected error encountered"
 
+
 @myapp_obj.route('/sign-up', methods=['POST', 'GET'])
 def sign_up():
     try:
         form = SignUp_Form()
         if form.validate_on_submit():
             hashedPassword = generate_password_hash(form.password.data)
-            user = User(username=form.username.data, email=form.email.data, password=hashedPassword)
+            user = User(username=form.username.data,
+                        email=form.email.data, password=hashedPassword)
             db.session.add(user)
             db.session.commit()
             return redirect('/login')
@@ -62,7 +65,8 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
-@myapp_obj.route('/user/<username>', methods = ['GET', 'POST'])
+
+@myapp_obj.route('/user/<username>', methods=['GET', 'POST'])
 def user_profile(username):
     try:
         user = User.query.filter_by(username=username).first()
@@ -76,7 +80,6 @@ def user_profile(username):
         if current_user != user:
             flash("You don't have permission to this resource")
             return render_template('user_profile.html', user=user)
-
 
         form = EditProfile_Form()
         if form.cancel.data:
@@ -99,7 +102,8 @@ def user_profile(username):
         print(err)
         return "Unexpected error encountered"
 
-@myapp_obj.route('/user/<username>/edit', methods = ['GET', 'POST'])
+
+@myapp_obj.route('/user/<username>/edit', methods=['GET', 'POST'])
 def edit_profile(username):
     try:
         form = EditProfile_Form()
@@ -120,30 +124,28 @@ def edit_profile(username):
         print(err)
         return "Unexpected error encountered"
 
-@myapp_obj.route('/delete/<username>', methods = ['POST', 'GET'])
-@login_required
+
+@myapp_obj.route('/user/<username>/delete', methods=['GET', 'POST'])
 def delete(username):
+    form = Delete_Form()
+    if request.method == 'GET':
+        return render_template('delete.html', form=form, username=username)
+
+    if form.cancel.data:
+        return redirect(url_for('home'))
+
     if current_user.username != username:
-            print(username)
-            print(current_user)
-            flash("You don't have permission to this resource")
-            return render_template('home.html', user=username)
-    else:
-        print('got here')
+        flash("You don't have permission to this resource")
+        return redirect(url_for('home'))
+
+    if form.validate_on_submit():
         user = User.query.filter_by(username=username).first()
-        name = None
-        form = Delete_Form()
+        if not user.check_password(form.password.data):
+            flash('Password is not correct!')
+            return render_template('delete.html', form=form, username=username)
 
-        try:
-            print('got try here')
-            db.session.delete(user)
-            db.session.commit()
-            flash("Account deleted")
-           
-            return redirect(url_for('login'))
+        db.session.delete(user)
+        db.session.commit()
+        return redirect('/login')
 
-        except Exception as e:
-            print('got except here: ' + e)
-            flash("Cannot delete account")
-            return redirect(url_for('login'))
-        
+    return redirect(url_for('home'))

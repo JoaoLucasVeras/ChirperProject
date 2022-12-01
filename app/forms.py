@@ -38,6 +38,8 @@ class EditProfile_Form(FlaskForm):
     submit = SubmitField('Save Profile')
 
 class Delete_Form(FlaskForm):
-    delete = SubmitField('Delete')
+    password = PasswordField('Password')
+    cancel = SubmitField('Cancel')
+    submit = SubmitField('Confirm')
 
 
