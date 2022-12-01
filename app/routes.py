@@ -198,4 +198,11 @@ def delete(username):
 def base():
     form = Search_Form()
     return dict(form=form)
+
+@myapp_obj.route('/search', methods=['POST'])
+def search():
+    form = Search_Form()
+    print(form.input.data)
+    user = User.query.filter_by(username=form.input.data).first()
+    return render_template('search.html', user=user)
     
