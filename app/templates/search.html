@@ -1,8 +1,27 @@
 {% extends "base.html" %}
 {% block title %} Search {% endblock %} {% block content %}
 
-<a href="{{ url_for('user_profile', username=user.username ) }}" >
-  {{ user.username }}
-</a>
-
+<section class="h-100 gradient-custom-2">
+  <div class="col col-lg-9 col-xl-3">
+    <div class="text-white d-flex flex-row"  height: 600px; border-radius: 10px">
+      <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px">
+        {% for u in user %}
+        <div class="card-body d-flex flex-column align-items-start border border-light"
+          style="background-color: lightgray; border-radius: 10px">
+          <strong class="d-inline-block mb-2 text-primary">
+            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+              alt="Generic placeholder image" class="img-fluid img-thumbnail mt-0 mb-0"
+              style="width: 50px; z-index: 1; border-radius: 20px">
+            <a href="{{ url_for('user_profile', username=u.username ) }}">
+              {{ u.username }}
+            </a>
+          </strong>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+</section>
 {% endblock %}
