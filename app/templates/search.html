@@ -36,18 +36,19 @@ content %}
               </strong>
             </div>
           </strong>
-
+          
           <div class="d-flex flex-row mx-4">
-            <h5 class="px-1">Following: </h5>
-            {% if current_user.is_following(u.id) %}
-              <h5 class="bi bi-check-lg blue" style="width:200px"> </h5>
-            {% else %}
-              <span class="bi bi-x-lg red"> </span>
+            {% if u.id != current_user.id %}
+              <h5 class="px-1">Following:</h5>
+              {% if current_user.is_following(u.id) %}
+                <h5 class="bi bi-check-lg blue" style="width: 200px"></h5>
+              {% else %}
+                <span class="bi bi-x-lg red"> </span>
+              {% endif %}
             {% endif %}
-            
           </div>
         </div>
-
+        
         <div class="d-flex flex-column py-3 px-5">
           <div><h5>{{ u.follower_count() }} followers</h5></div>
           <div>#Posts</div>
