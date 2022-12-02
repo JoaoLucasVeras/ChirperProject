@@ -201,7 +201,8 @@ def base():
 def search():
     form = Search_Form()
     if form.validate_on_submit():
-        print(form.input.data)
-        user = User.query.filter_by(username=form.input.data).first()
+        input = form.input.data
+        user = User.query.filter(User.username.like('%' + input + '%'))
+        user = user.order_by(User.username).all()
         return render_template('search.html', user=user, form=form)
     
