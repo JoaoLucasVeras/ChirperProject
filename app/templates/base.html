@@ -26,10 +26,6 @@
                 </svg>
             </a>
 
-            <form class="mx-auto" action="/search" method="POST">
-                {{form.csrf_token}}
-                {{form.input}}{{form.search}}
-            </form>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -38,7 +34,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-            {% if current_user.is_authenticated %}
+                {% if current_user.is_authenticated %}
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item mx-4">
                         <a class="nav-link active" href="{{url_for('home')}}">Home</a>
@@ -51,25 +47,35 @@
                             data-bs-toggle="dropdown" aira-expanded="false">
                             Menu
                         </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li> <a class="dropdown-item" href="{{ url_for('user_profile', username=current_user.username ) }}">Profile</a></li>
-                                <li> <a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a></li>  
-                                <li> <a class="dropdown-item" href="{{ url_for('delete', username=current_user.username) }}">Delete Account</a></li>  
-                            </ul> 
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li> <a class="dropdown-item"
+                                    href="{{ url_for('user_profile', username=current_user.username ) }}">Profile</a>
+                            </li>
+                            <li> <a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a></li>
+                            <li> <a class="dropdown-item"
+                                    href="{{ url_for('delete', username=current_user.username) }}">Delete Account</a>
+                            </li>
+                        </ul>
                     </li>
+                    <form class="mx-auto" action="/search" method="POST">
+                        {{form.csrf_token}}
+                        {{form.input}}{{form.search}}
+                    </form>
+
                 </ul>
-            {% else %}
+                {% else %}
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item dropdown mx-4">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aira-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aira-expanded="false">
                             Menu
                         </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li> <a class="dropdown-item" href="{{ url_for('login') }}">Login</a></li>    
-                            </ul>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li> <a class="dropdown-item" href="{{ url_for('login') }}">Login</a></li>
+                        </ul>
                     </li>
                 </ul>
-            {% endif %}
+                {% endif %}
             </div>
         </div>
     </nav>
