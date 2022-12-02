@@ -58,3 +58,10 @@
     background: linear-gradient(to right, rgba(251, 194, 235, 1), rgba(166, 193, 238, 1))
     }
 
+.red {
+    color: red;
+}
+
+.blue {
+    color: blue;
+}

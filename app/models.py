@@ -30,6 +30,9 @@ class User(db.Model, UserMixin):
         lst = [i[0] for i in all]
         return lst
 
+    def follower_count(self):
+        return len(self.get_followers())
+
     def __repr__(self):
         return f'<User: {self.username}>'
 
