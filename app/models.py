@@ -3,7 +3,6 @@ from app import login
 from flask_login import UserMixin
 from app import db
 
-
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, unique=True)
@@ -30,24 +29,26 @@ class User(db.Model, UserMixin):
         lst = [i[0] for i in all]
         return lst
 
-    def follower_count(self):
-        return len(self.get_followers())
-
     def __repr__(self):
-        return f'<User: {self.username}>'
+        return f'<User {self.username}>'
 
-    def is_following(self, another):
-        lst = self.get_followees()
-        if another in lst:
-            return True
-        return False
+class Chirp(db.Model):
+    __tablename__ = 'chirp'
+    __table_args__ = (
+        db.PrimaryKeyConstraint('id', 'user_id', 'text', 'image_name', 'likes'),
+    )
+
     
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    text = db.Column(db.String(2000))
+    image_name = db.Column(db.Integer) #look into
+    likes = db.Column(db.Integer)
     
 
 @login.user_loader
-def load_user(username):
-    return User.query.get(str(username))
-
+def load_user(id):
+    return User.query.get(int(id))
 
 class Following(db.Model):
     __tablename__ = 'following'
@@ -66,5 +67,3 @@ class Following(db.Model):
         
     def __repr__(self):
         return f'<User #{self.follower_id} is following #{self.followee_id}>'
-
-
