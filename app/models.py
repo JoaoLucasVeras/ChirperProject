@@ -18,6 +18,17 @@ class User(db.Model, UserMixin):
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
+
+    def get_followees(self):
+        all = db.session.query(Following.followee_id).filter_by(follower_id=self.id).all()
+        lst = [i[0] for i in all]
+        return lst
+    
+    def get_followers(self):
+        all = db.session.query(Following.follower_id).filter_by(followee_id=self.id).all()
+        lst = [i[0] for i in all]
+        return lst
+
     def __repr__(self):
         return f'<User {self.username}>'
 
