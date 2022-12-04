@@ -46,3 +46,9 @@ class Delete_Form(FlaskForm):
 class Search_Form(FlaskForm):
     input = StringField('Searched', validators=[DataRequired()])
     search = SubmitField('Search')
+
+class Post_Form(FlaskForm):
+    text = TextAreaField('Message', validators=[DataRequired()])
+    #image
+    submit = SubmitField('Post')
+    cancel = SubmitField('Cancel')
