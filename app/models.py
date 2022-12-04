@@ -33,8 +33,14 @@ class User(db.Model, UserMixin):
         return f'<User {self.username}>'
 
 class Chirp(db.Model):
+    __tablename__ = 'chirp'
+    __table_args__ = (
+        db.PrimaryKeyConstraint('id', 'user_id', 'text', 'image_name', 'likes'),
+    )
+
+    
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     text = db.Column(db.String(2000))
     image_name = db.Column(db.Integer) #look into
     likes = db.Column(db.Integer)
