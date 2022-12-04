@@ -141,7 +141,12 @@
                   class="img-fluid img-thumbnail mt-0 mb-0"
                   style="width: 50px; z-index: 1; border-radius: 20px"
                 />
-                {{ current_user.nickname }}
+                <a
+                  href="/user/{{User.query.filter_by(id =
+                  chirp[i].user_id).one().username}}"
+                  >{{User.query.filter_by(id =
+                  chirp[i].user_id).one().nickname}}</a
+                >
               </strong>
               <p class="card-text mb-auto">{{chirp[i].text}}</p>
             </div>
