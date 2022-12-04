@@ -1,6 +1,6 @@
 from app import myapp_obj
 from flask import render_template, redirect, flash, url_for, request
-from app.forms import LogIn_Form, SignUp_Form, EditProfile_Form, Delete_Form, Search_Form 
+from app.forms import LogIn_Form, SignUp_Form, EditProfile_Form, Delete_Form, Search_Form, Post_Form 
 from app.models import User, Following
 from werkzeug.security import generate_password_hash
 from flask_login import current_user, login_required, login_user, logout_user
@@ -14,12 +14,14 @@ from app import db
 @myapp_obj.route('/home')
 @myapp_obj.route('/', methods = ['POST', 'GET'])
 def home():
-    form = Search_Form()
-    return render_template("base.html", form=form)
+    form = Post_Form()
+    #return render_template("base.html", form=form)
 
     if current_user.is_authenticated:
         weather = get_weather()
-        return render_template('home.html', weather=weather)
+        
+        return render_template('home.html', weather=weather, form=form)
+
 
     return redirect(url_for('login'))
 
@@ -36,7 +38,7 @@ def login():
                 flash('Username or password is not correct!')
                 return redirect('/login')
             login_user(user, remember=form.remember_me.data)
-
+            
             return redirect('/home')
         return render_template('login.html', form=form)
     except exc.SQLAlchemyError as err:
@@ -205,4 +207,6 @@ def search():
     print(form.input.data)
     user = User.query.filter_by(username=form.input.data).first()
     return render_template('search.html', user=user)
+
     
+
