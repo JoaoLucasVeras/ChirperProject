@@ -42,9 +42,9 @@
 - **Pre-condition:** 
   - User has logged in
 - **Trigger:**
-  - User type something inside the text box
+  - User goes to the home page
 - **Primary Sequence:**
-  1. User starts typing the message
+  1. User starts typing the message inside the text box
   2. User clicks "chirp" button
 - **Primary Postconditions:**
   - System shows "posted"
