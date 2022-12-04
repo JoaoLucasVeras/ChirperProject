@@ -1,3 +1,18 @@
+body {
+    background: #fbc2eb;
+}
+
+body.dark-mode {
+    background: rgb(27, 26, 26);
+}
+
+.dark-mode-text {
+    color:rgb(199, 185, 185);
+}
+
+.light-mode-text {
+    color:rgb(10, 10, 10);
+}
 
 
 .login_icon {
@@ -64,4 +79,8 @@
 
 .blue {
     color: blue;
+}
+
+.dark_mode_text {
+    color: #868B94
 }
