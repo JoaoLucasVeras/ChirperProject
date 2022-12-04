@@ -44,3 +44,20 @@ class Chirp(db.Model):
 def load_user(id):
     return User.query.get(int(id))
 
+class Following(db.Model):
+    __tablename__ = 'following'
+    __table_args__ = (
+        db.PrimaryKeyConstraint('follower_id', 'followee_id'),
+    )
+
+    follower_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    followee_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    
+    
+
+    def __init__(self, follower_id, followee_id):
+        self.follower_id = follower_id
+        self.followee_id = followee_id
+        
+    def __repr__(self):
+        return f'<User #{self.follower_id} is following #{self.followee_id}>'
