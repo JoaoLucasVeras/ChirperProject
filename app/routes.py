@@ -222,7 +222,7 @@ def delete(username):
 @myapp_obj.context_processor
 def base():
     form = Search_Form()
-    return dict(form=form)
+    return dict(search_form=form)
 
 @myapp_obj.route('/search', methods=['POST'])
 def search():
