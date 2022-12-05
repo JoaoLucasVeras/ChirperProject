@@ -37,9 +37,7 @@ def home():
                 post.append(Chirp.query.filter_by(id=i).one())
                 
         chirp_len = len(post)
-
-        
-        return render_template('home.html', weather=weather, form=form, chirp=post, len = chirp_len, User = User)
+        return render_template('home.html', weather=weather, form=form, chirp=post, len = chirp_len)
 
 
     return redirect(url_for('login'))
