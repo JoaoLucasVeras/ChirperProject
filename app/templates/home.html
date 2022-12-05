@@ -1,168 +1,107 @@
-{% extends "base.html" %} {% block title %} Home {% endblock %} {% block content
-%}
-<section class="h-100 gradient-custom-2">
-  <div class="container py-5 h-100">
-    <div
-      class="row d-flex align-items-center h-100"
-      style="justify-content: center"
-    >
-      <div class="col col-lg-9 col-xl-3 bg-dark">
-        <div
-          class="text-white d-flex flex-row flex-column"
-          style="background-color: grey; border-radius: 10px"
-        >
-          <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px">
-            <img
-              src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
-              alt="Generic placeholder image"
-              class="img-fluid img-thumbnail mt-0 mb-0 ms-4"
-              style="width: 150px; z-index: 1; border-radius: 5px"
-            />
-            <script>
-              jQuery("h1").fitText(0.38);
-            </script>
-            <h5
-              class="ms-3 text-center"
-              style="
-                text-overflow: ellipsis;
+{% extends "base.html" %} 
+{% block title %} Home {% endblock %} 
+{% block content %}
+<section class="">
+  <div class="container-fluid py-4 h-100">
+    <div class="row">
+      <div class="col-lg-3 mb-2 mb-lg-0 mb-xl-0">
+        <div class="card shadow py-2 text-center">
+          <div class="d-flex justify-content-center">
+            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+              alt="Generic placeholder image" class="img-fluid img-thumbnail" style="width: 150px;" />
+          </div>
+          <h5 class="text-center" 
+              style="text-overflow: ellipsis;
                 word-wrap: break-word;
                 display: block;
                 line-height: 1em; /* a */
-                max-height: 1em; /* a x number of line to show (ex : 2 line)  */
-              "
-              id="dynamicSpan"
-            >
-              {{ current_user.username }}
-              <h1></h1>
-
-              <div class="col-md-12 col-lg-12 col-xl-12 col-sm-9">
-                <div
-                  class="card mx-0 my-3 ms-0"
-                  style="color: #4b515d; border-radius: 35px"
-                >
-                  <div class="card-body" style="">
-                    <h6 class="text-center">
-                      {{weather['location']}}, {{weather['country']}}
-                    </h6>
-
-                    <div class="d-flex flex-column text-center mt-5 mb-4">
-                      <h6 class="font-weight-bold" style="color: #1c2331">
-                        Now:
-                      </h6>
-                      <h6 class="font-weight-bold" style="color: #1c2331">
-                        {{weather['description']}}
-                      </h6>
-                      <h6
-                        class="display-5 mb-0 font-weight-bold"
-                        style="color: #1c2331"
-                      >
-                        {{weather['temp']}}℃
-                      </h6>
-                      <span class="small" style="color: #868b94"
-                        >Feels like: {{weather['feels_like']}}℃</span
-                      >
-                    </div>
-
-                    <div class="d-flex align-items-center">
-                      <div class="flex-grow-1" style="font-size: 1rem">
-                        <div>
-                          <i
-                            class="fas fa-wind fa-fw"
-                            style="color: #868b94"
-                          ></i>
-                          <span class="ms-1">
-                            Highest: {{weather['max_temp']}}℃
-                          </span>
-                        </div>
-                        <div>
-                          <i
-                            class="fas fa-tint fa-fw"
-                            style="color: #868b94"
-                          ></i>
-                          <span class="ms-1">
-                            Lowesr: {{weather['min_temp']}}℃
-                          </span>
-                        </div>
-                      </div>
-                    </div>
+                max-height: 1em; /* a x number of line to show (ex : 2 line)  */"
+              id="dynamicSpan">
+            {{current_user.username}}
+          </h5>
+          <hr class="mx-4">
+          <div class="card mx-5 mx-lg-4 mx-xl-5 shadow-sm" style="color: #4b515d; border-radius: 35px">
+            <div class="card-body">
+              <h6 class="text-center">
+                {{weather['location']}}, {{weather['country']}}
+              </h6>
+          
+              <div class="d-flex flex-column text-center">
+                <h6 class="font-weight-bold" style="color: #1c2331">
+                  Now:
+                </h6>
+                <h6 class="font-weight-bold" style="color: #1c2331">
+                  {{weather['description']}}
+                </h6>
+                <h6 class="display-5 font-weight-bold" style="color: #1c2331">
+                  {{weather['temp']}}℃
+                </h6>
+                <span class="small" style="color: #868b94">Feels like: {{weather['feels_like']}}℃</span>
+              </div>
+          
+              <div class="d-flex align-items-center">
+                <div class="flex-grow-1" style="font-size: 1rem">
+                  <div>
+                    <i class="fas fa-wind fa-fw" style="color: #868b94"></i>
+                    <span class="ms-1">
+                      Highest: {{weather['max_temp']}}℃
+                    </span>
+                  </div>
+                  <div>
+                    <i class="fas fa-tint fa-fw" style="color: #868b94"></i>
+                    <span class="ms-1">
+                      Lowest: {{weather['min_temp']}}℃
+                    </span>
                   </div>
                 </div>
               </div>
-            </h5>
-          </div>
-        </div>
-      </div>
-      <div class="col col-lg-9 col-xl-5">
-        <div class="card">
-          <div
-            class="rounded-top text-white d-flex flex-row"
-            style="background-color: grey"
-          >
-            <form action="/home" method="POST" class="card-body w-75 mx-auto">
-              {{ form.csrf_token }}
-              <div
-                class="card-body d-flex flex-column align-items-start border border-light"
-                style="background-color: lightgray; border-radius: 10px"
-              >
-                <strong class="d-inline-block mb-2 text-primary">
-                  <img
-                    src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
-                    alt="Generic placeholder image"
-                    class="img-fluid img-thumbnail mt-0 mb-0"
-                    style="width: 50px; z-index: 1; border-radius: 20px"
-                  />
-                  {{ current_user.nickname }}
-                </strong>
-                <div class="">
-                  {{form.text(class="form-control d-flex", cols="35")}}
-                </div>
-                <div class="text-center mt-2">
-                  {{form.cancel(class="btn btn btn-secondary", value="Cancel",
-                  formnovalidate=True)}} {{form.submit(class=" btn btn
-                  btn-primary", value="Post")}}
-                  <br />
-                </div>
-
-                <br />
-              </div>
-            </form>
-          </div>
-
-          <div class="card-body p-4 text-black flex-column">
-            {%for i in range(len)%}
-            <div
-              class="card-body d-flex flex-column align-items-start border border-light mt-2"
-              style="background-color: lightgray; border-radius: 10px"
-            >
-              <strong class="d-inline-block mb-2 text-primary">
-                <img
-                  src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
-                  alt="Generic placeholder image"
-                  class="img-fluid img-thumbnail mt-0 mb-0"
-                  style="width: 50px; z-index: 1; border-radius: 20px"
-                />
-                <a
-                  href="/user/{{User.query.filter_by(id =
-                  chirp[i].user_id).one().username}}"
-                  >{{User.query.filter_by(id =
-                  chirp[i].user_id).one().nickname}}</a
-                >
-              </strong>
-              <p class="card-text mb-auto">{{chirp[i].text}}</p>
             </div>
-            {%endfor%}
           </div>
         </div>
       </div>
-      <div class="col col-lg-9 col-xl-3">
-        <div
-          class="text-white d-flex flex-row"
-          style="background-color: grey; height: 600px; border-radius: 10px"
-        >
-          <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px">
-            temp
+      <div class="col-lg-6 mb-2 mb-lg-0 mb-xl-0">
+        <div class="card shadow py-2 mb-2 d-flex">
+          <form class="mx-2" action="/home" method="POST">
+            {{ form.csrf_token }}
+            <strong class="d-inline-block mb-2 text-primary">
+              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                alt="Generic placeholder image" class="img-fluid img-thumbnail mt-0 mb-0"
+                style="width: 50px; z-index: 1; border-radius: 20px" />
+              {{ current_user.nickname }}
+            </strong>
+            <div class="">
+              {{form.text(class="form-control", placeholder="Post a chirp", cols="35")}}
+            </div>
+            <div class="d-flex flex-row-reverse mt-2">
+              {{form.cancel(class="btn text-primary", value="Clear", formnovalidate=True)}}
+              {{form.submit(class=" btn btn-primary", value="Post")}}
+              <br />
+            </div>
+          </form>
+        </div>
+        <div class="card shadow pt-2">
+          <div class="card-body mx-2">
+            {% for chirp in chirps %}
+            <div class="d-flex">
+              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                alt="Generic placeholder image" class="img-thumbnail align-self-start"
+                style="width: 50px; z-index: 1; border-radius: 20px"/>
+              <div class="mx-1">
+                <strong class="d-inline-block text-primary">
+                  <a href="/user/{{User.query.filter_by(id=chirp.user_id).one().username}}">
+                    {{User.query.filter_by(id=chirp.user_id).one().nickname}}
+                  </a>
+                </strong>
+                <p class="card-text">{{chirp.text}}</p>
+              </div>
+            </div>
+            <hr>
+            {% endfor %}
           </div>
         </div>
+      </div>
+      <div class="col-lg-3">
+        <div class="card shadow">TODO: Display Followees here</div>
       </div>
     </div>
   </div>

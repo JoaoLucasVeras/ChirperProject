@@ -1,21 +1,10 @@
 import requests
-from dotenv import load_dotenv
 import os
-import math
-load_dotenv()
-
 
 def get_location():
-    ip = requests.get('https://api64.ipify.org?format=json').json()
-    ip = ip['ip']
-    url = f"https://spott.p.rapidapi.com/places/ip/{ip}"
-
-    headers = {
-        "X-RapidAPI-Key": os.environ.get('SPOTT_RAPIDAPI_KEY'),
-        "X-RapidAPI-Host": "spott.p.rapidapi.com"
-    }
-    response = requests.request("GET", url, headers=headers).json()
-    return response['name'], response['country']['id']
+    
+    response = requests.get(f"https://api.maptiler.com/geolocation/ip.json?key={os.environ.get('MAP_KEY')}").json()
+    return response['city'], response['country_code']
 
 
 def get_weather():

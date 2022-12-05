@@ -40,10 +40,6 @@ class User(db.Model, UserMixin):
 
 class Chirp(db.Model):
     __tablename__ = 'chirp'
-    __table_args__ = (
-        db.PrimaryKeyConstraint('id', 'user_id', 'text', 'image_name', 'likes'),
-    )
-
     
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))

@@ -8,14 +8,10 @@ from .functions import get_weather
 from sqlalchemy import exc
 from app import db
 
-# plan out routes we are going to need
-
-
 @myapp_obj.route('/home', methods = ['POST', 'GET'])
 @myapp_obj.route('/', methods = ['POST', 'GET'])
 def home():
     form = Post_Form()
-    #return render_template("base.html", form=form)
 
     if current_user.is_authenticated:
         weather = get_weather()
@@ -24,29 +20,25 @@ def home():
             db.session.add(chirp)
             db.session.commit()
             return redirect('/home')
-        post = []
+        posts = []
         
         total = Chirp.query.count()
         if(total>=5):
             for i in range(total, total-5, -1):
-                post.append(Chirp.query.filter_by(id=i).one())
+                posts.append(Chirp.query.filter_by(id=i).one())
                 
         else:
             
             for i in range(total,0,-1):
-                post.append(Chirp.query.filter_by(id=i).one())
+                posts.append(Chirp.query.filter_by(id=i).one())
                 
-        chirp_len = len(post)
+        chirp_len = len(posts)
 
         
-        return render_template('home.html', weather=weather, form=form, chirp=post, len = chirp_len, User = User)
+        return render_template('home.html', weather=weather, form=form, chirps=posts, User = User)
 
 
     return redirect(url_for('login'))
-
-# /user/<username>/post/<post.id>/like
-# /post/<post.id>
-# /
 
 @myapp_obj.route("/login", methods=['POST', 'GET'])
 def login():
@@ -93,11 +85,11 @@ def logout():
     return redirect(url_for('login'))
 
 
-@myapp_obj.route('/user/<username>/post/<post_id>/like', methods=['GET', 'POST'])
-def likePost(username, post_id):
-    # get user
-    # get post
-    chirp = Chirp.query
+# @myapp_obj.route('/user/<username>/post/<post_id>/like', methods=['GET', 'POST'])
+# def likePost(username, post_id):
+#     # get user
+#     # get post
+#     chirp = Chirp.query
 
 @myapp_obj.route('/user/<username>', methods=['GET', 'POST'])
 def user_profile(username):
