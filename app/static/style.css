@@ -1,9 +1,13 @@
 body {
-    background: #fbc2eb;
+background: rgb(236,203,232);
+background: linear-gradient(90deg, rgba(236,203,232,0.9867297260701156) 50%, rgba(9,121,118,1) 100%);
+
 }
 
 body.dark-mode {
-    background: rgb(27, 26, 26);
+background: rgb(0,0,0);
+background: linear-gradient(47deg, rgba(0,0,0,0.9867297260701156) 50%, rgba(60,0,77,1) 100%);
+
 }   
 
 .dark-mode-text {
