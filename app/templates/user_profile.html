@@ -50,11 +50,11 @@ content %}
                 <p class="small text-muted mb-0">Posts</p>
               </div>
               <div class="px-3">
-                <p class="mb-1 h5">0</p>
+                <p class="mb-1 h5">{{ user.follower_count() }} </p>
                 <p class="small text-muted mb-0">Followers</p>
               </div>
               <div>
-                <p class="mb-1 h5">0</p>
+                <p class="mb-1 h5">{{ user.following_count() }} </p>
                 <p class="small text-muted mb-0">Following</p>
               </div>
             </div>
