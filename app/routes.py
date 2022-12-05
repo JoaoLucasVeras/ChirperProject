@@ -1,7 +1,7 @@
 from app import myapp_obj
-from flask import render_template, redirect, flash, url_for, request
-from app.forms import LogIn_Form, SignUp_Form, EditProfile_Form, Delete_Form, Search_Form, Post_Form 
-from app.models import User, Following, Chirp
+from flask import render_template, redirect, flash, url_for, request, session
+from app.forms import LogIn_Form, SignUp_Form, EditProfile_Form, Delete_Form, Search_Form 
+from app.models import User, Following
 from werkzeug.security import generate_password_hash
 from flask_login import current_user, login_required, login_user, logout_user
 from .functions import get_weather
@@ -40,6 +40,18 @@ def home():
 
     return redirect(url_for('login'))
 
+@myapp_obj.route("/theme/", methods=['GET'])
+def theme():
+    current_theme = session.get("theme")
+    if current_theme == "dark":
+        session["theme"] = "light"
+    else:
+        session["theme"] = "dark"
+
+    if request.referrer != 'http://127.0.0.1:5000/search':
+        return redirect(request.referrer) 
+    return redirect(url_for('home'))
+
 @myapp_obj.route("/login", methods=['POST', 'GET'])
 def login():
     try:
@@ -52,7 +64,7 @@ def login():
                 flash('Username or password is not correct!')
                 return redirect('/login')
             login_user(user, remember=form.remember_me.data)
-            
+
             return redirect('/home')
         return render_template('login.html', form=form)
     except exc.SQLAlchemyError as err:
@@ -84,34 +96,24 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
-
-# @myapp_obj.route('/user/<username>/post/<post_id>/like', methods=['GET', 'POST'])
-# def likePost(username, post_id):
-#     # get user
-#     # get post
-#     chirp = Chirp.query
-
 @myapp_obj.route('/user/<username>', methods=['GET', 'POST'])
 def user_profile(username):
     try:
         user = User.query.filter_by(username=username).first()
-        chirp = Chirp.query.filter_by(user_id=user.id).all()
-        chirp_len = len(chirp)
-        
         if not user:
             flash('This user does not exist')
             return redirect('/')
 
         if request.method == 'GET':
-            return render_template('user_profile.html', user=user, chirp=chirp, len = chirp_len)
+            return render_template('user_profile.html', user=user)
 
         if current_user != user:
             flash("You don't have permission to this resource")
-            return render_template('user_profile.html', user=user, chirp=chirp, len = chirp_len)
+            return render_template('user_profile.html', user=user)
 
         form = EditProfile_Form()
         if form.cancel.data:
-            return render_template('user_profile.html', user=user, chirp=chirp, len = chirp_len)
+            return render_template('user_profile.html', user=user)
 
         if request.form.get("_method") == "DELETE":
             db.session.delete(user)
@@ -122,8 +124,8 @@ def user_profile(username):
             user.bio = form.bio.data
             user.nickname = form.nickname.data
             db.session.commit()
-            return render_template('user_profile.html', user=user, chirp=chirp, len = chirp_len)
-        
+            return render_template('user_profile.html', user=user)
+
         return render_template('edit_profile.html', form=form, user=user)
     except exc.SQLAlchemyError as err:
         db.session.rollback()
@@ -233,4 +235,3 @@ def search():
         user = user.order_by(User.username).all()
         return render_template('search.html', user=user, form=form)
     
-

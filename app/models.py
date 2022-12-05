@@ -3,6 +3,7 @@ from app import login
 from flask_login import UserMixin
 from app import db
 
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, unique=True)
@@ -31,20 +32,16 @@ class User(db.Model, UserMixin):
 
     def follower_count(self):
         return len(self.get_followers())
-
-    def following_count(self):
-        return len(self.get_followees())
     
     def is_following(self, another):
         lst = self.get_followees()
         return another in lst
     
     def __repr__(self):
-        return f'<User {self.username}>'
+        return f'<User: {self.username}>'
 
 class Chirp(db.Model):
     __tablename__ = 'chirp'
-    
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     text = db.Column(db.String(2000))
@@ -53,8 +50,9 @@ class Chirp(db.Model):
     
 
 @login.user_loader
-def load_user(id):
-    return User.query.get(int(id))
+def load_user(username):
+    return User.query.get(str(username))
+
 
 class Following(db.Model):
     __tablename__ = 'following'
@@ -71,3 +69,5 @@ class Following(db.Model):
         
     def __repr__(self):
         return f'<User #{self.follower_id} is following #{self.followee_id}>'
+
+
