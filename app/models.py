@@ -18,10 +18,59 @@ class User(db.Model, UserMixin):
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
+
+    def get_followees(self):
+        all = db.session.query(Following.followee_id).filter_by(follower_id=self.id).all()
+        lst = [i[0] for i in all]
+        return lst
+    
+    def get_followers(self):
+        all = db.session.query(Following.follower_id).filter_by(followee_id=self.id).all()
+        lst = [i[0] for i in all]
+        return lst
+
+    def follower_count(self):
+        return len(self.get_followers())
+
+    def following_count(self):
+        return len(self.get_followees())
+    
     def __repr__(self):
         return f'<User {self.username}>'
+
+class Chirp(db.Model):
+    __tablename__ = 'chirp'
+    __table_args__ = (
+        db.PrimaryKeyConstraint('id', 'user_id', 'text', 'image_name', 'likes'),
+    )
+
+    
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    text = db.Column(db.String(2000))
+    image_name = db.Column(db.Integer) #look into
+    likes = db.Column(db.Integer)
+    
 
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
 
+class Following(db.Model):
+    __tablename__ = 'following'
+    __table_args__ = (
+        db.PrimaryKeyConstraint('follower_id', 'followee_id'),
+    )
+
+    follower_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    followee_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    
+    
+
+
+    def __init__(self, follower_id, followee_id):
+        self.follower_id = follower_id
+        self.followee_id = followee_id
+        
+    def __repr__(self):
+        return f'<User #{self.follower_id} is following #{self.followee_id}>'

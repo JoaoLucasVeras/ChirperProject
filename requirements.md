@@ -38,20 +38,18 @@
   - The user goes to a different page without clicking on "Update"
   - The system discards all the unsaved changes by clicking "Cancel" button
 
-2. Send Messages to Followers(Direct Message)
+2. Send Messages to Followers
 - **Pre-condition:** 
   - User has logged in
 - **Trigger:**
-  - User clicks "Message" button from drop-down menu
+  - User goes to the home page
 - **Primary Sequence:**
-  1. User searches by username
-  2. User select one or multiple users 
-  3. User starts typing the message
-  4. User clicks "Send" button
+  1. User starts typing the message inside the text box
+  2. User clicks "chirp" button
 - **Primary Postconditions:**
-  - System shows "Delivered"
+  - System shows "posted"
 - **Alternate Sequence:** 
-  - User deletes the message
+  - User cancel the message
 
 3. Follow Users  
 - **Pre-condition:**  
