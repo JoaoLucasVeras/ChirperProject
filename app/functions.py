@@ -1,9 +1,5 @@
 import requests
-from dotenv import load_dotenv
 import os
-import math
-load_dotenv()
-
 
 def get_location():
     
