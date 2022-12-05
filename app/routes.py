@@ -1,5 +1,5 @@
 from app import myapp_obj
-from flask import render_template, redirect, flash, url_for, request
+from flask import render_template, redirect, flash, url_for, request, session
 from app.forms import LogIn_Form, SignUp_Form, EditProfile_Form, Delete_Form, Search_Form 
 from app.models import User, Following
 from werkzeug.security import generate_password_hash
@@ -9,7 +9,18 @@ from sqlalchemy import exc
 from app import db
 
 # plan out routes we are going to need
+@myapp_obj.route("/theme/", methods=['GET'])
+def theme():
+    current_theme = session.get("theme")
+    if current_theme == "dark":
+        session["theme"] = "light"
+    else:
+        session["theme"] = "dark"
 
+    if request.referrer != 'http://127.0.0.1:5000/search':
+        return redirect(request.referrer) 
+    return redirect(url_for('home'))
+    
 
 @myapp_obj.route('/home')
 @myapp_obj.route('/', methods = ['POST', 'GET'])

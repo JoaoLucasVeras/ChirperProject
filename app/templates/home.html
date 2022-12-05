@@ -1,12 +1,12 @@
 {% extends "base.html" %} {% block title %} Home {% endblock %} {% block content
 %}
-<section class="h-100 gradient-custom-2">
+<section class="h-100">
   <div class="container py-5 h-100">
     <div
       class="row d-flex align-items-center h-100"
       style="justify-content: center"
     >
-      <div class="col col-lg-9 col-xl-3  bg-dark">
+      <div class="col col-lg-9 col-xl-3 ">
         <div
           class="text-white d-flex flex-row"
           style="background-color: grey; height: 600px; border-radius: 10px"
@@ -35,27 +35,27 @@
               {{ current_user.username }}
             </h1>
 
-                    <div class="col-md-12 col-lg-12 col-xl-12 col-sm-9">
+                    <div class="col col-sm-9 col-md-12 col-lg-12 col-xl-12">
 
-                      <div class="card mx-0 my-3 " style="color: #4B515D; border-radius: 35px;">
-                        <div class="card-body">
+                      <div class="card mx-0 my-3 bg-{{session.get('theme')}}" style="border-radius: 35px;">
+                        <div class="card-body {{session.get('theme')}}-mode-text">
 
-                          <h6 class="text-center">{{weather['location']}}, {{weather['country']}}</h6>
+                          <h6 class="text-center " >{{weather['location']}}, {{weather['country']}}</h6>
 
                           <div class="d-flex flex-column text-center mt-5 mb-4">
           
-                            <h6 class="font-weight-bold" style="color: #1C2331;">Now:</h6>
-                            <h6 class="font-weight-bold" style="color: #1C2331;">{{weather['description']}}</h6>
-                            <h6 class="display-5 mb-0 font-weight-bold" style="color: #1C2331;">{{weather['temp']}}℃</h6>
-                            <span class="small" style="color: #868B94">Feels like: {{weather['feels_like']}}℃</span>
+                            <h6 class="font-weight-bold" >Now:</h6>
+                            <h6 class="font-weight-bold" >{{weather['description']}}</h6>
+                            <h6 class="display-5 mb-0 font-weight-bold" >{{weather['temp']}}℃</h6>
+                            <span class="small" >Feels like: {{weather['feels_like']}}℃</span>
                             
                           </div>
 
                           <div class="d-flex align-items-center">
                             <div class="flex-grow-1" style="font-size: 1rem;">
-                              <div><i class="fas fa-wind fa-fw" style="color: #868B94;"></i> <span class="ms-1"> Highest: {{weather['max_temp']}}℃
+                              <div><i class="fas fa-wind fa-fw" ></i> <span class="ms-1"> Highest: {{weather['max_temp']}}℃
                                 </span></div>
-                              <div><i class="fas fa-tint fa-fw" style="color: #868B94;"></i> <span class="ms-1"> Lowesr: {{weather['min_temp']}}℃  </span>
+                              <div><i class="fas fa-tint fa-fw" ></i> <span class="ms-1"> Lowesr: {{weather['min_temp']}}℃  </span>
                               </div>
                               
                             </div>
@@ -74,18 +74,18 @@
       <div class="col col-lg-9 col-xl-5">
         <div class="card">
           <div
-            class="rounded-top text-white d-flex flex-row"
-            style="background-color: grey; height: 100px"
+            class="rounded-top text-white d-flex flex-row {{session.get('theme')}}-mode-bg"
+            style="height: 100px"
           >
             <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px">
               temp
             </div>
           </div>
 
-          <div class="card-body p-4 text-black" style="height: 500px">
+          <div class="card-body p-4 {{session.get('theme')}}-mode-text " style="height: 500px">
             <div
-              class="card-body d-flex flex-column align-items-start border border-light"
-              style="background-color: lightgray; border-radius: 10px"
+              class="card-body d-flex flex-column align-items-start border {{session.get('theme')}}-mode-bg"
+              style=" border-radius: 30px"
             >
               <strong class="d-inline-block mb-2 text-primary">
                 <img

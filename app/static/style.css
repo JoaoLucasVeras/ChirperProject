@@ -1,3 +1,38 @@
+body {
+background: rgb(236,203,232);
+background: linear-gradient(90deg, rgba(236,203,232,0.9867297260701156) 50%, rgba(9,121,118,1) 100%);
+
+}
+
+body.dark-mode {
+background: rgb(0,0,0);
+background: linear-gradient(47deg, rgba(0,0,0,0.9867297260701156) 50%, rgba(60,0,77,1) 100%);
+
+}   
+
+.dark-mode-text {
+    color:rgb(231, 224, 224);
+}
+
+.None-mode-text {
+    color:rgb(10, 10, 10);
+}
+
+.light-mode-text {
+    color:rgb(10, 10, 10);
+}
+
+.dark-mode-bg {
+    background-color: black;
+}
+
+.light-mode-bg {
+    background-color: gray;
+}
+
+.None-mode-bg {
+    background-color: gray;
+}
 
 
 .login_icon {
@@ -64,4 +99,8 @@
 
 .blue {
     color: blue;
+}
+
+.dark_mode_text {
+    color: #868B94
 }
