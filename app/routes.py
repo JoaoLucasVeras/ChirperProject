@@ -8,7 +8,38 @@ from .functions import get_weather
 from sqlalchemy import exc
 from app import db
 
-# plan out routes we are going to need
+@myapp_obj.route('/home', methods = ['POST', 'GET'])
+@myapp_obj.route('/', methods = ['POST', 'GET'])
+def home():
+    form = Post_Form()
+
+    if current_user.is_authenticated:
+        weather = get_weather()
+        if form.validate_on_submit():
+            chirp = Chirp(text=form.text.data, user_id=current_user.id, likes=0)
+            db.session.add(chirp)
+            db.session.commit()
+            return redirect('/home')
+        posts = []
+        
+        total = Chirp.query.count()
+        if(total>=5):
+            for i in range(total, total-5, -1):
+                posts.append(Chirp.query.filter_by(id=i).one())
+                
+        else:
+            
+            for i in range(total,0,-1):
+                posts.append(Chirp.query.filter_by(id=i).one())
+                
+        chirp_len = len(posts)
+
+        
+        return render_template('home.html', weather=weather, form=form, chirps=posts, User = User)
+
+
+    return redirect(url_for('login'))
+
 @myapp_obj.route("/theme/", methods=['GET'])
 def theme():
     current_theme = session.get("theme")
@@ -20,18 +51,6 @@ def theme():
     if request.referrer != 'http://127.0.0.1:5000/search':
         return redirect(request.referrer) 
     return redirect(url_for('home'))
-    
-
-@myapp_obj.route('/home')
-@myapp_obj.route('/', methods = ['POST', 'GET'])
-def home():
-
-    if current_user.is_authenticated:
-        weather = get_weather()
-        return render_template('home.html', weather=weather)
-
-    return redirect(url_for('login'))
-
 
 @myapp_obj.route("/login", methods=['POST', 'GET'])
 def login():
@@ -76,7 +95,6 @@ def sign_up():
 def logout():
     logout_user()
     return redirect(url_for('login'))
-
 
 @myapp_obj.route('/user/<username>', methods=['GET', 'POST'])
 def user_profile(username):
@@ -160,11 +178,11 @@ def follow(id):
 def unfollow(id):
     try:
         if id != current_user.id:  # check it not the user itself
-            followee = User.query.filter_by(id=id).one()   
+            followee = User.query.filter_by(id=id).first()   
             if current_user.is_following(id):   # if the user did follow this person
-                old = Following.query.filter_by(followee_id=id).one()
-                db.session.delete(old)
-                db.session.commit()  # successfully unfollowed  
+                edge = Following.query.filter_by(followee_id=id, follower_id=current_user.id).first()
+                db.session.delete(edge)
+                db.session.commit()
             return redirect(url_for('user_profile', username=followee.username))
         else:
             return redirect(url_for('user_profile', username=current_user.username))
@@ -206,7 +224,7 @@ def delete(username):
 @myapp_obj.context_processor
 def base():
     form = Search_Form()
-    return dict(form=form)
+    return dict(search_form=form)
 
 @myapp_obj.route('/search', methods=['POST'])
 def search():
