@@ -176,11 +176,11 @@ def follow(id):
 def unfollow(id):
     try:
         if id != current_user.id:  # check it not the user itself
-            followee = User.query.filter_by(id=id).one()   
+            followee = User.query.filter_by(id=id).first()   
             if current_user.is_following(id):   # if the user did follow this person
-                old = Following.query.filter_by(followee_id=id).one()
-                db.session.delete(old)
-                db.session.commit()  # successfully unfollowed  
+                edge = Following.query.filter_by(followee_id=id, follower_id=current_user.id).first()
+                db.session.delete(edge)
+                db.session.commit()
             return redirect(url_for('user_profile', username=followee.username))
         else:
             return redirect(url_for('user_profile', username=current_user.username))

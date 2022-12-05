@@ -35,6 +35,10 @@ class User(db.Model, UserMixin):
     def following_count(self):
         return len(self.get_followees())
     
+    def is_following(self, another):
+        lst = self.get_followees()
+        return another in lst
+    
     def __repr__(self):
         return f'<User {self.username}>'
 
@@ -60,9 +64,6 @@ class Following(db.Model):
 
     follower_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     followee_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    
-    
-
 
     def __init__(self, follower_id, followee_id):
         self.follower_id = follower_id
