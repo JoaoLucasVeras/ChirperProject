@@ -7,10 +7,10 @@ Simple Twitter replica app created with Flask, SQL, Bootstrap
 
 
 ## Table of Contents
-* [Introduction] (#Introduction)
-* [Technologies] (#Technologies)
-* [Setup] (#setup)
-* Status
+* [Introduction](#Introduction)
+* [Technologies](#Technologies)
+* [Setup](#setup)
+* [Status](#status)
 
 ## Introduction
 
