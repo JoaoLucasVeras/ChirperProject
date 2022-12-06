@@ -52,9 +52,7 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          {% if current_user.is_authenticated %}
-          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               {% if current_user.is_authenticated %}
@@ -101,7 +99,7 @@
                   {{search_form.input}}{{search_form.search}}
                 </form>
               </ul>
-              {% else %}
+            {% else %}
               <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item dropdown mx-4">
                   <a
@@ -125,9 +123,7 @@
               </ul>
               {% endif %}
             </div>
-          </ul>
-        </div>
-        {%endif%}
+          
       </div>
     </nav>
 
