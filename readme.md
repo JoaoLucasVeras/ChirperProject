@@ -17,33 +17,31 @@ Simple Twitter replica app created with Flask, SQL, Bootstrap
 ## Technologies
 Project is created with the following packages:
 
-Package            Version
------------------- ---------
-certifi            2022.9.24
-charset-normalizer 2.1.1
-click              8.1.3
-dnspython          2.2.1
-email-validator    1.3.0
-Flask              2.2.2
-Flask-Login        0.6.2
-Flask-SQLAlchemy   3.0.2
-Flask-WTF          1.0.1
-greenlet           2.0.1
-idna               3.4
-importlib-metadata 5.0.0
-itsdangerous       2.1.2
-Jinja2             3.1.2
-MarkupSafe         2.1.1
-mysqlclient        2.1.1
-pip                22.3.1
-python-dotenv      0.21.0
-requests           2.28.1
-setuptools         41.2.0
-SQLAlchemy         1.4.44
-urllib3            1.26.13
-Werkzeug           2.2.2
-WTForms            3.0.1
-zipp               3.10.0
+* certifi            2022.9.24
+* charset-normalizer 2.1.1
+* click              8.1.3
+* dnspython          2.2.1
+* email-validator    1.3.0
+* Flask              2.2.2
+* Flask-Login        0.6.2
+* Flask-SQLAlchemy   3.0.2
+* Flask-WTF          1.0.1
+* greenlet           2.0.1
+* idna               3.4
+* importlib-metadata 5.0.0
+* itsdangerous       2.1.2
+* Jinja2             3.1.2
+* MarkupSafe         2.1.1
+* mysqlclient        2.1.1
+* pip                22.3.1
+* python-dotenv      0.21.0
+* requests           2.28.1
+* setuptools         41.2.0
+* SQLAlchemy         1.4.44
+* urllib3            1.26.13
+* Werkzeug           2.2.2
+* WTForms            3.0.1
+* zipp               3.10.0
 
 - Add MySQL Database Connection to environment file as (DB_CONNECTION) in this format: "username:password@host:port/databasename"
 - Add a secret key to SECRET_KEY in the environment file
