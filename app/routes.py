@@ -239,4 +239,4 @@ def theme():
 
     if request.referrer != 'http://127.0.0.1:5000/search':
         return redirect(request.referrer) 
-    return redirect(url_for('home'))
+    return redirect('/')

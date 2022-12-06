@@ -141,25 +141,6 @@
       </div>
     </nav>
 
-    <div class="fixed-bottom d-flex">
-      {% if session.get('theme')=='dark' %}
-    
-        <a type=" button"
-        class="btn btn-light ms-auto mx-3 mb-2"
-        data-mdb-ripple-color="dark" href="/theme">
-          <h6><i class="bi bi-brightness-high"></i></h6>
-        </a>
-
-      {% else %}
-
-        <a type=" button"
-        class="btn btn-dark ms-auto mx-3 mb-2"
-        data-mdb-ripple-color="dark" href="/theme">
-          <h6><i class="bi bi-cloud-moon"></i></h6>
-        </a>
-
-      {% endif %}
-    </div>
 
     {% block content %} {% endblock %}
   </body>
