@@ -1,7 +1,7 @@
 from app import myapp_obj
 from flask import render_template, redirect, flash, url_for, request, session
-from app.forms import LogIn_Form, SignUp_Form, EditProfile_Form, Delete_Form, Search_Form 
-from app.models import User, Following
+from app.forms import LogIn_Form, SignUp_Form, EditProfile_Form, Delete_Form, Search_Form, Post_Form 
+from app.models import User, Following, Chirp
 from werkzeug.security import generate_password_hash
 from flask_login import current_user, login_required, login_user, logout_user
 from .functions import get_weather
@@ -35,7 +35,7 @@ def home():
         chirp_len = len(posts)
 
         
-        return render_template('home.html', weather=weather, form=form, chirps=posts, User = User)
+        return render_template('home.html', weather=weather, form=form, chirps=posts, len = chirp_len, User = User)
 
 
     return redirect(url_for('login'))
@@ -100,20 +100,23 @@ def logout():
 def user_profile(username):
     try:
         user = User.query.filter_by(username=username).first()
+        chirp = Chirp.query.filter_by(user_id=user.id).all()
+        chirp_len = len(chirp)
+        
         if not user:
             flash('This user does not exist')
             return redirect('/')
 
         if request.method == 'GET':
-            return render_template('user_profile.html', user=user)
+            return render_template('user_profile.html', user=user, chirp=chirp, len = chirp_len)
 
         if current_user != user:
             flash("You don't have permission to this resource")
-            return render_template('user_profile.html', user=user)
+            return render_template('user_profile.html', user=user, chirp=chirp, len = chirp_len)
 
         form = EditProfile_Form()
         if form.cancel.data:
-            return render_template('user_profile.html', user=user)
+            return render_template('user_profile.html', user=user, chirp=chirp, len = chirp_len)
 
         if request.form.get("_method") == "DELETE":
             db.session.delete(user)
@@ -124,8 +127,8 @@ def user_profile(username):
             user.bio = form.bio.data
             user.nickname = form.nickname.data
             db.session.commit()
-            return render_template('user_profile.html', user=user)
-
+            return render_template('user_profile.html', user=user, chirp=chirp, len = chirp_len)
+        
         return render_template('edit_profile.html', form=form, user=user)
     except exc.SQLAlchemyError as err:
         db.session.rollback()

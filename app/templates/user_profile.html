@@ -13,7 +13,7 @@ content %}
     outline: none;
     font-size: 15px;
   }
-  
+
   .collapsible:hover {
     background-color: #555;
   }
@@ -43,25 +43,52 @@ content %}
                 style="width: 150px; z-index: 1; border-radius: 20px"
               />
               <!---->
-                {% if not current_user.is_authenticated %}
-                  <p class="text-center" style="z-index: 1; color: black;">Sign in to follow users.</p>
-                {% elif current_user != user %}
-                  {% if current_user.is_following(user.id) %}
+              {% if not current_user.is_authenticated %}
+              <p class="text-center" style="z-index: 1; color: black">
+                Sign in to follow users.
+              </p>
+              {% elif current_user != user %} {% if
+              current_user.is_following(user.id) %}
 
-                    <button type="button" class="btn btn-primary" data-mdb-ripple-color="dark" style="z-index: 1">
-                      <a style="text-decoration: none; color: white;" href="/unfollow/{{ user.id }}">Unfollow</a>
-                    </button>
-                  {% else %}
-                    <button type="button" class="btn btn-primary" data-mdb-ripple-color="dark" style="z-index: 1">
-                      <a style="text-decoration: none; color: white;" href="/follow/{{ user.id }}">Follow</a>
-                    </button>
-                  {% endif %}
-            
-                {% else %}
-                <button type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark" style="z-index: 1">
-                  <a style="text-decoration: none" href="./{{ user.username }}/edit">Edit Profile</a>
-                </button>
-                {% endif %}
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-mdb-ripple-color="dark"
+                style="z-index: 1"
+              >
+                <a
+                  style="text-decoration: none; color: white"
+                  href="/unfollow/{{ user.id }}"
+                  >Unfollow</a
+                >
+              </button>
+              {% else %}
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-mdb-ripple-color="dark"
+                style="z-index: 1"
+              >
+                <a
+                  style="text-decoration: none; color: white"
+                  href="/follow/{{ user.id }}"
+                  >Follow</a
+                >
+              </button>
+              {% endif %} {% else %}
+              <button
+                type="button"
+                class="btn btn-outline-dark"
+                data-mdb-ripple-color="dark"
+                style="z-index: 1"
+              >
+                <a
+                  style="text-decoration: none"
+                  href="./{{ user.username }}/edit"
+                  >Edit Profile</a
+                >
+              </button>
+              {% endif %}
             </div>
             <div class="ms-3" style="margin-top: 130px">
               <h5>{{ name }}</h5>
@@ -75,11 +102,11 @@ content %}
                 <p class="small text-muted mb-0">Posts</p>
               </div>
               <div class="px-3">
-                <p class="mb-1 h5">{{ user.follower_count() }} </p>
+                <p class="mb-1 h5">{{ user.follower_count() }}</p>
                 <p class="small text-muted mb-0">Followers</p>
               </div>
               <div>
-                <p class="mb-1 h5">{{ user.following_count() }} </p>
+                <p class="mb-1 h5">{{ user.following_count() }}</p>
                 <p class="small text-muted mb-0">Following</p>
               </div>
             </div>
@@ -124,11 +151,11 @@ content %}
             </div>
             <div class="d-flex justify-content-between align-items-center mb-4">
               <p class="lead fw-normal mb-0">Recent posts</p>
-              <p class="mb-0"><a href="#!" class="text-muted">Show all</a></p>
             </div>
 
+            {%if len < 3 %} {%for i in range(len-1, 0, -1)%}
             <div
-              class="card-body d-flex flex-column align-items-start border border-light"
+              class="card-body d-flex flex-column align-items-start border border-light mt-2"
               style="background-color: lightgray; border-radius: 10px"
             >
               <strong class="d-inline-block mb-2 text-primary">
@@ -140,10 +167,63 @@ content %}
                 />
                 {{ name }}
               </strong>
-              <p class="card-text mb-auto">
-                this can be used as the post template :)
-              </p>
+              <p class="card-text mb-auto">{{chirp[i].text}}</p>
             </div>
+            {%endfor%} {%else%} {%for i in range(len-1,len-4,-1)%}
+            <div
+              class="card-body d-flex flex-column align-items-start border border-light mt-2"
+              style="background-color: lightgray; border-radius: 10px"
+            >
+              <strong class="d-inline-block mb-2 text-primary">
+                <img
+                  src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                  alt="Generic placeholder image"
+                  class="img-fluid img-thumbnail mt-0 mb-0"
+                  style="width: 50px; z-index: 1; border-radius: 20px"
+                />
+                {{ name }}
+              </strong>
+              <p class="card-text mb-auto">{{chirp[i].text}}</p>
+            </div>
+            {%endfor%}
+
+            <button type="button" class="collapsible mt-2">Show all</button>
+            <div class="content1">
+              {%for i in range(len-4,-1,-1)%}
+              <div
+                class="card-body d-flex flex-column align-items-start border border-light mt-2"
+                style="background-color: lightgray; border-radius: 10px"
+              >
+                <strong class="d-inline-block mb-2 text-primary">
+                  <img
+                    src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                    alt="Generic placeholder image"
+                    class="img-fluid img-thumbnail mt-0 mb-0"
+                    style="width: 50px; z-index: 1; border-radius: 20px"
+                  />
+                  {{ name }}
+                </strong>
+                <p class="card-text mb-auto">{{chirp[i].text}}</p>
+              </div>
+              {%endfor%}
+            </div>
+            {%endif%}
+            <script>
+              var coll = document.getElementsByClassName("collapsible");
+              var i;
+
+              for (i = 0; i < coll.length; i++) {
+                coll[i].addEventListener("click", function () {
+                  this.classList.toggle("active");
+                  var content = this.nextElementSibling;
+                  if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                  } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                  }
+                });
+              }
+            </script>
           </div>
         </div>
       </div>

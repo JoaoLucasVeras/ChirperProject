@@ -1,44 +1,54 @@
-{% extends "base.html" %} 
-{% block title %} Home {% endblock %} 
-{% block content %}
+{% extends "base.html" %} {% block title %} Home {% endblock %} {% block content
+%}
 <section class="">
   <div class="container-fluid py-4 h-100">
     <div class="row">
       <div class="col-lg-3 mb-2 mb-lg-0 mb-xl-0">
         <div class="card shadow py-2 text-center">
           <div class="d-flex justify-content-center">
-            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
-              alt="Generic placeholder image" class="img-fluid img-thumbnail" style="width: 150px;" />
+            <img
+              src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+              alt="Generic placeholder image"
+              class="img-fluid img-thumbnail"
+              style="width: 150px"
+            />
           </div>
-          <h5 class="text-center" 
-              style="text-overflow: ellipsis;
-                word-wrap: break-word;
-                display: block;
-                line-height: 1em; /* a */
-                max-height: 1em; /* a x number of line to show (ex : 2 line)  */"
-              id="dynamicSpan">
+          <h5
+            class="text-center"
+            style="
+              text-overflow: ellipsis;
+              word-wrap: break-word;
+              display: block;
+              line-height: 1em; /* a */
+              max-height: 1em; /* a x number of line to show (ex : 2 line)  */
+            "
+            id="dynamicSpan"
+          >
             {{current_user.username}}
           </h5>
-          <hr class="mx-4">
-          <div class="card mx-5 mx-lg-4 mx-xl-5 shadow-sm" style="color: #4b515d; border-radius: 35px">
+          <hr class="mx-4" />
+          <div
+            class="card mx-5 mx-lg-4 mx-xl-5 shadow-sm"
+            style="color: #4b515d; border-radius: 35px"
+          >
             <div class="card-body">
               <h6 class="text-center">
                 {{weather['location']}}, {{weather['country']}}
               </h6>
-          
+
               <div class="d-flex flex-column text-center">
-                <h6 class="font-weight-bold" style="color: #1c2331">
-                  Now:
-                </h6>
+                <h6 class="font-weight-bold" style="color: #1c2331">Now:</h6>
                 <h6 class="font-weight-bold" style="color: #1c2331">
                   {{weather['description']}}
                 </h6>
                 <h6 class="display-5 font-weight-bold" style="color: #1c2331">
                   {{weather['temp']}}℃
                 </h6>
-                <span class="small" style="color: #868b94">Feels like: {{weather['feels_like']}}℃</span>
+                <span class="small" style="color: #868b94"
+                  >Feels like: {{weather['feels_like']}}℃</span
+                >
               </div>
-          
+
               <div class="d-flex align-items-center">
                 <div class="flex-grow-1" style="font-size: 1rem">
                   <div>
@@ -49,9 +59,7 @@
                   </div>
                   <div>
                     <i class="fas fa-tint fa-fw" style="color: #868b94"></i>
-                    <span class="ms-1">
-                      Lowest: {{weather['min_temp']}}℃
-                    </span>
+                    <span class="ms-1"> Lowest: {{weather['min_temp']}}℃ </span>
                   </div>
                 </div>
               </div>
@@ -64,17 +72,22 @@
           <form class="mx-2" action="/home" method="POST">
             {{ form.csrf_token }}
             <strong class="d-inline-block mb-2 text-primary">
-              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
-                alt="Generic placeholder image" class="img-fluid img-thumbnail mt-0 mb-0"
-                style="width: 50px; z-index: 1; border-radius: 20px" />
+              <img
+                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                alt="Generic placeholder image"
+                class="img-fluid img-thumbnail mt-0 mb-0"
+                style="width: 50px; z-index: 1; border-radius: 20px"
+              />
               {{ current_user.nickname }}
             </strong>
             <div class="">
-              {{form.text(class="form-control", placeholder="Post a chirp", cols="35")}}
+              {{form.text(class="form-control", placeholder="Post a chirp",
+              cols="35")}}
             </div>
             <div class="d-flex flex-row-reverse mt-2">
-              {{form.cancel(class="btn text-primary", value="Clear", formnovalidate=True)}}
-              {{form.submit(class=" btn btn-primary", value="Post")}}
+              {{form.cancel(class="btn text-primary", value="Clear",
+              formnovalidate=True)}} {{form.submit(class=" btn btn-primary",
+              value="Post")}}
               <br />
             </div>
           </form>
@@ -83,19 +96,24 @@
           <div class="card-body mx-2">
             {% for chirp in chirps %}
             <div class="d-flex">
-              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
-                alt="Generic placeholder image" class="img-thumbnail align-self-start"
-                style="width: 50px; z-index: 1; border-radius: 20px"/>
+              <img
+                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                alt="Generic placeholder image"
+                class="img-thumbnail align-self-start"
+                style="width: 50px; z-index: 1; border-radius: 20px"
+              />
               <div class="mx-1">
                 <strong class="d-inline-block text-primary">
-                  <a href="/user/{{User.query.filter_by(id=chirp.user_id).one().username}}">
+                  <a
+                    href="/user/{{User.query.filter_by(id=chirp.user_id).one().username}}"
+                  >
                     {{User.query.filter_by(id=chirp.user_id).one().nickname}}
                   </a>
                 </strong>
                 <p class="card-text">{{chirp.text}}</p>
               </div>
             </div>
-            <hr>
+            <hr />
             {% endfor %}
           </div>
         </div>
