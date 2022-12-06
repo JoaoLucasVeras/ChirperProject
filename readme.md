@@ -1,20 +1,3 @@
-
-## Installing Project
-- Must have 64-bit python 3 installed
-- Add MySQL Database Connection to environment file as (DB_CONNECTION) in this format: "username:password@host:port/databasename"
-- Add a secret key to SECRET_KEY in the environment file
-### Packages used:
-```
-Flask
-Flask-Login
-SQLAlchemy
-Flask-SQLAlchemy
-email-validator
-Flask-WTF
-mysqlclient
-python-dotenv
-```
-
 # Project Name: Chirper
 Simple Twitter replica app created with Flask, SQL, Bootstrap
 - Joao Lucas veras (@JoaoLucasVeras) - Team Lead
@@ -31,7 +14,7 @@ Simple Twitter replica app created with Flask, SQL, Bootstrap
 
 ## Introduction
 
-##Technologies
+## Technologies
 Project is created with the following packages:
 
 Package            Version
@@ -61,6 +44,9 @@ urllib3            1.26.13
 Werkzeug           2.2.2
 WTForms            3.0.1
 zipp               3.10.0
+
+- Add MySQL Database Connection to environment file as (DB_CONNECTION) in this format: "username:password@host:port/databasename"
+- Add a secret key to SECRET_KEY in the environment file
 
 ## Setup
 To run this project, install:
