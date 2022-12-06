@@ -15,7 +15,7 @@ Simple Twitter replica app created with Flask, SQL, Bootstrap
 * [Status](#status)
 
 #### Introduction
-
+Chirper app is 
 
 #### Technologies
 Project is created with the following packages:
@@ -74,3 +74,11 @@ $ pip3 installl requests
 2. Date format shall follow month-day-year (Choyee)
 3. Dark Mode (Tan)
 4. Responsive UI (Romuz)
+
+#### Status
+We have implemented 11 functonal requirements so far except for #9.
+
+
+
+
+

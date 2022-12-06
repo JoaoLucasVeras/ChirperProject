@@ -7,6 +7,7 @@ from flask_login import current_user, login_required, login_user, logout_user
 from .functions import get_weather
 from sqlalchemy import exc
 from app import db
+from datetime import date, datetime
 
 @myapp_obj.route('/home', methods = ['POST', 'GET'])
 @myapp_obj.route('/', methods = ['POST', 'GET'])
@@ -16,7 +17,7 @@ def home():
     if current_user.is_authenticated:
         weather = get_weather()
         if form.validate_on_submit():
-            chirp = Chirp(text=form.text.data, user_id=current_user.id, likes=0)
+            chirp = Chirp(text=form.text.data, user_id=current_user.id, likes=0, date_posted = date.today())
             db.session.add(chirp)
             db.session.commit()
             return redirect('/home')
@@ -33,9 +34,9 @@ def home():
                 posts.append(Chirp.query.filter_by(id=i).one())
                 
         chirp_len = len(posts)
-
         
-        return render_template('home.html', weather=weather, form=form, chirps=posts, len = chirp_len, User = User)
+        
+        return render_template('home.html', weather=weather, form=form, chirps=posts, len = chirp_len, User = User, followers=current_user.get_followers())
 
 
     return redirect(url_for('login'))
