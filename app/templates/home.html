@@ -117,11 +117,10 @@
                     {{User.query.filter_by(id=chirp.user_id).one().nickname}}
                   </a>
                 </strong>
-                <p class="card-text {{session.get('theme')}}-mode-text">{{chirp.text}}</p>
 
                 <font size="1">{{chirp.date_posted}}</font>
 
-                <p class="card-text">{{chirp.text}}</p>
+                <p class="card-text {{session.get('theme')}}-mode-text">{{chirp.text}}</p>
               </div>
             </div>
             <hr class="{{session.get('theme')}}-mode-line" />
