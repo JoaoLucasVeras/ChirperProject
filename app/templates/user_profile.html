@@ -1,9 +1,8 @@
 {% extends "base.html" %} {% block title %} User Profile {% endblock %} {% block
 content %}
-<meta name="viewport" content="width=device-width, initial-scale=1" />
 <style>
   .collapsible {
-    background-color: #777;
+    background-color: darkgrey;
     color: white;
     cursor: pointer;
 
@@ -13,10 +12,10 @@ content %}
     outline: none;
     font-size: 15px;
   }
-
+ 
   .collapsible:hover {
     background-color: #555;
-  }
+  } 
 
   .content1 {
     padding: 0 18px;
@@ -25,15 +24,15 @@ content %}
     transition: max-height 0.2s ease-out;
   }
 </style>
-<section class="h-100 gradient-custom-2">
-  <div class="container py-5 h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
+<section class="h-100 ">
+  <div class="container py-5 h-100" >
+    <div class="row d-flex justify-content-center align-items-center h-100 " >
       {% set name = user.nickname if user.nickname else user.username %}
-      <div class="col col-lg-9 col-xl-7">
+      <div class="col col-lg-9 col-xl-7" >
         <div class="card">
           <div
-            class="rounded-top text-white d-flex flex-row"
-            style="background-color: grey; height: 200px"
+            class="rounded-top d-flex flex-row {{session.get('theme')}}-mode-bg"
+            style=" height: 200px"
           >
             <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px">
               <img
@@ -74,7 +73,7 @@ content %}
 
               <a
                 type="button"
-                class="btn btn-outline-dark"
+                class="btn btn-primary"
                 data-mdb-ripple-color="dark"
                 style="z-index: 1"
                 href="./{{ user.username }}/edit"
@@ -83,13 +82,13 @@ content %}
 
               {% endif %}
             </div>
-            <div class="ms-3" style="margin-top: 130px">
+            <div class="ms-3 {{session.get('theme')}}-mode-text" style="margin-top: 130px">
               <h5>{{ name }}</h5>
               <p>{{ user.username }}</p>
             </div>
           </div>
-          <div class="p-4 text-black" style="background-color: #f8f9fa">
-            <div class="d-flex justify-content-end text-center py-1">
+          <div class="p-4 {{session.get('theme')}}-mode-text {{session.get('theme')}}-mode-theme">
+            <div class="d-flex justify-content-end text-center py-1 ">
               <div>
                 <p class="mb-1 h5">0</p>
                 <p class="small text-muted mb-0">Posts</p>
@@ -104,27 +103,27 @@ content %}
               </div>
             </div>
           </div>
-          <div class="card-body p-4 text-black">
+          <div class="card-body p-4 text-black {{session.get('theme')}}-mode-theme">
             <div class="mb-5">
-              <div class="container text-center">
+              <div class="container text-center {{session.get('theme')}}-mode-text">
                 <div class="row">
                   <div
-                    class="col border border-light mb-3"
+                    class="col border border-{{session.get('theme')}} mb-3"
                     style="font-weight: bold; font-size: larger"
                   >
                     About
                   </div>
                   <div
-                    class="col border border-light mb-3"
+                    class="col border border-{{session.get('theme')}} mb-3"
                     style="font-weight: bold; font-size: larger"
                   >
                     Recent Activity
                   </div>
                   <div class="w-100"></div>
                   <div
-                    class="col border border-light"
+                    class="col border border-light {{session.get('theme')}}-mode-bg"
                     style="
-                      background-color: lightgray;
+                     
                       border-radius: 10px;
                       padding: 100px 0;
                     "
@@ -132,9 +131,9 @@ content %}
                     {{ user.bio if user.bio else "No information given." }}
                   </div>
                   <div
-                    class="col border border-light"
+                    class="col border border-light {{session.get('theme')}}-mode-bg"
                     style="
-                      background-color: lightgray;
+                      
                       border-radius: 10px;
                       padding: 100px 0;
                     "
@@ -142,16 +141,16 @@ content %}
                 </div>
               </div>
             </div>
-            <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-4 {{session.get('theme')}}-mode-text">
               <p class="lead fw-normal mb-0">Recent posts</p>
             </div>
 
             {%if len < 3 %} {%for i in range(len-1, -1, -1)%}
             <div
-              class="card-body d-flex flex-column align-items-start border border-light mt-2"
-              style="background-color: lightgray; border-radius: 10px"
+              class="card-body d-flex flex-column align-items-start border border-light mt-2 {{session.get('theme')}}-mode-bg"
+              style=" border-radius: 10px"
             >
-              <div class="mx-1">
+              <div class="mx-1 {{session.get('theme')}}-mode-text">
                 <strong class="d-inline-block mb-2 text-primary">
                   <img
                     src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
@@ -167,8 +166,8 @@ content %}
             </div>
             {%endfor%} {%else%} {%for i in range(len-1,len-4,-1)%}
             <div
-              class="card-body d-flex flex-column align-items-start border border-light mt-2"
-              style="background-color: lightgray; border-radius: 10px"
+              class="card-body d-flex flex-column align-items-start border border-light mt-2 {{session.get('theme')}}-mode-bg {{session.get('theme')}}-mode-text"
+              style=" border-radius: 10px"
             >
               <div class="mx-1">
                 <strong class="d-inline-block mb-2 text-primary">
@@ -182,16 +181,21 @@ content %}
                 </strong>
                 <font size="1">{{chirp[i].date_posted}}</font>
               </div>
-              <p class="card-text mb-auto">{{chirp[i].text}}</p>
+              <p class="card-text mb-auto ">{{chirp[i].text}}</p>
             </div>
             {%endfor%}
+
+
+
+
+
 
             <button type="button" class="collapsible mt-2">Show all</button>
             <div class="content1">
               {%for i in range(len-4,-1,-1)%}
               <div
-                class="card-body d-flex flex-column align-items-start border border-light mt-2"
-                style="background-color: lightgray; border-radius: 10px"
+                class="card-body d-flex flex-column align-items-start border border-light mt-2 {{session.get('theme')}}-mode-bg {{session.get('theme')}}-mode-text" 
+                style=" border-radius: 10px"
               >
                 <div class="mx-1">
                   <strong class="d-inline-block mb-2 text-primary">
@@ -205,11 +209,12 @@ content %}
                   </strong>
                   <font size="1">{{chirp[i].date_posted}}</font>
                 </div>
-                <p class="card-text mb-auto">{{chirp[i].text}}</p>
+                <p class="card-text mb-auto ">{{chirp[i].text}}</p>
               </div>
               {%endfor%}
             </div>
             {%endif%}
+
             <script>
               var coll = document.getElementsByClassName("collapsible");
               var i;

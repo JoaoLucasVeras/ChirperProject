@@ -41,17 +41,7 @@ def home():
 
     return redirect(url_for('login'))
 
-@myapp_obj.route("/theme/", methods=['GET'])
-def theme():
-    current_theme = session.get("theme")
-    if current_theme == "dark":
-        session["theme"] = "light"
-    else:
-        session["theme"] = "dark"
 
-    if request.referrer != 'http://127.0.0.1:5000/search':
-        return redirect(request.referrer) 
-    return redirect(url_for('home'))
 
 @myapp_obj.route("/login", methods=['POST', 'GET'])
 def login():
@@ -239,3 +229,16 @@ def search():
         user = user.order_by(User.username).all()
         return render_template('search.html', user=user, form=form)
     
+    
+@myapp_obj.route("/theme/", methods=['GET'])
+def theme():
+    current_theme = session.get("theme")
+    if current_theme == "dark":
+        session["theme"] = "light"
+    else:
+        session["theme"] = "dark"
+
+    if request.referrer != 'http://127.0.0.1:5000/search':
+        return redirect(request.referrer) 
+    return redirect('/')
+
