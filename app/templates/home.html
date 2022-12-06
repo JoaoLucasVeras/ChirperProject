@@ -109,7 +109,7 @@
                 class="img-thumbnail align-self-start"
                 style="width: 50px; z-index: 1; border-radius: 20px"
               />
-              <div class="mx-1">
+              <div class="mx-1 {{session.get('theme')}}-mode-text">
                 <strong class="d-inline-block" >
                   <a class="text-decoration-none {{session.get('theme')}}-mode-text"
                     href="/user/{{User.query.filter_by(id=chirp.user_id).one().username}}"
@@ -118,7 +118,7 @@
                   </a>
                 </strong>
 
-                <font size="1">{{chirp.date_posted}}</font>
+                <font  size="1">{{chirp.date_posted}}</font>
 
                 <p class="card-text {{session.get('theme')}}-mode-text">{{chirp.text}}</p>
               </div>
@@ -128,14 +128,15 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-3">
-        <div class="card shadow">
-          <h1 style="text-align: center; color: grey">Followers</h1>
-          <hr />
+
+      <div class="col-lg-3 mb-2 mb-lg-0 mb-xl-0">
+        <div class="card shadow {{session.get('theme')}}-mode-theme {{session.get('theme')}}-mode-text">
+          <h1 style="text-align:center;">Followers</h1>
+            <hr class="{{session.get('theme')}}-mode-line" />
           {%for person in followers%}
 
           <div class="d-flex" style="padding: 5px">
-            <strong class="d-inline-block text-primary">
+            <strong class="d-inline-block {{session.get('theme')}}-mode-text">
               <img
                 src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
                 alt="Generic placeholder image"
@@ -144,16 +145,17 @@
               />
 
               <a
-                href="/user/ {{User.query.filter_by(id=person).one().username}}"
+                href="/user/{{User.query.filter_by(id=person).one().username}}"
               >
                 {{User.query.filter_by(id=person).one().username}}
               </a>
             </strong>
           </div>
-          <hr />
-        </div>
+            <hr class="{{session.get('theme')}}-mode-line" />
 
-        {%endfor%}
+            
+            {%endfor%}
+          </div>
       </div>
     </div>
   </div>
