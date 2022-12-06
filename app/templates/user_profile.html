@@ -42,52 +42,45 @@ content %}
                 class="img-fluid img-thumbnail mt-4 mb-2"
                 style="width: 150px; z-index: 1; border-radius: 20px"
               />
-              <!---->
+
               {% if not current_user.is_authenticated %}
               <p class="text-center" style="z-index: 1; color: black">
                 Sign in to follow users.
               </p>
               {% elif current_user != user %} {% if
               current_user.is_following(user.id) %}
+              <!-- XXXXXXXXXXXXXXXXXX -->
 
-              <button
-                type="button"
+              <a
                 class="btn btn-primary"
                 data-mdb-ripple-color="dark"
                 style="z-index: 1"
+                href="/unfollow/{{ user.id }}"
               >
-                <a
-                  style="text-decoration: none; color: white"
-                  href="/unfollow/{{ user.id }}"
-                  >Unfollow</a
-                >
-              </button>
+                Unfollow
+              </a>
+
               {% else %}
-              <button
+              <a
                 type="button"
                 class="btn btn-primary"
                 data-mdb-ripple-color="dark"
                 style="z-index: 1"
+                href="/follow/{{ user.id }}"
+                >Follow</a
               >
-                <a
-                  style="text-decoration: none; color: white"
-                  href="/follow/{{ user.id }}"
-                  >Follow</a
-                >
-              </button>
+
               {% endif %} {% else %}
-              <button
+
+              <a
                 type="button"
                 class="btn btn-outline-dark"
                 data-mdb-ripple-color="dark"
                 style="z-index: 1"
+                href="./{{ user.username }}/edit"
+                >Edit Profile</a
               >
-                <a
-                  style="text-decoration: none"
-                  href="./{{ user.username }}/edit"
-                  >Edit Profile</a
-                >
-              </button>
+
               {% endif %}
             </div>
             <div class="ms-3" style="margin-top: 130px">
