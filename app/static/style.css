@@ -11,7 +11,7 @@ background: linear-gradient(47deg, rgba(0,0,0,0.9867297260701156) 50%, rgba(60,0
 }   
 
 .dark-mode-text {
-    color:rgb(231, 224, 224);
+    color:rgb(190, 188, 188);
 }
 
 .None-mode-text {
@@ -22,17 +22,53 @@ background: linear-gradient(47deg, rgba(0,0,0,0.9867297260701156) 50%, rgba(60,0
     color:rgb(10, 10, 10);
 }
 
-.dark-mode-bg {
-    background-color: black;
+
+/* white in light, black in dark */
+.None-mode-theme {
+    background-color: white;
+}
+.light-mode-theme {
+    background-color: white;
+}
+.dark-mode-theme {
+    background-color: #404040;
 }
 
-.light-mode-bg {
-    background-color: gray;
+
+.dark-mode-line {
+    
+        height: 3.33px;
+        background: white;
+
 }
 
-.None-mode-bg {
-    background-color: gray;
+.light-mode-line {
+    color: 	black;
+    border-color: black
 }
+
+.None-mode-line {
+    color: 	black;
+    border-color: black    
+}
+
+
+.dark-mode-border {
+    
+        border-color: white
+        
+}
+
+.light-mode-border {
+
+    border-color: black
+}
+
+.None-mode-border {
+
+    border-color: black    
+}
+
 
 
 .login_icon {
