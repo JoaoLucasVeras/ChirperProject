@@ -55,17 +55,6 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           {% if current_user.is_authenticated %}
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-            <button
-              class="navbar-toggler"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#navbarSupportedContent"
-              aria-controls="navbarSupportedContent"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-            >
-              <span class="navbar-toggler-icon"></span>
-            </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               {% if current_user.is_authenticated %}
               <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -143,25 +132,28 @@
 
     <div class="fixed-bottom d-flex">
       {% if session.get('theme')=='dark' %}
-      <button
+      <a class="ms-auto mx-2 mb-2" style="text-decoration: none" href="/theme">
+          <button
         type=" button"
         class="btn btn-light ms-auto mx-3 mb-2"
         data-mdb-ripple-color="dark"
       >
-        <a style="text-decoration: none" href="/theme">
-          <h6><i class="bi bi-brightness-high"></i></h6>
-        </a>
+        <h6><i class="bi bi-brightness-high"></i></h6>
       </button>
+        </a>
+      
       {% else %}
-      <button
+      <a class="ms-auto mx-2 mb-2" style="text-decoration: none" href="/theme">
+          
+          <button
         type=" button"
         class="btn btn-dark ms-auto mx-3 mb-2"
         data-mdb-ripple-color="dark"
       >
-        <a style="text-decoration: none" href="/theme">
-          <h6><i class="bi bi-cloud-moon"></i></h6>
-        </a>
+        <h6><i class="bi bi-cloud-moon"></i></h6>
       </button>
+        </a>
+      
       {% endif %}
     </div>
 
