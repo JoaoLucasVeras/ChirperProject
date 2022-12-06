@@ -1,6 +1,6 @@
 import requests
 import os
-
+from flask import session
 def get_location():
     
     response = requests.get(f"https://api.maptiler.com/geolocation/ip.json?key={os.environ.get('MAP_KEY')}").json()
@@ -22,7 +22,6 @@ def get_weather():
     res['min_temp'] = round(obj["main"]["temp_min"])
     res['max_temp'] = round(obj["main"]["temp_max"])
     return res
-
 
 if __name__ == '__main__':
     get_location()

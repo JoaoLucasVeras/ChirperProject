@@ -136,17 +136,19 @@
           {%for person in followers%}
 
           <div class="d-flex" style="padding: 5px">
-            <strong class="d-inline-block {{session.get('theme')}}-mode-text">
+            <strong class="d-inline-block ">
+              
+
+              <a class="{{session.get('theme')}}-mode-text text-decoration-none"
+                href="/user/{{User.query.filter_by(id=person).one().username}}"
+              >
+              
               <img
                 src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
                 alt="Generic placeholder image"
                 class="img-thumbnail align-self-start"
                 style="width: 50px; z-index: 1; border-radius: 20px"
               />
-
-              <a
-                href="/user/{{User.query.filter_by(id=person).one().username}}"
-              >
                 {{User.query.filter_by(id=person).one().username}}
               </a>
             </strong>
