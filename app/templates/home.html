@@ -122,7 +122,31 @@
         </div>
       </div>
       <div class="col-lg-3">
-        <div class="card shadow">TODO: Display Followees here</div>
+        <div class="card shadow">
+          <h1 style="text-align: center; color: grey">Followers</h1>
+          <hr />
+          {%for person in followers%}
+
+          <div class="d-flex" style="padding: 5px">
+            <strong class="d-inline-block text-primary">
+              <img
+                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                alt="Generic placeholder image"
+                class="img-thumbnail align-self-start"
+                style="width: 50px; z-index: 1; border-radius: 20px"
+              />
+
+              <a
+                href="/user/ {{User.query.filter_by(id=person).one().username}}"
+              >
+                {{User.query.filter_by(id=person).one().username}}
+              </a>
+            </strong>
+          </div>
+          <hr />
+        </div>
+
+        {%endfor%}
       </div>
     </div>
   </div>

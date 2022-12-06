@@ -36,7 +36,7 @@ def home():
         chirp_len = len(posts)
         
         
-        return render_template('home.html', weather=weather, form=form, chirps=posts, len = chirp_len, User = User)
+        return render_template('home.html', weather=weather, form=form, chirps=posts, len = chirp_len, User = User, followers=current_user.get_followers())
 
 
     return redirect(url_for('login'))
