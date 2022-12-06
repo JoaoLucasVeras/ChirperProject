@@ -2,6 +2,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from app import login
 from flask_login import UserMixin
 from app import db
+from datetime import date, datetime
 
 
 class User(db.Model, UserMixin):
@@ -53,7 +54,9 @@ class Chirp(db.Model):
     text = db.Column(db.String(2000))
     image_name = db.Column(db.Integer) #look into
     likes = db.Column(db.Integer)
-    
+    #datetime_posted = db.Column(db.Datetime)
+    date_posted = db.Column(db.Date)
+
 
 @login.user_loader
 def load_user(username):

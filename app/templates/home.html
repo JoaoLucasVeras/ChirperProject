@@ -110,6 +110,9 @@
                     {{User.query.filter_by(id=chirp.user_id).one().nickname}}
                   </a>
                 </strong>
+
+                <font size="1">{{chirp.date_posted}}</font>
+
                 <p class="card-text">{{chirp.text}}</p>
               </div>
             </div>
