@@ -78,7 +78,7 @@ $ pip3 installl requests
 #### Status
 We have implemented 11 functonal requirements so far except for #9.
 
-https://user-images.githubusercontent.com/103005381/205788795-4f8c3331-aeae-4188-b0b1-02dcfca69879.mp4
+
 
 
 
