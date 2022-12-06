@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -16,7 +16,6 @@
     />
 
     <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}" />
-    
 
     <title>{% block title %} {% endblock %}</title>
   </head>
@@ -56,80 +55,115 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           {% if current_user.is_authenticated %}
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li class="nav-item mx-4">
-              <a class="nav-link active" href="{{url_for('home')}}">Home</a>
-            </li>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              {% if current_user.is_authenticated %}
+              <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item mx-4">
+                  <a class="nav-link active" href="{{url_for('home')}}">Home</a>
+                </li>
 
-                {% if current_user.is_authenticated %}
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item mx-4">
-                        <a class="nav-link active" href="{{url_for('home')}}">Home</a>
+                <li class="nav-item dropdown mx-4">
+                  <a
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    id="navbarDropdown"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aira-expanded="false"
+                  >
+                    Menu
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="{{ url_for('user_profile', username=current_user.username ) }}"
+                        >Profile</a
+                      >
                     </li>
-                    
-                    <li class="nav-item dropdown mx-4">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aira-expanded="false">
-                            Menu
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li> <a class="dropdown-item"
-                                    href="{{ url_for('user_profile', username=current_user.username ) }}">Profile</a>
-                            </li>
-                            <li> <a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a></li>
-                            <li> <a class="dropdown-item"
-                                    href="{{ url_for('delete', username=current_user.username) }}">Delete Account</a>
-                            </li>
-                        </ul>
+                    <li>
+                      <a class="dropdown-item" href="{{ url_for('logout') }}"
+                        >Logout</a
+                      >
                     </li>
-                    <form class="mx-auto" action="/search" method="POST">
-                        {{search_form.csrf_token}}
-                        {{search_form.input}}{{search_form.search}}
-                    </form>
-
-                </ul>
-                {% else %}
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item dropdown mx-4">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-bs-toggle="dropdown" aira-expanded="false">
-                            Menu
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li> <a class="dropdown-item" href="{{ url_for('login') }}">Login</a></li>
-                        </ul>
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="{{ url_for('delete', username=current_user.username) }}"
+                        >Delete Account</a
+                      >
                     </li>
-                </ul>
-                {% endif %}
+                  </ul>
+                </li>
+                <form class="mx-auto" action="/search" method="POST">
+                  {{search_form.csrf_token}}
+                  {{search_form.input}}{{search_form.search}}
+                </form>
+              </ul>
+              {% else %}
+              <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item dropdown mx-4">
+                  <a
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    id="navbarDropdown"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aira-expanded="false"
+                  >
+                    Menu
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li>
+                      <a class="dropdown-item" href="{{ url_for('login') }}"
+                        >Login</a
+                      >
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+              {% endif %}
             </div>
+          </ul>
         </div>
+        {%endif%}
       </div>
     </nav>
-    
+
     <div class="fixed-bottom d-flex">
       {% if session.get('theme')=='dark' %}
-      <button type=" button" class="btn btn-light ms-auto mx-3 mb-2 " data-mdb-ripple-color="dark">
-        <a style="text-decoration: none;" href="/theme">
-          
-            <h6><i class="bi bi-brightness-high"></i></h6>
-            
+      <button
+        type=" button"
+        class="btn btn-light ms-auto mx-3 mb-2"
+        data-mdb-ripple-color="dark"
+      >
+        <a style="text-decoration: none" href="/theme">
+          <h6><i class="bi bi-brightness-high"></i></h6>
         </a>
-        </button>
-      {% else %}  
-        <button type=" button" class="btn btn-dark ms-auto mx-3 mb-2 " data-mdb-ripple-color="dark">
-          <a style="text-decoration: none;" href="/theme">
-            <h6><i class="bi bi-cloud-moon"></i></h6>
-          </a>
-        </button>
-          {% endif %}
-        
-  </div>
+      </button>
+      {% else %}
+      <button
+        type=" button"
+        class="btn btn-dark ms-auto mx-3 mb-2"
+        data-mdb-ripple-color="dark"
+      >
+        <a style="text-decoration: none" href="/theme">
+          <h6><i class="bi bi-cloud-moon"></i></h6>
+        </a>
+      </button>
+      {% endif %}
+    </div>
 
     {% block content %} {% endblock %}
   </body>
