@@ -15,7 +15,7 @@ Simple Twitter replica app created with Flask, SQL, Bootstrap
 * [Status](#status)
 
 #### Introduction
-Chirper app is 
+Chirper app is a social networking website where user can post messages known as "chirps". User can interact with other users by following them. User can also update their bio and nickname through edit profile. Chirper can be used on the mobile or pc with internet connection. 
 
 #### Technologies
 Project is created with the following packages:
