@@ -46,6 +46,7 @@ Project is created with the following packages:
 * WTForms            3.0.1
 * zipp               3.10.0
 
+- Must have 64-bit python 3 installed
 - Add MySQL Database Connection to environment file as (DB_CONNECTION) in this format: "username:password@host:port/databasename"
 - Add a secret key to SECRET_KEY in the environment file
 
