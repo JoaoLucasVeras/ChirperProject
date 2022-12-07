@@ -14,10 +14,10 @@ Simple Twitter replica app created with Flask, SQL, Bootstrap
 * [Setup](#setup)
 * [Status](#status)
 
-#### Introduction
+### Introduction
 Chirper app is a social networking website where user can post messages known as "chirps". User can interact with other users by following them. User can also update their bio and nickname through edit profile. Chirper can be used on the mobile or pc with internet connection. 
 
-#### Technologies
+### Technologies
 Project is created with the following packages:
 
 * certifi            2022.9.24
@@ -49,14 +49,14 @@ Project is created with the following packages:
 - Add MySQL Database Connection to environment file as (DB_CONNECTION) in this format: "username:password@host:port/databasename"
 - Add a secret key to SECRET_KEY in the environment file
 
-#### Setup
+### Setup
 To run this project, install:
 ```
 $ pip3 install flask
 $ pip3 install flask-wtf flask-sqlalchemy flask-login
 $ pip3 installl requests
 ```
-#### Functional Requirements
+### Functional Requirements
 1. Login (Joao)
 2. Logout (Romuz)
 3. Create New Account (Tan)
@@ -69,13 +69,13 @@ $ pip3 installl requests
 10. Connect with External API (Romuz)
 11. Users Profile (Tan)
 12. Authentication (verified) (Choyee)
-#### Non-functional Requirements
+### Non-functional Requirements
 1. Using elements from Bootstrap (Jaoa)
 2. Date format shall follow month-day-year (Choyee)
 3. Dark Mode (Tan)
 4. Responsive UI (Romuz)
 
-#### Status
+### Status
 We have implemented 11 functonal requirements so far except for #9.
 
 
