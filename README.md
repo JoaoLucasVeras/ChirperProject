@@ -46,16 +46,22 @@ Project is created with the following packages:
 * WTForms            3.0.1
 * zipp               3.10.0
 
-- Must have 64-bit python 3 installed
-- Add MySQL Database Connection to environment file as (DB_CONNECTION) in this format: "username:password@host:port/databasename"
-- Add a secret key to SECRET_KEY in the environment file
-
 ### Setup
-To run this project, install:
+- Install python. Must have 64-bit python 3 installed
+- Install the required packages
+- Create an environment file (`.env`) inside the repo (outside the app folder).
+
+Populate the `.env` file with the following values:
 ```
-$ pip3 install flask
-$ pip3 install flask-wtf flask-sqlalchemy flask-login
-$ pip3 installl requests
+DB_CONNECTION="admin01@chirperdb:chirper-admin22@chirperdb.mysql.database.azure.com:3306/app"
+SECRET_KEY="NeverGonnaGiveYouUpNeverGonnaLetYouDown"
+OPENWEATHER_API_KEY="b3a26bdb8d20554fb7b2157c6a32695b"
+MAP_KEY="79Cato3BXsCCQ0YOvlYj"
+```
+
+To launch the application locally, run the following command:
+```
+py run.py
 ```
 ### Functional Requirements
 1. Login (Joao)
