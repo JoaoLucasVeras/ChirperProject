@@ -4,7 +4,7 @@ from flask_login import UserMixin
 from app import db
 from datetime import date, datetime
 
-
+#User DB Model
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, unique=True)
@@ -47,6 +47,7 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return f'<User: {self.username}>'
 
+#Post "Chirp" DB Model
 class Chirp(db.Model):
     __tablename__ = 'chirp'
     id = db.Column(db.Integer, primary_key=True)
@@ -62,7 +63,7 @@ class Chirp(db.Model):
 def load_user(username):
     return User.query.get(str(username))
 
-
+#Following DB Model
 class Following(db.Model):
     __tablename__ = 'following'
     __table_args__ = (

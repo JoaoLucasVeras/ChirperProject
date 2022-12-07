@@ -1,3 +1,4 @@
+#Imports
 from app import myapp_obj
 from flask import render_template, redirect, flash, url_for, request, session
 from app.forms import LogIn_Form, SignUp_Form, EditProfile_Form, Delete_Form, Search_Form, Post_Form 
@@ -9,20 +10,29 @@ from sqlalchemy import exc
 from app import db
 from datetime import date, datetime
 
+
+#Home page route
 @myapp_obj.route('/home', methods = ['POST', 'GET'])
 @myapp_obj.route('/', methods = ['POST', 'GET'])
 def home():
     form = Post_Form()
-
+    
+    #Checks if user is logged in
     if current_user.is_authenticated:
+
+        #Grabs external weather API
         weather = get_weather()
+
+        #Post Form
         if form.validate_on_submit():
+            #Saves input into DB
             chirp = Chirp(text=form.text.data, user_id=current_user.id, likes=0, date_posted = date.today())
             db.session.add(chirp)
             db.session.commit()
             return redirect('/home')
-        posts = []
         
+        #Gets all posts from DB
+        posts = []
         total = Chirp.query.count()
         if(total>=5):
             for i in range(total, total-5, -1):
@@ -35,22 +45,25 @@ def home():
                 
         chirp_len = len(posts)
         
-        
+        #Renders in home.html
         return render_template('home.html', weather=weather, form=form, chirps=posts, len = chirp_len, User = User, followers=current_user.get_followers())
 
-
+    #redirects to login page if user is not logged in
     return redirect(url_for('login'))
 
 
-
+#Login Page route
 @myapp_obj.route("/login", methods=['POST', 'GET'])
 def login():
     try:
+
+        #Login form
         form = LogIn_Form()
         if form.validate_on_submit():
 
             user = User.query.filter_by(username=form.username.data).first()
 
+            #If username and password is incorrect
             if not user or not user.check_password(form.password.data):
                 flash('Username or password is not correct!')
                 return redirect('/login')
@@ -61,15 +74,18 @@ def login():
     except exc.SQLAlchemyError as err:
         db.session.rollback()
         print(err)
-        return "Unexpected error encountered"
+        return "Unexpected error encountered! Please refresh."
 
-
+#Sign-up Page route
 @myapp_obj.route('/sign-up', methods=['POST', 'GET'])
 def sign_up():
     try:
         form = SignUp_Form()
+
+        #Sign-up Form
         if form.validate_on_submit():
             hashedPassword = generate_password_hash(form.password.data)
+            #Saves Input into DB
             user = User(username=form.username.data,
                         email=form.email.data, password=hashedPassword)
             db.session.add(user)
@@ -79,57 +95,69 @@ def sign_up():
     except exc.SQLAlchemyError as err:
         db.session.rollback()
         print(err)
-        return "Unexpected error encountered"
+        return "Unexpected error encountered! Please refresh."
 
-
+#Logout Route
 @myapp_obj.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('login'))
 
+#User Profile Route
 @myapp_obj.route('/user/<username>', methods=['GET', 'POST'])
 def user_profile(username):
     try:
+        #Getting Data from Database
         user = User.query.filter_by(username=username).first()
         chirp = Chirp.query.filter_by(user_id=user.id).all()
         chirp_len = len(chirp)
         
+        #User DNE
         if not user:
             flash('This user does not exist')
             return redirect('/')
 
+        #On your own Profile
         if request.method == 'GET':
             return render_template('user_profile.html', user=user, chirp=chirp, len = chirp_len)
 
+        #On other user profile
         if current_user != user:
             flash("You don't have permission to this resource")
             return render_template('user_profile.html', user=user, chirp=chirp, len = chirp_len)
 
+        #Edit Form cancel
         form = EditProfile_Form()
         if form.cancel.data:
             return render_template('user_profile.html', user=user, chirp=chirp, len = chirp_len)
 
+        #Delete User
         if request.form.get("_method") == "DELETE":
             db.session.delete(user)
             db.session.commit()
             return redirect(url_for('login'))
 
+        #Edit Form on User profile page
         if request.form.get("_method") == "PUT" and form.validate_on_submit():
             user.bio = form.bio.data
             user.nickname = form.nickname.data
             db.session.commit()
             return render_template('user_profile.html', user=user, chirp=chirp, len = chirp_len)
         
+
         return render_template('edit_profile.html', form=form, user=user)
     except exc.SQLAlchemyError as err:
         db.session.rollback()
         print(err)
-        return "Unexpected error encountered"
+        return "Unexpected error encountered! Please refresh."
 
+#Edit Page Route
 @myapp_obj.route('/user/<username>/edit', methods=['GET', 'POST'])
 def edit_profile(username):
     try:
         form = EditProfile_Form()
+        
+        #Gets data from DB
         user = User.query.filter_by(username=username).first()
 
         # Check if authenticated user is the same as the user whose profile is being viewed
@@ -137,6 +165,7 @@ def edit_profile(username):
             flash('You are unauthorized to access this resource')
             return redirect(f'/user/{username}')
 
+        #Gets data from user input
         if request.method == "GET":
             form.bio.data = user.bio
             form.nickname.data = user.nickname
@@ -145,9 +174,9 @@ def edit_profile(username):
     except exc.SQLAlchemyError as err:
         db.session.rollback()
         print(err)
-        return "Unexpected error encountered"
+        return "Unexpected error encountered! Please refresh."
 
-
+#Follower Route
 @myapp_obj.route('/follow/<int:id>')
 @login_required
 def follow(id):
@@ -166,7 +195,7 @@ def follow(id):
         print(e)
         return redirect(url_for('home'))
 
-
+#Unfollower Route
 @myapp_obj.route('/unfollow/<int:id>')
 @login_required
 def unfollow(id):
@@ -188,15 +217,17 @@ def unfollow(id):
 
  
 
-
+#Delete Profile Route
 @myapp_obj.route('/user/<username>/delete', methods=['GET', 'POST'])
 def delete(username):
     form = Delete_Form()
+    #Switches to delete.html
     if request.method == 'GET':
         return render_template('delete.html', form=form, username=username)
 
     if form.cancel.data:
         return redirect(url_for('home'))
+
 
     if current_user.username != username:
         flash("You don't have permission to this resource")
@@ -208,18 +239,20 @@ def delete(username):
             flash('Password is not correct!')
             return render_template('delete.html', form=form, username=username)
 
+        #deletes user from DB
         db.session.delete(user)
         db.session.commit()
         return redirect('/login')
 
     return redirect(url_for('home'))
 
-# pass stuff to navbar
+# pass stuff to navbar 
 @myapp_obj.context_processor
 def base():
     form = Search_Form()
     return dict(search_form=form)
 
+#Search Bar Route
 @myapp_obj.route('/search', methods=['POST'])
 def search():
     form = Search_Form()
@@ -229,7 +262,7 @@ def search():
         user = user.order_by(User.username).all()
         return render_template('search.html', user=user, form=form)
     
-    
+#Dark Mode Route    
 @myapp_obj.route("/theme/", methods=['GET'])
 def theme():
     current_theme = session.get("theme")
