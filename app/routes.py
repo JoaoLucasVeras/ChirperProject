@@ -2,7 +2,7 @@
 from app import myapp_obj
 from flask import render_template, redirect, flash, url_for, request, session
 from app.forms import LogIn_Form, SignUp_Form, EditProfile_Form, Delete_Form, Search_Form, Post_Form 
-from app.models import User, Following, Chirp
+from app.models import Like, User, Following, Chirp
 from werkzeug.security import generate_password_hash
 from flask_login import current_user, login_required, login_user, logout_user
 from .functions import get_weather
@@ -42,11 +42,9 @@ def home():
             
             for i in range(total,0,-1):
                 posts.append(Chirp.query.filter_by(id=i).one())
-                
-        chirp_len = len(posts)
         
         #Renders in home.html
-        return render_template('home.html', weather=weather, form=form, chirps=posts, len = chirp_len, User = User, followers=current_user.get_followers())
+        return render_template('home.html', weather=weather, form=form, chirps=posts, User=User, followers=current_user.get_followers())
 
     #redirects to login page if user is not logged in
     return redirect(url_for('login'))
@@ -274,4 +272,21 @@ def theme():
     if request.referrer != 'http://127.0.0.1:5000/search':
         return redirect(request.referrer) 
     return redirect('/')
+
+@myapp_obj.route("/chirp/<int:id>/like", methods=["POST"])
+@login_required
+def likeOrUnlikeChirp(id):
+    like = Like.query.filter_by(user_id=current_user.id, chirp_id=id).first()
+
+    if not like:
+        # like a chirp
+        like = Like(current_user.id, id)
+        db.session.add(like)
+        db.session.commit()
+    else:
+        # undo a like
+        db.session.delete(like)
+        db.session.commit()
+    
+    return redirect(url_for("home"))
 

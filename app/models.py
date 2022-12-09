@@ -4,6 +4,10 @@ from flask_login import UserMixin
 from app import db
 from datetime import date, datetime
 
+@login.user_loader
+def load_user(username):
+    return User.query.get(str(username))
+
 #User DB Model
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -54,14 +58,13 @@ class Chirp(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     text = db.Column(db.String(2000))
     image_name = db.Column(db.Integer) #look into
-    likes = db.Column(db.Integer)
     #datetime_posted = db.Column(db.Datetime)
     date_posted = db.Column(db.Date)
 
-
-@login.user_loader
-def load_user(username):
-    return User.query.get(str(username))
+    def getLikes(self):
+        likes = db.session.query(Like.user_id).filter_by(chirp_id=self.id).all()
+        res = [like[0] for like in likes]
+        return res
 
 #Following DB Model
 class Following(db.Model):
@@ -79,5 +82,22 @@ class Following(db.Model):
         
     def __repr__(self):
         return f'<User #{self.follower_id} is following #{self.followee_id}>'
+
+# Like Model
+class Like(db.Model):
+    __tablename__ = "like"
+    __table_args__ = (
+        db.PrimaryKeyConstraint('user_id', 'chirp_id'),
+    )
+
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    chirp_id = db.Column(db.Integer, db.ForeignKey('chirp.id'))
+
+    def __init__(self, user_id, chirp_id):
+        self.user_id = user_id
+        self.chirp_id = chirp_id
+        
+    def __repr__(self):
+        return f'<User #{self.user_id} liked chirp #{self.chirp_id}>'
 
 
