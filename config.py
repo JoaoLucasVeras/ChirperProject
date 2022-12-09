@@ -1,8 +1,10 @@
 from dotenv import load_dotenv
 import os
 
+#Looks into .env File
 load_dotenv()
 
+#Getting DB Info
 class Config(object):
     SQLALCHEMY_DATABASE_URI = 'mysql://'+os.environ.get("DB_CONNECTION")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
