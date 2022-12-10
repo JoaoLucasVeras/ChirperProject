@@ -16,7 +16,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(45), unique=True)
     bio = db.Column(db.String(2000))
     nickname = db.Column(db.String(45))
-
+    profile_icon = db.Column(db.String(45))
 
     def set_password(self, password):
         self.password = generate_password_hash(password)
@@ -58,7 +58,6 @@ class Chirp(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     text = db.Column(db.String(2000))
     image_name = db.Column(db.Integer) #look into
-    #datetime_posted = db.Column(db.Datetime)
     date_posted = db.Column(db.Date)
 
     def getLikes(self):
