@@ -3,8 +3,10 @@ import os
 from flask_sqlalchemy import SQLAlchemy
 from config import Config
 from flask_login import LoginManager
+from flask_wtf.csrf import CSRFProtect
 
 myapp_obj = Flask(__name__)
+CSRFProtect(myapp_obj)
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 

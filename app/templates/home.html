@@ -114,8 +114,9 @@
               <span class="d-flex justify-content-end {{session.get('theme')}}-mode-text align-self-end">
                 <form class="d-flex align-items-center" action="/chirp/{{ chirp.id }}/like" method="POST">
                   {{ form.csrf_token }}
-                  <button type="submit" class="mx-1" style="background: none; padding: 0px; border: none;">
-                    <i id="like-icon" class="like-btn"></i>
+                  {% set cls = "unlike-btn" if current_user.id in chirp.getLikes() else "like-btn" %}
+                  <button type="submit" class="mx-1 {{session.get('theme')}}-mode-text" style="background: none; padding: 0px; border: none;">
+                    <i id="like-icon" class="{{ cls }}"></i>
                   </button>
                   <span class="align-self-center">
                     {{ chirp.getLikes()|length }}
@@ -161,7 +162,26 @@
 </section>
 <script>
   $(function() {
-    $('.like-btn').addClass("mx-1 fa fa-thumbs-o-up")
+    $(".like-btn").addClass("mx-1 far fa-thumbs-up").hover(
+      function() {
+        $(this).removeClass("far fa-thumbs-up")
+        $(this).addClass("fas fa-thumbs-up text-success")
+      },
+      function() {
+        $(this).removeClass("fas fa-thumbs-up text-success")
+        $(this).addClass("far fa-thumbs-up")
+      }
+    )
+    $(".unlike-btn").addClass("mx-1 fas fa-thumbs-up text-success").hover(
+      function() {
+        $(this).removeClass("fas fa-thumbs-up text-success")
+        $(this).addClass("far fa-thumbs-up")
+      },
+      function() {
+        $(this).removeClass("far fa-thumbs-up")
+        $(this).addClass("fas fa-thumbs-up text-success")
+      }
+    )
   })
 </script>
 {% endblock %}

@@ -107,8 +107,7 @@ def user_profile(username):
     try:
         #Getting Data from Database
         user = User.query.filter_by(username=username).first()
-        chirp = Chirp.query.filter_by(user_id=user.id).all()
-        chirp_len = len(chirp)
+        chirps = Chirp.query.filter_by(user_id=user.id).all()
         
         #User DNE
         if not user:
@@ -117,17 +116,17 @@ def user_profile(username):
 
         #On your own Profile
         if request.method == 'GET':
-            return render_template('user_profile.html', user=user, chirp=chirp, len = chirp_len)
+            return render_template('user_profile.html', user=user, chirps=chirps)
 
         #On other user profile
         if current_user != user:
             flash("You don't have permission to this resource")
-            return render_template('user_profile.html', user=user, chirp=chirp, len = chirp_len)
+            return render_template('user_profile.html', user=user, chirps=chirps)
 
         #Edit Form cancel
         form = EditProfile_Form()
         if form.cancel.data:
-            return render_template('user_profile.html', user=user, chirp=chirp, len = chirp_len)
+            return render_template('user_profile.html', user=user, chirps=chirps)
 
         #Delete User
         if request.form.get("_method") == "DELETE":
@@ -140,7 +139,7 @@ def user_profile(username):
             user.bio = form.bio.data
             user.nickname = form.nickname.data
             db.session.commit()
-            return render_template('user_profile.html', user=user, chirp=chirp, len = chirp_len)
+            return render_template('user_profile.html', user=user, chirps=chirps)
         
 
         return render_template('edit_profile.html', form=form, user=user)
@@ -278,6 +277,8 @@ def theme():
 def likeOrUnlikeChirp(id):
     like = Like.query.filter_by(user_id=current_user.id, chirp_id=id).first()
 
+    back = request.referrer
+
     if not like:
         # like a chirp
         like = Like(current_user.id, id)
@@ -288,5 +289,5 @@ def likeOrUnlikeChirp(id):
         db.session.delete(like)
         db.session.commit()
     
-    return redirect(url_for("home"))
+    return redirect(back)
 
