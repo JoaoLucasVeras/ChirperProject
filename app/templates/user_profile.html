@@ -12,10 +12,10 @@ content %}
     outline: none;
     font-size: 15px;
   }
- 
+
   .collapsible:hover {
     background-color: #555;
-  } 
+  }
 
   .content1 {
     padding: 0 18px;
@@ -25,22 +25,16 @@ content %}
   }
 </style>
 <section class="h-100 ">
-  <div class="container py-5 h-100" >
-    <div class="row d-flex justify-content-center align-items-center h-100 " >
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100 ">
       {% set name = user.nickname if user.nickname else user.username %}
-      <div class="col col-lg-9 col-xl-7" >
+      <div class="col col-lg-9 col-xl-7">
         <div class="card">
-          <div
-            class="rounded-top d-flex flex-row {{session.get('theme')}}-mode-bg"
-            style=" height: 200px"
-          >
+          <div class="rounded-top d-flex flex-row {{session.get('theme')}}-mode-bg" style=" height: 200px">
             <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px">
-              <img
-                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
-                alt="Generic placeholder image"
-                class="img-fluid img-thumbnail mt-4 mb-2"
-                style="width: 150px; z-index: 1; border-radius: 20px"
-              />
+              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
+                style="width: 150px; z-index: 1; border-radius: 20px" />
 
               {% if not current_user.is_authenticated %}
               <p class="text-center" style="z-index: 1; color: black">
@@ -50,35 +44,18 @@ content %}
               current_user.is_following(user.id) %}
               <!-- XXXXXXXXXXXXXXXXXX -->
 
-              <a
-                class="btn btn-primary"
-                data-mdb-ripple-color="dark"
-                style="z-index: 1"
-                href="/unfollow/{{ user.id }}"
-              >
+              <a class="btn btn-primary" data-mdb-ripple-color="dark" style="z-index: 1" href="/unfollow/{{ user.id }}">
                 Unfollow
               </a>
 
               {% else %}
-              <a
-                type="button"
-                class="btn btn-primary"
-                data-mdb-ripple-color="dark"
-                style="z-index: 1"
-                href="/follow/{{ user.id }}"
-                >Follow</a
-              >
+              <a type="button" class="btn btn-primary" data-mdb-ripple-color="dark" style="z-index: 1"
+                href="/follow/{{ user.id }}">Follow</a>
 
               {% endif %} {% else %}
 
-              <a
-                type="button"
-                class="btn btn-primary"
-                data-mdb-ripple-color="dark"
-                style="z-index: 1"
-                href="./{{ user.username }}/edit"
-                >Edit Profile</a
-              >
+              <a type="button" class="btn btn-primary" data-mdb-ripple-color="dark" style="z-index: 1"
+                href="./{{ user.username }}/edit">Edit Profile</a>
 
               {% endif %}
             </div>
@@ -107,37 +84,24 @@ content %}
             <div class="mb-5">
               <div class="container text-center {{session.get('theme')}}-mode-text">
                 <div class="row">
-                  <div
-                    class="col border border-{{session.get('theme')}} mb-3"
-                    style="font-weight: bold; font-size: larger"
-                  >
+                  <div class="col border border-{{session.get('theme')}} mb-3"
+                    style="font-weight: bold; font-size: larger">
                     About
                   </div>
-                  <div
-                    class="col border border-{{session.get('theme')}} mb-3"
-                    style="font-weight: bold; font-size: larger"
-                  >
+                  <div class="col border border-{{session.get('theme')}} mb-3"
+                    style="font-weight: bold; font-size: larger">
                     Recent Activity
                   </div>
                   <div class="w-100"></div>
-                  <div
-                    class="col border border-light {{session.get('theme')}}-mode-bg"
-                    style="
-                     
-                      border-radius: 10px;
-                      padding: 100px 0;
-                    "
-                  >
+                  <div class="col border border-light {{session.get('theme')}}-mode-bg" style="
+                      border-radius: 10px; 
+                      padding: 100px 0;">
                     {{ user.bio if user.bio else "No information given." }}
                   </div>
-                  <div
-                    class="col border border-light {{session.get('theme')}}-mode-bg"
-                    style="
-                      
+                  <div class="col border border-light {{session.get('theme')}}-mode-bg" style="
                       border-radius: 10px;
-                      padding: 100px 0;
-                    "
-                  ></div>
+                      padding: 100px 0;">
+                  </div>
                 </div>
               </div>
             </div>
@@ -145,96 +109,153 @@ content %}
               <p class="lead fw-normal mb-0">Recent posts</p>
             </div>
 
-            {%if len < 3 %} {%for i in range(len-1, -1, -1)%}
-            <div
-              class="card-body d-flex flex-column align-items-start border border-light mt-2 {{session.get('theme')}}-mode-bg"
-              style=" border-radius: 10px"
-            >
+            {% set len = chirps|length %}
+            {% if len < 3 %} 
+              {% for i in range(len-1, -1, -1) %}
+                <div class="d-flex justify-content-between">
+                  <div class="d-flex">
+                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                      alt="Generic placeholder image" class="img-thumbnail align-self-start"
+                      style="width: 50px; z-index: 1; border-radius: 20px" />
+                    <div class="mx-1 {{session.get('theme')}}-mode-text">
+                      <strong class="d-inline-block">
+                        <p class="text-decoration-none {{session.get('theme')}}-mode-text">
+                          {{ name }}
+                        </p>
+                      </strong>
+                  
+                      <font size="1">{{chirps[i].date_posted}}</font>
+                      <p class="align-items-center {{session.get('theme')}}-mode-text">{{chirps[i].text}}</p>
+                    </div>
+                  </div>
+                  <span class="d-flex justify-content-end {{session.get('theme')}}-mode-text align-self-end">
+                    <form class="d-flex align-items-center" action="/chirp/{{ chirps[i].id }}/like" method="POST">
+                      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                      {% set cls = "unlike-btn" if current_user.id in chirps[i].getLikes() else "like-btn" %}
+                      <button type="submit" class="mx-1 {{session.get('theme')}}-mode-text" style="background: none; padding: 0px; border: none;">
+                        <i id="like-icon" class="{{ cls }}"></i>
+                      </button>
+                      <span class="align-self-center">
+                        {{ chirps[i].getLikes()|length }}
+                      </span>
+                    </form>
+                  </span>
+                </div>
+              {%endfor%} 
+            {%else%} 
+              {%for i in range(len-1,len-4,-1)%}
+          <div class="d-flex justify-content-between">
+            <div class="d-flex">
+              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                alt="Generic placeholder image" class="img-thumbnail align-self-start"
+                style="width: 50px; z-index: 1; border-radius: 20px" />
               <div class="mx-1 {{session.get('theme')}}-mode-text">
-                <strong class="d-inline-block mb-2 text-primary">
-                  <img
-                    src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
-                    alt="Generic placeholder image"
-                    class="img-fluid img-thumbnail mt-0 mb-0"
-                    style="width: 50px; z-index: 1; border-radius: 20px"
-                  />
-                  {{ name }}
+                <strong class="d-inline-block">
+                  <p class="text-decoration-none {{session.get('theme')}}-mode-text">
+                    {{ name }}
+                  </p>
                 </strong>
-                <font size="1">{{chirp[i].date_posted}}</font>
+          
+                <font size="1">{{chirps[i].date_posted}}</font>
+                <p class="align-items-center {{session.get('theme')}}-mode-text">{{chirps[i].text}}</p>
               </div>
-              <p class="card-text mb-auto">{{chirp[i].text}}</p>
             </div>
-            {%endfor%} {%else%} {%for i in range(len-1,len-4,-1)%}
-            <div
-              class="card-body d-flex flex-column align-items-start border border-light mt-2 {{session.get('theme')}}-mode-bg {{session.get('theme')}}-mode-text"
-              style=" border-radius: 10px"
-            >
-              <div class="mx-1">
-                <strong class="d-inline-block mb-2 text-primary">
-                  <img
-                    src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
-                    alt="Generic placeholder image"
-                    class="img-fluid img-thumbnail mt-0 mb-0"
-                    style="width: 50px; z-index: 1; border-radius: 20px"
-                  />
-                  {{ name }}
-                </strong>
-                <font size="1">{{chirp[i].date_posted}}</font>
+            <span class="d-flex justify-content-end {{session.get('theme')}}-mode-text align-self-end">
+              <form class="d-flex align-items-center" action="/chirp/{{ chirps[i].id }}/like" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                {% set cls = "unlike-btn" if current_user.id in chirps[i].getLikes() else "like-btn" %}
+                <button type="submit" class="mx-1 {{session.get('theme')}}-mode-text"
+                  style="background: none; padding: 0px; border: none;">
+                  <i id="like-icon" class="{{ cls }}"></i>
+                </button>
+                <span class="align-self-center">
+                  {{ chirps[i].getLikes()|length }}
+                </span>
+              </form>
+            </span>
+          </div>
+          {%endfor%}
+
+          <button type="button" class="collapsible mt-2">Show all</button>
+          <div class="content1">
+            {%for i in range(len-4,-1,-1)%}
+            <div class="d-flex justify-content-between">
+              <div class="d-flex">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                  alt="Generic placeholder image" class="img-thumbnail align-self-start"
+                  style="width: 50px; z-index: 1; border-radius: 20px" />
+                <div class="mx-1 {{session.get('theme')}}-mode-text">
+                  <strong class="d-inline-block">
+                    <p class="text-decoration-none {{session.get('theme')}}-mode-text">
+                      {{ name }}
+                    </p>
+                  </strong>
+            
+                  <font size="1">{{chirps[i].date_posted}}</font>
+                  <p class="align-items-center {{session.get('theme')}}-mode-text">{{chirps[i].text}}</p>
+                </div>
               </div>
-              <p class="card-text mb-auto ">{{chirp[i].text}}</p>
+              <span class="d-flex justify-content-end {{session.get('theme')}}-mode-text align-self-end">
+                <form class="d-flex align-items-center" action="/chirp/{{ chirps[i].id }}/like" method="POST">
+                  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                  {% set cls = "unlike-btn" if current_user.id in chirps[i].getLikes() else "like-btn" %}
+                  <button type="submit" class="mx-1 {{session.get('theme')}}-mode-text"
+                    style="background: none; padding: 0px; border: none;">
+                    <i id="like-icon" class="{{ cls }}"></i>
+                  </button>
+                  <span class="align-self-center">
+                    {{ chirps[i].getLikes()|length }}
+                  </span>
+                </form>
+              </span>
             </div>
             {%endfor%}
-
-
-
-
-
-
-            <button type="button" class="collapsible mt-2">Show all</button>
-            <div class="content1">
-              {%for i in range(len-4,-1,-1)%}
-              <div
-                class="card-body d-flex flex-column align-items-start border border-light mt-2 {{session.get('theme')}}-mode-bg {{session.get('theme')}}-mode-text" 
-                style=" border-radius: 10px"
-              >
-                <div class="mx-1">
-                  <strong class="d-inline-block mb-2 text-primary">
-                    <img
-                      src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
-                      alt="Generic placeholder image"
-                      class="img-fluid img-thumbnail mt-0 mb-0"
-                      style="width: 50px; z-index: 1; border-radius: 20px"
-                    />
-                    {{ name }}
-                  </strong>
-                  <font size="1">{{chirp[i].date_posted}}</font>
-                </div>
-                <p class="card-text mb-auto ">{{chirp[i].text}}</p>
-              </div>
-              {%endfor%}
-            </div>
-            {%endif%}
-
-            <script>
-              var coll = document.getElementsByClassName("collapsible");
-              var i;
-
-              for (i = 0; i < coll.length; i++) {
-                coll[i].addEventListener("click", function () {
-                  this.classList.toggle("active");
-                  var content = this.nextElementSibling;
-                  if (content.style.maxHeight) {
-                    content.style.maxHeight = null;
-                  } else {
-                    content.style.maxHeight = content.scrollHeight + "px";
-                  }
-                });
-              }
-            </script>
           </div>
+          {%endif%}
+
+          <script>
+            var coll = document.getElementsByClassName("collapsible");
+            var i;
+
+            for (i = 0; i < coll.length; i++) {
+              coll[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.maxHeight) {
+                  content.style.maxHeight = null;
+                } else {
+                  content.style.maxHeight = content.scrollHeight + "px";
+                }
+              });
+            }
+
+            $(function () {
+              $(".like-btn").addClass("mx-1 far fa-thumbs-up").hover(
+                function () {
+                  $(this).removeClass("far fa-thumbs-up")
+                  $(this).addClass("fas fa-thumbs-up text-success")
+                },
+                function () {
+                  $(this).removeClass("fas fa-thumbs-up text-success")
+                  $(this).addClass("far fa-thumbs-up")
+                }
+              )
+              $(".unlike-btn").addClass("mx-1 fas fa-thumbs-up text-success").hover(
+                function () {
+                  $(this).removeClass("fas fa-thumbs-up text-success")
+                  $(this).addClass("far fa-thumbs-up")
+                },
+                function () {
+                  $(this).removeClass("far fa-thumbs-up")
+                  $(this).addClass("fas fa-thumbs-up text-success")
+                }
+              )
+            })
+          </script>
         </div>
       </div>
     </div>
+  </div>
   </div>
 </section>
 {% endblock %}
