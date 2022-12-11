@@ -7,7 +7,7 @@
       <div class="col-lg-3 mb-2 mb-lg-0 mb-xl-0">
         <div class="card shadow py-2 text-center {{session.get('theme')}}-mode-theme">
           <div class="d-flex justify-content-center">
-            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+            <img src="{{ url_for('static', filename='images/'+current_user.profile_icon) }}"
               alt="Generic placeholder image" class="img-fluid img-thumbnail" style="width: 150px" />
           </div>
           <h5 class="text-center {{session.get('theme')}}-mode-text" style="
@@ -62,7 +62,7 @@
           <form class="mx-2" action="/home" method="POST">
             {{ form.csrf_token }}
             <strong class="d-inline-block mb-2 text-primary">
-              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+              <img src="{{ url_for('static', filename='images/'+current_user.profile_icon) }}"
                 alt="Generic placeholder image" class="img-fluid img-thumbnail mt-0 mb-0"
                 style="width: 50px; z-index: 1; border-radius: 20px" />
               {{ current_user.nickname }}
@@ -95,14 +95,15 @@
             {% for chirp in chirps %}
             <div class="d-flex justify-content-between">
               <div class="d-flex">
-                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                {% set user = User.query.filter_by(id=chirp.user_id).one() %}
+                <img src="{{ url_for('static', filename='images/'+user.profile_icon) }}"
                   alt="Generic placeholder image" class="img-thumbnail align-self-start"
                   style="width: 50px; z-index: 1; border-radius: 20px" />
                 <div class="mx-1 {{session.get('theme')}}-mode-text">
                   <strong class="d-inline-block">
                     <a class="text-decoration-none {{session.get('theme')}}-mode-text"
                       href="/user/{{User.query.filter_by(id=chirp.user_id).one().username}}">
-                      {{User.query.filter_by(id=chirp.user_id).one().nickname}}
+                      {{ user.nickname }}
                     </a>
                   </strong>
               
@@ -139,15 +140,14 @@
 
           <div class="d-flex" style="padding: 5px">
             <strong class="d-inline-block ">
-
-
+              {% set user = User.query.filter_by(id=person).one() %}
               <a class="{{session.get('theme')}}-mode-text text-decoration-none"
-                href="/user/{{User.query.filter_by(id=person).one().username}}">
+                href="/user/{{user.username}}">
 
-                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                <img src="{{ url_for('static', filename='images/'+user.profile_icon) }}"
                   alt="Generic placeholder image" class="img-thumbnail align-self-start"
                   style="width: 50px; z-index: 1; border-radius: 20px" />
-                {{User.query.filter_by(id=person).one().username}}
+                {{ user.username }}
               </a>
             </strong>
           </div>

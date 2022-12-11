@@ -17,7 +17,7 @@ content %}
                 href="{{ url_for('user_profile', username=u.username) }}"
               >
                 <img
-                  src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                  src="{{ url_for('static', filename='images/'+u.profile_icon) }}"
                   alt="Generic placeholder image"
                   class="img-thumbnail"
                   style="width: 100px; z-index: 0; border-radius: 20px"

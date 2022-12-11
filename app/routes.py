@@ -1,4 +1,5 @@
 #Imports
+import os
 from app import myapp_obj
 from flask import render_template, redirect, flash, url_for, request, session
 from app.forms import LogIn_Form, SignUp_Form, EditProfile_Form, Delete_Form, Search_Form, Post_Form 
@@ -8,8 +9,10 @@ from flask_login import current_user, login_required, login_user, logout_user
 from .functions import get_weather
 from sqlalchemy import exc
 from app import db
-from datetime import date, datetime
+from datetime import date
+import uuid
 
+IMAGE_PATH = f"{os.getcwd()}/app/static/images/"
 
 #Home page route
 @myapp_obj.route('/home', methods = ['POST', 'GET'])
@@ -84,8 +87,11 @@ def sign_up():
         if form.validate_on_submit():
             hashedPassword = generate_password_hash(form.password.data)
             #Saves Input into DB
-            user = User(username=form.username.data,
-                        email=form.email.data, password=hashedPassword)
+            user = User(
+                username=form.username.data,
+                email=form.email.data, 
+                password=hashedPassword,
+                profile_icon="default.png")
             db.session.add(user)
             db.session.commit()
             return redirect('/login')
@@ -136,11 +142,17 @@ def user_profile(username):
 
         #Edit Form on User profile page
         if request.form.get("_method") == "PUT" and form.validate_on_submit():
+            if form.icon.data:
+                # generate a unique name for the image
+                file = form.icon.data
+                extension = file.filename[-4:]
+                file.filename = uuid.uuid4().hex
+                file.save(f"{IMAGE_PATH}{file.filename}.{extension}")
+                user.profile_icon = f"{file.filename}.{extension}"
             user.bio = form.bio.data
             user.nickname = form.nickname.data
             db.session.commit()
             return render_template('user_profile.html', user=user, chirps=chirps)
-        
 
         return render_template('edit_profile.html', form=form, user=user)
     except exc.SQLAlchemyError as err:

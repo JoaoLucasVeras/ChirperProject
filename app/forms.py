@@ -1,4 +1,5 @@
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, ValidationError, TextAreaField
 from wtforms.validators import DataRequired, Email, Length, EqualTo
 from .models import User
@@ -34,6 +35,7 @@ class SignUp_Form(FlaskForm):
 class EditProfile_Form(FlaskForm):
     nickname = StringField('Nickname', validators=[DataRequired()])
     bio = TextAreaField('Bio', validators=[DataRequired()])
+    icon = FileField('Icon', validators=[FileAllowed(['jpg', 'png'], "Only .png or .jpg files allowed!")])
     cancel = SubmitField('Cancel')
     submit = SubmitField('Save Profile')
 

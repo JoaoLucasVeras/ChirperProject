@@ -1,6 +1,6 @@
 {% extends "base.html" %}
-{% block title %} Edit Profile {% endblock %} {% block
-content %}
+{% block title %} Edit Profile {% endblock %} 
+{% block content %}
 <section class="h-100">
   <div class="container py-5 h-100 ">
     <div class="row d-flex justify-content-center align-items-center h-100">
@@ -44,11 +44,11 @@ content %}
                   <div class="w-100"></div>
 
                   <div class="col border border-light {{session.get('theme')}}-mode-bg" style="
-                      
                       border-radius: 10px;
                       padding: 100px 0;
                     ">
-                    <form id="edit-form" action="/user/{{ user.username }}" method="POST" class="card-body w-75 mx-auto">
+                    <form id="edit-form" action="/user/{{ user.username }}" method="POST" enctype="multipart/form-data"
+                      class="card-body w-75 mx-auto">
                       {{ form.csrf_token }}
                       <input type="hidden" name="_method" value="PUT">
                       <div class="">
@@ -59,6 +59,11 @@ content %}
                       <div class="">
                         <label class="form-label">Bio:</label>
                         {{ form.bio(class="form-control bg-light", value="test bio") }}
+                      </div>
+                      <br />
+                      <div>
+                        <label for="" class="form-label">Profile Picture</label>
+                        {{ form.icon(class="form-control bg-light") }}
                       </div>
                       <br />
                       <div class="text-center">
