@@ -26,7 +26,7 @@ def home():
         #Post Form
         if form.validate_on_submit():
             #Saves input into DB
-            chirp = Chirp(text=form.text.data, user_id=current_user.id, likes=0, date_posted = date.today())
+            chirp = Chirp(text=form.text.data, user_id=current_user.id, date_posted = date.today())
             db.session.add(chirp)
             db.session.commit()
             return redirect('/home')
