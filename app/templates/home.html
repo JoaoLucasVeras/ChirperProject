@@ -1,0 +1,195 @@
+{% extends "base.html" %} 
+{% block title %} Home {% endblock %} 
+{% block content %}
+<section class="">
+  <div class="container-fluid py-4 h-100  ">
+    <div class="row">
+      <div class="col-lg-3 mb-2 mb-lg-0 mb-xl-0">
+        <div class="card shadow py-2 text-center {{session.get('theme')}}-mode-theme">
+          <div class="d-flex justify-content-center">
+            <img src="{{ url_for('static', filename='images/'+current_user.profile_icon) }}"
+              alt="Generic placeholder image" class="img-fluid img-thumbnail" style="width: 150px" />
+          </div>
+          <h5 class="text-center {{session.get('theme')}}-mode-text" style="
+              text-overflow: ellipsis;
+              word-wrap: break-word;
+              display: block;
+              line-height: 1em;
+              max-height: 1em;
+            " id="dynamicSpan">
+            {{current_user.username}}
+          </h5>
+          <hr class="mx-4 {{session.get('theme')}}-mode-line" />
+          <div
+            class="card mx-5 mx-lg-4 mx-xl-5 shadow-sm {{session.get('theme')}}-mode-text {{session.get('theme')}}-mode-theme {{session.get('theme')}}-mode-border"
+            style=" border-radius: 35px">
+            <div class="card-body">
+              <h6 class="text-center">
+                {{weather['location']}}, {{weather['country']}}
+              </h6>
+
+              <div class="d-flex flex-column text-center">
+                <h6 class="font-weight-bold">Now:</h6>
+                <h6 class="font-weight-bold">
+                  {{weather['description']}}
+                </h6>
+                <h6 class="display-5 font-weight-bold">
+                  {{weather['temp']}}℃
+                </h6>
+                <span class="small">Feels like: {{weather['feels_like']}}℃</span>
+              </div>
+
+              <div class="d-flex align-items-center">
+                <div class="flex-grow-1" style="font-size: 1rem">
+                  <div>
+                    <i class="fas fa-wind fa-fw"></i>
+                    <span class="ms-1">
+                      Highest: {{weather['max_temp']}}℃
+                    </span>
+                  </div>
+                  <div>
+                    <i class="fas fa-tint fa-fw"></i>
+                    <span class="ms-1"> Lowest: {{weather['min_temp']}}℃ </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 mb-2 mb-lg-0 mb-xl-0">
+        <div class="card shadow py-2 mb-2 d-flex {{session.get('theme')}}-mode-theme">
+          <form class="mx-2" action="/home" method="POST">
+            {{ form.csrf_token }}
+            <strong class="d-inline-block mb-2 text-primary">
+              <img src="{{ url_for('static', filename='images/'+current_user.profile_icon) }}"
+                alt="Generic placeholder image" class="img-fluid img-thumbnail mt-0 mb-0"
+                style="width: 50px; z-index: 1; border-radius: 20px" />
+              {% if current_user.nickname != None %}
+                        {{ current_user.nickname }}
+                      {% else %}
+                        {{ current_user.username }}
+                      {% endif %}
+            </strong>
+            {% if session.get('theme')=='dark' %}
+            <div>
+              {{
+                form.text(class="form-control ",style="background-color:#404040; color:white", placeholder="Post a chirp",
+                cols="35")
+              }}
+            </div>
+            {% else %}
+            <div>
+              {{
+                form.text(class="form-control ", style="background-color:while; color:black", placeholder="Post a chirp",
+              cols="35")}}
+            </div>
+            {% endif %}
+            <div class="d-flex flex-row-reverse mt-2">
+              {% set color = "text-white" if session.get("theme") == "dark" else "text-primary" %}
+              {{form.cancel(class="btn "+color, value="Clear",
+              formnovalidate=True)}} {{form.submit(class=" btn btn-primary",
+              value="Post")}}
+              <br />
+            </div>
+          </form>
+        </div>
+        <div class="card shadow pt-2 {{session.get('theme')}}-mode-theme">
+          <div class="card-body mx-2">
+            {% for chirp in chirps %}
+            <div class="d-flex justify-content-between">
+              <div class="d-flex">
+                {% set user = User.query.filter_by(id=chirp.user_id).one() %}
+                <img src="{{ url_for('static', filename='images/'+user.profile_icon) }}"
+                  alt="Generic placeholder image" class="img-thumbnail align-self-start"
+                  style="width: 50px; z-index: 1; border-radius: 20px" />
+                <div class="mx-1 {{session.get('theme')}}-mode-text">
+                  <strong class="d-inline-block">
+                    <a class="text-decoration-none {{session.get('theme')}}-mode-text"
+                      href="/user/{{User.query.filter_by(id=chirp.user_id).one().username}}">
+                      {% if user.nickname != None %}
+                        {{ user.nickname }}
+                      {% else %}
+                        {{ user.username }}
+                      {% endif %}
+                    </a>
+                  </strong>
+              
+                  <font size="1">{{chirp.date_posted}}</font>
+              
+                  <p class="card-text {{session.get('theme')}}-mode-text">{{chirp.text}}</p>
+                </div>
+              </div>
+              <span class="d-flex justify-content-end {{session.get('theme')}}-mode-text align-self-end">
+                <form class="d-flex align-items-center" action="/chirp/{{ chirp.id }}/like" method="POST">
+                  {{ form.csrf_token }}
+                  {% set cls = "unlike-btn" if current_user.id in chirp.getLikes() else "like-btn" %}
+                  <button type="submit" class="mx-1 {{session.get('theme')}}-mode-text" style="background: none; padding: 0px; border: none;">
+                    <i id="like-icon" class="{{ cls }}"></i>
+                  </button>
+                  <span class="align-self-center">
+                    {{ chirp.getLikes()|length }}
+                  </span>
+                </form>
+              </span>
+            </div>
+            
+            <hr class="{{session.get('theme')}}-mode-line" />
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 mb-2 mb-lg-0 mb-xl-0">
+        <div class="card shadow {{session.get('theme')}}-mode-theme {{session.get('theme')}}-mode-text">
+          <h1 style="text-align:center;">Followers</h1>
+          <hr class="{{session.get('theme')}}-mode-line" />
+          {%for person in followers%}
+
+          <div class="d-flex" style="padding: 5px">
+            <strong class="d-inline-block ">
+              {% set user = User.query.filter_by(id=person).one() %}
+              <a class="{{session.get('theme')}}-mode-text text-decoration-none"
+                href="/user/{{user.username}}">
+
+                <img src="{{ url_for('static', filename='images/'+user.profile_icon) }}"
+                  alt="Generic placeholder image" class="img-thumbnail align-self-start"
+                  style="width: 50px; z-index: 1; border-radius: 20px" />
+                {{ user.username }}
+              </a>
+            </strong>
+          </div>
+          <hr class="{{session.get('theme')}}-mode-line" />
+
+
+          {%endfor%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  $(function() {
+    $(".like-btn").addClass("mx-1 far fa-thumbs-up").hover(
+      function() {
+        $(this).removeClass("far fa-thumbs-up")
+        $(this).addClass("fas fa-thumbs-up text-success")
+      },
+      function() {
+        $(this).removeClass("fas fa-thumbs-up text-success")
+        $(this).addClass("far fa-thumbs-up")
+      }
+    )
+    $(".unlike-btn").addClass("mx-1 fas fa-thumbs-up text-success").hover(
+      function() {
+        $(this).removeClass("fas fa-thumbs-up text-success")
+        $(this).addClass("far fa-thumbs-up")
+      },
+      function() {
+        $(this).removeClass("far fa-thumbs-up")
+        $(this).addClass("fas fa-thumbs-up text-success")
+      }
+    )
+  })
+</script>
+{% endblock %}

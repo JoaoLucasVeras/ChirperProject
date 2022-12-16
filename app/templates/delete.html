@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %} Delete User {% endblock %} 
+{% block content %}
+{% for mes in get_flashed_messages() %}
+<div class="alert alert-danger text-center" role="alert">
+  <span>{{ mes }}</span>
+</div>
+{% endfor %}
+<div class="container d-flex justify-content-center">
+  <div class="card shadow-sm rounded my-4 signup-container {{session.get('theme')}}-mode-theme {{session.get('theme')}}-mode-text">
+    <form id="delete-form" action="/user/{{ username }}/delete" method="POST" class="card-body w-75 mx-auto">
+      {{ form.csrf_token }}
+      <input type="hidden" name="_method" value="DELETE">
+      <div class="">
+        <label class="form-label">You are about to delete your account! Confirm your password:</label>
+        {{form.password(class="form-control bg-light")}}
+      </div>
+      <br />
+      <div class="text-center">
+        {{form.cancel(class="btn btn btn-secondary", value="Cancel", formnovalidate=True)}}
+        {{form.submit(class="btn btn btn-primary", value="Confirm")}}
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

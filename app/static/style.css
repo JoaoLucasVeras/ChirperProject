@@ -1,0 +1,149 @@
+body {
+  background: rgb(236, 203, 232);
+  background: linear-gradient(
+    90deg,
+    rgba(236, 203, 232, 0.9867297260701156) 50%,
+    rgba(9, 121, 118, 1) 100%
+  );
+}
+
+body.dark-mode {
+  background: rgb(0, 0, 0);
+  background: linear-gradient(
+    47deg,
+    rgba(0, 0, 0, 0.9867297260701156) 50%,
+    rgba(60, 0, 77, 1) 100%
+  );
+}
+
+.dark-mode-text {
+  color: rgb(190, 188, 188);
+}
+
+.None-mode-text {
+  color: rgb(10, 10, 10);
+}
+
+.light-mode-text {
+  color: rgb(10, 10, 10);
+}
+
+.None-mode-theme {
+  background-color: white;
+}
+.light-mode-theme {
+  background-color: white;
+}
+.dark-mode-theme {
+  background-color: #404040;
+}
+
+.None-mode-bg {
+  background-color: lightgray;
+}
+.light-mode-bg{
+  background-color: lightgray;
+}
+.dark-mode-bg {
+  background-color: #404040;
+}
+
+.dark-mode-line {
+  height: 3.33px;
+  background: white;
+}
+
+.light-mode-line {
+  color: black;
+  border-color: black;
+}
+
+.None-mode-line {
+  color: black;
+  border-color: black;
+}
+
+.dark-mode-border {
+  border-color: white;
+}
+
+.light-mode-border {
+  border-color: black;
+}
+
+.None-mode-border {
+  border-color: black;
+}
+
+.login_icon {
+  width: 100%;
+  height: 100px;
+  padding: 4rem auto;
+}
+
+.icon {
+  width: 100%;
+  height: 60px;
+  padding: 0rem auto;
+}
+
+.form {
+  max-width: 500px;
+  width: 100%;
+  margin: 4rem auto;
+  padding: 7rem;
+}
+
+.login-btn {
+  padding-left: 10rem;
+  padding-top: 1rem;
+}
+
+.remember {
+  padding-top: 1em;
+  padding-left: 1em;
+}
+
+.sign-up-link {
+  padding-left: 6em;
+  padding-top: 2em;
+}
+
+.navbar-nav {
+  padding-right: 7rem;
+}
+
+.error_message {
+  color: red;
+}
+
+.gradient-custom-2 {
+  /* fallback for old browsers */
+  background: #fbc2eb;
+
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(
+    to right,
+    rgba(251, 194, 235, 1),
+    rgba(166, 193, 238, 1)
+  );
+
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(
+    to right,
+    rgba(251, 194, 235, 1),
+    rgba(166, 193, 238, 1)
+  );
+}
+
+.red {
+  color: red;
+}
+
+.blue {
+  color: blue;
+}
+
+.dark_mode_text {
+  color: #868b94;
+}

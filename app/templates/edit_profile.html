@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %} Edit Profile {% endblock %} 
+{% block content %}
+<section class="h-100">
+  <div class="container py-5 h-100 ">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col col-lg-9 col-xl-7">
+        <!-- !!!! -->
+        <div class="card ">
+          <div class="rounded-top text-white d-flex flex-row {{session.get('theme')}}-mode-bg" style=" height: 200px">
+            <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px">
+              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
+                style="width: 150px; z-index: 1; border-radius: 20px" />
+            </div>
+            <div class="ms-3 {{session.get('theme')}}-mode-text" style="margin-top: 130px">
+              <h5>{{ user.nickname if user.nickname else user.username }}</h5>
+              <p>{{ user.username }}</p>
+            </div>
+          </div>
+          <div class="p-4 text-black {{session.get('theme')}}-mode-bg ">
+            <div class="d-flex justify-content-end text-center py-1 {{session.get('theme')}}-mode-text">
+              <div>
+                <p class="mb-1 h5">0</p>
+                <p class="small text-muted mb-0">Posts</p>
+              </div>
+              <div class="px-3">
+                <p class="mb-1 h5">{{ user.follower_count() }}</p>
+                <p class="small text-muted mb-0">Followers</p>
+              </div>
+              <div>
+                <p class="mb-1 h5">{{ user.following_count() }} </p>
+                <p class="small text-muted mb-0">Following</p>
+              </div>
+            </div>
+          </div>
+          <div class="card-body p-4 {{session.get('theme')}}-mode-text {{session.get('theme')}}-mode-theme">
+            <div class="mb-5">
+              <div class="container text-center">
+                <div class="row">
+                  <div class="col border border-light mb-3" style="font-weight: bold; font-size: larger">
+                    About
+                  </div>
+                  <div class="w-100"></div>
+
+                  <div class="col border border-light {{session.get('theme')}}-mode-bg" style="
+                      border-radius: 10px;
+                      padding: 100px 0;
+                    ">
+                    <form id="edit-form" action="/user/{{ user.username }}" method="POST" enctype="multipart/form-data"
+                      class="card-body w-75 mx-auto">
+                      {{ form.csrf_token }}
+                      <input type="hidden" name="_method" value="PUT">
+                      <div class="">
+                        <label class="form-label">Name:</label>
+                        {{form.nickname(class="form-control bg-light")}}
+                      </div>
+                      <br />
+                      <div class="">
+                        <label class="form-label">Bio:</label>
+                        {{ form.bio(class="form-control bg-light", value="test bio") }}
+                      </div>
+                      <br />
+                      <div>
+                        <label for="" class="form-label">Profile Picture</label>
+                        {{ form.icon(class="form-control bg-light") }}
+                      </div>
+                      <br />
+                      <div class="text-center">
+                        {{form.cancel(class="btn btn btn-secondary", value="Cancel", formnovalidate=True)}}
+                        {{form.submit(class="btn btn btn-primary", value="Update")}}
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

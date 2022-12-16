@@ -1,0 +1,261 @@
+{% extends "base.html" %} {% block title %} User Profile {% endblock %} {% block
+content %}
+<style>
+  .collapsible {
+    background-color: darkgrey;
+    color: white;
+    cursor: pointer;
+
+    width: 100%;
+    border: none;
+    text-align: center;
+    outline: none;
+    font-size: 15px;
+  }
+
+  .collapsible:hover {
+    background-color: #555;
+  }
+
+  .content1 {
+    padding: 0 18px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+  }
+</style>
+<section class="h-100 ">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100 ">
+      {% set name = user.nickname if user.nickname else user.username %}
+      <div class="col col-lg-9 col-xl-7">
+        <div class="card">
+          <div class="rounded-top d-flex flex-row {{session.get('theme')}}-mode-bg" style=" height: 200px">
+            <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px">
+              <img src="{{ url_for('static', filename='images/'+user.profile_icon) }}"
+                alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
+                style="width: 150px; z-index: 1; border-radius: 20px" />
+
+              {% if not current_user.is_authenticated %}
+              <p class="text-center" style="z-index: 1; color: black">
+                Sign in to follow users.
+              </p>
+              {% elif current_user != user %} {% if
+              current_user.is_following(user.id) %}
+              <!-- XXXXXXXXXXXXXXXXXX -->
+
+              <a class="btn btn-primary" data-mdb-ripple-color="dark" style="z-index: 1" href="/unfollow/{{ user.id }}">
+                Unfollow
+              </a>
+
+              {% else %}
+              <a type="button" class="btn btn-primary" data-mdb-ripple-color="dark" style="z-index: 1"
+                href="/follow/{{ user.id }}">Follow</a>
+
+              {% endif %} {% else %}
+
+              <a type="button" class="btn btn-primary" data-mdb-ripple-color="dark" style="z-index: 1"
+                href="./{{ user.username }}/edit">Edit Profile</a>
+
+              {% endif %}
+            </div>
+            <div class="ms-3 {{session.get('theme')}}-mode-text" style="margin-top: 130px">
+              <h5>{{ name }}</h5>
+              <p>{{ user.username }}</p>
+            </div>
+          </div>
+          <div class="p-4 {{session.get('theme')}}-mode-text {{session.get('theme')}}-mode-theme">
+            <div class="d-flex justify-content-end text-center py-1 ">
+              <div>
+                <p class="mb-1 h5">0</p>
+                <p class="small text-muted mb-0">Posts</p>
+              </div>
+              <div class="px-3">
+                <p class="mb-1 h5">{{ user.follower_count() }}</p>
+                <p class="small text-muted mb-0">Followers</p>
+              </div>
+              <div>
+                <p class="mb-1 h5">{{ user.following_count() }}</p>
+                <p class="small text-muted mb-0">Following</p>
+              </div>
+            </div>
+          </div>
+          <div class="card-body p-4 text-black {{session.get('theme')}}-mode-theme">
+            <div class="mb-5">
+              <div class="container text-center {{session.get('theme')}}-mode-text">
+                <div class="row">
+                  <div class="col border border-{{session.get('theme')}} mb-3"
+                    style="font-weight: bold; font-size: larger">
+                    About
+                  </div>
+                  <div class="col border border-{{session.get('theme')}} mb-3"
+                    style="font-weight: bold; font-size: larger">
+                    Recent Activity
+                  </div>
+                  <div class="w-100"></div>
+                  <div class="col border border-light {{session.get('theme')}}-mode-bg" style="
+                      border-radius: 10px; 
+                      padding: 100px 0;">
+                    {{ user.bio if user.bio else "No information given." }}
+                  </div>
+                  <div class="col border border-light {{session.get('theme')}}-mode-bg" style="
+                      border-radius: 10px;
+                      padding: 100px 0;">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-4 {{session.get('theme')}}-mode-text">
+              <p class="lead fw-normal mb-0">Recent posts</p>
+            </div>
+
+            {% set len = chirps|length %}
+            {% if len < 3 %} 
+              {% for i in range(len-1, -1, -1) %}
+                <div class="d-flex justify-content-between">
+                  <div class="d-flex">
+                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                      alt="Generic placeholder image" class="img-thumbnail align-self-start"
+                      style="width: 50px; z-index: 1; border-radius: 20px" />
+                    <div class="mx-1 {{session.get('theme')}}-mode-text">
+                      <strong class="d-inline-block">
+                        <p class="text-decoration-none {{session.get('theme')}}-mode-text">
+                          {{ name }}
+                        </p>
+                      </strong>
+                  
+                      <font size="1">{{chirps[i].date_posted}}</font>
+                      <p class="align-items-center {{session.get('theme')}}-mode-text">{{chirps[i].text}}</p>
+                    </div>
+                  </div>
+                  <span class="d-flex justify-content-end {{session.get('theme')}}-mode-text align-self-end">
+                    <form class="d-flex align-items-center" action="/chirp/{{ chirps[i].id }}/like" method="POST">
+                      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                      {% set cls = "unlike-btn" if current_user.id in chirps[i].getLikes() else "like-btn" %}
+                      <button type="submit" class="mx-1 {{session.get('theme')}}-mode-text" style="background: none; padding: 0px; border: none;">
+                        <i id="like-icon" class="{{ cls }}"></i>
+                      </button>
+                      <span class="align-self-center">
+                        {{ chirps[i].getLikes()|length }}
+                      </span>
+                    </form>
+                  </span>
+                </div>
+              {%endfor%} 
+            {%else%} 
+              {%for i in range(len-1,len-4,-1)%}
+          <div class="d-flex justify-content-between">
+            <div class="d-flex">
+              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                alt="Generic placeholder image" class="img-thumbnail align-self-start"
+                style="width: 50px; z-index: 1; border-radius: 20px" />
+              <div class="mx-1 {{session.get('theme')}}-mode-text">
+                <strong class="d-inline-block">
+                  <p class="text-decoration-none {{session.get('theme')}}-mode-text">
+                    {{ name }}
+                  </p>
+                </strong>
+          
+                <font size="1">{{chirps[i].date_posted}}</font>
+                <p class="align-items-center {{session.get('theme')}}-mode-text">{{chirps[i].text}}</p>
+              </div>
+            </div>
+            <span class="d-flex justify-content-end {{session.get('theme')}}-mode-text align-self-end">
+              <form class="d-flex align-items-center" action="/chirp/{{ chirps[i].id }}/like" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                {% set cls = "unlike-btn" if current_user.id in chirps[i].getLikes() else "like-btn" %}
+                <button type="submit" class="mx-1 {{session.get('theme')}}-mode-text"
+                  style="background: none; padding: 0px; border: none;">
+                  <i id="like-icon" class="{{ cls }}"></i>
+                </button>
+                <span class="align-self-center">
+                  {{ chirps[i].getLikes()|length }}
+                </span>
+              </form>
+            </span>
+          </div>
+          {%endfor%}
+
+          <button type="button" class="collapsible mt-2">Show all</button>
+          <div class="content1">
+            {%for i in range(len-4,-1,-1)%}
+            <div class="d-flex justify-content-between">
+              <div class="d-flex">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                  alt="Generic placeholder image" class="img-thumbnail align-self-start"
+                  style="width: 50px; z-index: 1; border-radius: 20px" />
+                <div class="mx-1 {{session.get('theme')}}-mode-text">
+                  <strong class="d-inline-block">
+                    <p class="text-decoration-none {{session.get('theme')}}-mode-text">
+                      {{ name }}
+                    </p>
+                  </strong>
+            
+                  <font size="1">{{chirps[i].date_posted}}</font>
+                  <p class="align-items-center {{session.get('theme')}}-mode-text">{{chirps[i].text}}</p>
+                </div>
+              </div>
+              <span class="d-flex justify-content-end {{session.get('theme')}}-mode-text align-self-end">
+                <form class="d-flex align-items-center" action="/chirp/{{ chirps[i].id }}/like" method="POST">
+                  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                  {% set cls = "unlike-btn" if current_user.id in chirps[i].getLikes() else "like-btn" %}
+                  <button type="submit" class="mx-1 {{session.get('theme')}}-mode-text"
+                    style="background: none; padding: 0px; border: none;">
+                    <i id="like-icon" class="{{ cls }}"></i>
+                  </button>
+                  <span class="align-self-center">
+                    {{ chirps[i].getLikes()|length }}
+                  </span>
+                </form>
+              </span>
+            </div>
+            {%endfor%}
+          </div>
+          {%endif%}
+
+          <script>
+            var coll = document.getElementsByClassName("collapsible");
+            var i;
+
+            for (i = 0; i < coll.length; i++) {
+              coll[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.maxHeight) {
+                  content.style.maxHeight = null;
+                } else {
+                  content.style.maxHeight = content.scrollHeight + "px";
+                }
+              });
+            }
+
+            $(function () {
+              $(".like-btn").addClass("mx-1 far fa-thumbs-up").hover(
+                function () {
+                  $(this).removeClass("far fa-thumbs-up")
+                  $(this).addClass("fas fa-thumbs-up text-success")
+                },
+                function () {
+                  $(this).removeClass("fas fa-thumbs-up text-success")
+                  $(this).addClass("far fa-thumbs-up")
+                }
+              )
+              $(".unlike-btn").addClass("mx-1 fas fa-thumbs-up text-success").hover(
+                function () {
+                  $(this).removeClass("fas fa-thumbs-up text-success")
+                  $(this).addClass("far fa-thumbs-up")
+                },
+                function () {
+                  $(this).removeClass("far fa-thumbs-up")
+                  $(this).addClass("fas fa-thumbs-up text-success")
+                }
+              )
+            })
+          </script>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+{% endblock %}
